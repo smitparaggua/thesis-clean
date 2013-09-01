@@ -3,10 +3,28 @@
     xmlns="http://www.springframework.org/schema/security"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:beans="http://www.springframework.org/schema/beans"
-    xsi:schemaLocation="
-        http://www.springframework.org/schema/beans
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security.xsd  ">
+        http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <http auto-config="true">
+        <intercept-url pattern="/login*" access="permitAll"/>
+        <intercept-url pattern="/**" access="hasRole('USER')" />
+        <form-login login-page="/login" default-target-url="/home"
+                    always-use-default-target="true" authentication-failure-url="/login-failed"
+                    username-parameter="username" password-parameter="password"
+                    login-processing-url="/verify-login"/>
+        <logout logout-url="/logout" logout-success-url="login"/>
+    </http>
+
+    <context:component-scan base-package="com.csg.warrior.service"/>
+    <authentication-manager>
+        <authentication-provider user-service-ref="userService">
+        </authentication-provider>
+    </authentication-manager>
 
 </beans:beans>
