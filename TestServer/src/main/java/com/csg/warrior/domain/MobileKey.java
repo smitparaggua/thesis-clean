@@ -16,7 +16,7 @@ public class MobileKey {
     @Id
     @GeneratedValue
     private Long id;
-    private String key;
+    private String keyUploaded;
     @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime uploadTime;
 
@@ -28,12 +28,12 @@ public class MobileKey {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
+    public String getKeyUploaded() {
+        return keyUploaded;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKeyUploaded(String keyUploaded) {
+        this.keyUploaded = keyUploaded;
     }
 
     public DateTime getUploadTime() {
