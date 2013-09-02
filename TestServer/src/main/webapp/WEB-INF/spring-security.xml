@@ -11,14 +11,14 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <http auto-config="true">
+    <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/login*" access="permitAll"/>
         <intercept-url pattern="/**" access="hasRole('USER')" />
         <form-login login-page="/login" default-target-url="/home"
                     always-use-default-target="true" authentication-failure-url="/login-failed"
                     username-parameter="username" password-parameter="password"
                     login-processing-url="/verify-login"/>
-        <logout logout-url="/logout" logout-success-url="login"/>
+        <logout logout-url="/logout" logout-success-url="/login"/>
     </http>
 
     <context:component-scan base-package="com.csg.warrior.service"/>

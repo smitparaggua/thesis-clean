@@ -12,7 +12,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue
-    private long userId;
+    private Long userId;
     @Column(unique=true)
     private String username;
     private String password;
