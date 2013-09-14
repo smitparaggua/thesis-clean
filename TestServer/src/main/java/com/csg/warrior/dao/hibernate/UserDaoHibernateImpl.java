@@ -1,6 +1,7 @@
 package com.csg.warrior.dao.hibernate;
 
 import com.csg.warrior.dao.UserDao;
+import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -19,6 +20,8 @@ public class UserDaoHibernateImpl implements UserDao {
         String hql = "FROM User WHERE username = :username";
         Query query = session.createQuery(hql);
         query.setParameter("username", username);
-        return null;
+        System.out.println(username);
+        System.out.println(query.uniqueResult());
+        return (User) query.uniqueResult();
     }
 }
