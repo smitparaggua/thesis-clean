@@ -32,4 +32,10 @@ public class LoginControllerTest {
         assertEquals(expectedErrorMessage, modelErrorMessage);
         assertEquals(expectedPage, actualPage);
     }
+
+//    @Test
+//    public void correctMobileKeyUploaded() {
+//        ModelMap model = new ModelMap();
+//        loginController.acceptKeyFromMobile(model);
+//    }
 }
