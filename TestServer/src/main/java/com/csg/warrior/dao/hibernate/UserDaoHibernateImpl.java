@@ -20,8 +20,6 @@ public class UserDaoHibernateImpl implements UserDao {
         String hql = "FROM User WHERE username = :username";
         Query query = session.createQuery(hql);
         query.setParameter("username", username);
-        System.out.println(username);
-        System.out.println(query.uniqueResult());
         return (User) query.uniqueResult();
     }
 }

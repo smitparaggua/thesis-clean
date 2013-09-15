@@ -50,4 +50,9 @@ public class MobileKey {
         Duration keyUploadDuration = new Duration(uploadTime, currentTime);
         return keyUploadDuration.getStandardSeconds() < KEY_EXPIRE_SECONDS ;
     }
+
+    @Override
+    public String toString() {
+        return "MobileKey{" + "keyUploaded='" + keyUploaded + "', uploadTime=" + uploadTime + '}';
+    }
 }
