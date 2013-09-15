@@ -31,10 +31,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public boolean updateMobileKey(String username, String keyUploaded) {
         MobileKey mobileKey = mobileKeyDao.getMobileKeyByUsername(username);
-        System.out.println("Required Key: " + keyUploaded);
-        System.out.println("Uploaded Key: " + mobileKey.getKeyUploaded());
         if (mobileKey.getKeyUploaded().equals(keyUploaded)) {
-            System.out.println("I was here");
             mobileKeyDao.updateMobileKeyUploadTime(mobileKey, DateTime.now());
             return true;
         }
