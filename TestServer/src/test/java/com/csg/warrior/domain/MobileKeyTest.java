@@ -1,6 +1,7 @@
 package com.csg.warrior.domain;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -21,5 +22,14 @@ public class MobileKeyTest {
         MobileKey mobileKey = new MobileKey();
         mobileKey.setUploadTime(DateTime.now());
         assertTrue(mobileKey.isValid());
+    }
+
+    @Test
+    public void nullUploadTime() {
+        MobileKey mobileKey = new MobileKey();
+        mobileKey.setUploadTime(null);
+        Duration keyUploadDuration = new Duration(null, DateTime.now());
+        System.out.println(keyUploadDuration.getStandardSeconds());
+        assertFalse(mobileKey.isValid());
     }
 }

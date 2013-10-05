@@ -52,6 +52,11 @@ public class User {
     }
 
     @Transient
+    public void invalidateUploadedKey() {
+        mobileKey.setUploadTime(null);
+    }
+
+    @Transient
     public UserDetails toSpringSecurityUser() {
         boolean accountEnabled = true;
         boolean accountNonExpired = true;

@@ -48,7 +48,7 @@ public class MobileKey {
     public boolean isValid() {
         DateTime currentTime = DateTime.now();
         Duration keyUploadDuration = new Duration(uploadTime, currentTime);
-        return keyUploadDuration.getStandardSeconds() < KEY_EXPIRE_SECONDS ;
+        return keyUploadDuration.getStandardSeconds() < KEY_EXPIRE_SECONDS && uploadTime != null;
     }
 
     @Override

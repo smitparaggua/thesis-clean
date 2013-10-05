@@ -22,4 +22,10 @@ public class UserDaoHibernateImpl implements UserDao {
         query.setParameter("username", username);
         return (User) query.uniqueResult();
     }
+
+    @Override
+    public void merge(User user) {
+        Session session = sessionFactory.getCurrentSession();
+        session.merge(user);
+    }
 }

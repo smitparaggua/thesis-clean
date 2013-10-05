@@ -24,7 +24,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        return user.toSpringSecurityUser();
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid email or password");
+        }
+        UserDetails springSecurityUser = user.toSpringSecurityUser();
+        user.invalidateUploadedKey();
+        userDao.merge(user);
+        return springSecurityUser;
     }
 
     // TODO: adjust to take care of hashes
