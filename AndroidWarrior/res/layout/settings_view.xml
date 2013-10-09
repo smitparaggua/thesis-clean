@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/site_name_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/url_label" />
+
+    <EditText
+        android:id="@+id/address_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textUri" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/associated_file_label" />
+
+    <TableLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shrinkColumns="0">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/associated_file_name"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:minWidth="100dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setAssociatedFile"
+                android:text="@string/change_label" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1">
+        <TableRow>
+            <Button
+                android:id="@+id/save_button"
+                android:gravity="center_horizontal"
+                android:layout_span="1"
+                android:text="@string/save_label"
+                android:onClick="saveSettings"/>
+            <Button
+                android:id="@+id/cancel_button"
+                android:gravity="center_horizontal"
+                android:layout_span="1"
+                android:text="@string/cancel_label"
+                android:onClick="cancelSettings"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
