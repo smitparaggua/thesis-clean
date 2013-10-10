@@ -8,26 +8,29 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.csg.warrior.R;
 
+import java.io.File;
 import java.util.List;
 
-public class FileArrayAdapter extends ArrayAdapter<Option> {
+public class FileArrayAdapter extends ArrayAdapter<File> {
 
     private Context context;
     private int id;
-    private List<Option> items;
+    private List<File> files;
 
-    public FileArrayAdapter(Context context, int textViewResourceId, List<Option> objects) {
-        super(context, textViewResourceId, objects);
+    private static final int PARENT_FILE_POSITION = 0;
+
+    public FileArrayAdapter(Context context, int textViewResourceId, List<File> files) {
+        super(context, textViewResourceId, files);
         this.context = context;
         id = textViewResourceId;
-        items = objects;
+        this.files = files;
     }
 
-    public Option getItem(int index) {
-        return items.get(index);
+    @Override
+    public File getItem(int index) {
+        return files.get(index);
     }
 
-    // TODO refactor
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
@@ -35,14 +38,21 @@ public class FileArrayAdapter extends ArrayAdapter<Option> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(id, null);
         }
-        final Option option = items.get(position);
-        if (option != null) {
+        final File file = files.get(position);
+        changeViewLabels(view, file, position);
+        return view;
+    }
+
+    // TODO Change hardcoded parent position
+    private void changeViewLabels(View view, File file, int position) {
+        String data = file.isDirectory() ? "Folder" : "File Size: " + file.length();
+        String name = position == PARENT_FILE_POSITION ? ".." : file.getName();
+        if (file != null) {
             TextView nameLabel = (TextView) view.findViewById(R.id.name_label);
             TextView dataLabel = (TextView) view.findViewById(R.id.data_label);
-            changeText(nameLabel, option.getData());
-            changeText(dataLabel, option.getName());
+            changeText(nameLabel, name);
+            changeText(dataLabel, data);
         }
-        return view;
     }
 
     private void changeText(TextView textView, CharSequence text) {

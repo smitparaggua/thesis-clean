@@ -26,62 +26,50 @@ public class FileChooserActivity extends ListActivity {
         } else {
             currentDirectory = (File) bundledData.getSerializable("currentDirectory");
         }
+        this.setTitle("Current Dir: " + currentDirectory.getName());
         showContent();
     }
 
     private void showContent() {
-        this.setTitle("Current Dir: " + currentDirectory.getName());
-        List<Option> contentsList = getDirectoryContentsDirectoryFirst();
+        List<File> contentsList = getDirectoryContents();
+        Collections.sort(contentsList, new DirectoryFirstComparator());
         adapter = new FileArrayAdapter(this, R.layout.file_chooser_view, contentsList);
         this.setListAdapter(adapter);
     }
 
-    private List<Option> getDirectoryContentsDirectoryFirst() {
-        List<Option> contentsList = new ArrayList<Option>();
-        List<Option> directoryList = new ArrayList<Option>();
-        List<Option> fileList = new ArrayList<Option>();
-        classifyFiles(directoryList, fileList);
-        Collections.sort(directoryList);
-        Collections.sort(fileList);
+    private List<File> getDirectoryContents() {
+        List<File> contentsList;
+        contentsList = arrayToList(currentDirectory.listFiles());
         if(!currentDirectory.getName().equalsIgnoreCase("sdcard")) {
-            contentsList.add(0,new Option("..","Parent Directory",currentDirectory.getParent()));
+            contentsList.add(0, new File(currentDirectory.getParent()));
         }
-        contentsList.addAll(directoryList);
-        contentsList.addAll(fileList);
         return contentsList;
     }
 
-    private void classifyFiles(List<? super Option> directoryList, List<? super Option> fileList) {
-        File[]filesInDirectory = currentDirectory.listFiles();
-        try{
-            for(File file: filesInDirectory) {
-                if(file.isDirectory()) {
-                    directoryList.add(new Option(file.getName(),"Folder",file.getAbsolutePath()));
-                } else {
-                    fileList.add(new Option(file.getName(), "File Size: " + file.length(), file.getAbsolutePath()));
-                }
-            }
-        } catch(Exception e) {
-            // Nothing can be done
+    private <T> List<T> arrayToList(T[] array) {
+        List<T> returnValue = new ArrayList<T>();
+        for (T item : array) {
+            returnValue.add(item);
         }
+        return returnValue;
     }
 
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-        Option selectedOption = adapter.getItem(position);
-        if(selectedOption.getData().equalsIgnoreCase("folder")||selectedOption.getData().equalsIgnoreCase("parent directory")){
-            currentDirectory = new File(selectedOption.getPath());
+        File selectedFile = adapter.getItem(position);
+        if(selectedFile.isDirectory()||selectedFile.equals(currentDirectory.getParentFile())){
+            currentDirectory = new File(selectedFile.getPath());
             showContent();
         } else {
-            onFileClick(selectedOption);
+            onFileClick(selectedFile);
         }
     }
 
-    private void onFileClick(Option selectedOption)
+    private void onFileClick(File selectedFile)
     {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("selectedFilePath", selectedOption.getPath());
+        returnIntent.putExtra("selectedFilePath", selectedFile.getPath());
         setResult(RESULT_OK, returnIntent);
         finish();
     }
