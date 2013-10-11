@@ -1,5 +1,7 @@
 package com.csg.warrior.domain;
 
+import android.content.Context;
+import android.widget.Toast;
 import com.csg.warrior.exception.InvalidAssociatedFileException;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -34,27 +36,30 @@ public class MobileKey {
         return this;
     }
 
-    public void uploadKey() {
+    public void uploadKey(Context context) {
         // TODO Make this asynchronous
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost httpPostRequest = new HttpPost(urlForUpload);
             httpPostRequest.setEntity(createKeyFormEntity());
             String serverReply = client.execute(httpPostRequest, new BasicResponseHandler());
-            showPrompt(serverReply);
+            showPrompt(context, serverReply);
         } catch (ClientProtocolException e) {
-            showPrompt("Bad URL");
+            showPrompt(context, "Bad URL");
         } catch (IOException e) {
-            showPrompt("Connection Error");
+            showPrompt(context, "Connection Error");
         } catch (InvalidAssociatedFileException e) {
-            showPrompt("Invalid associated file");
+            showPrompt(context, "Invalid associated file");
         } catch (Exception e) {
-            showPrompt(e.getClass().toString());
+            showPrompt(context, e.getClass().toString());
         }
     }
 
-    private void showPrompt(String message) {
-        // TODO Create a way to inform user
+    private void showPrompt(Context context, String message) {
+        if (context != null) {
+            Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     private UrlEncodedFormEntity createKeyFormEntity() throws UnsupportedEncodingException, InvalidAssociatedFileException {
