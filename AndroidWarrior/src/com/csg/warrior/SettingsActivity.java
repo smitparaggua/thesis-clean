@@ -12,6 +12,7 @@ public class SettingsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO initialize based on current settings
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_view);
     }
@@ -19,7 +20,6 @@ public class SettingsActivity extends Activity {
     public void setAssociatedFile(View clickedButton) {
         Intent fileChooserIntent = new Intent(this, FileChooserActivity.class);
         this.startActivityForResult(fileChooserIntent, FILE_CHOOSER_REQUEST_CODE);
-        // TODO Send current settings
     }
 
     public void saveSettings(View clickedButton) {

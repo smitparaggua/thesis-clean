@@ -1,0 +1,60 @@
+package com.csg.warrior;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+import com.csg.warrior.domain.MobileKey;
+
+import java.util.List;
+
+public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
+    private Context context;
+    private int viewResourceId;
+    private List<MobileKey> mobileKeys;
+
+    public MobileKeyAdapter(Context context, int viewResourceId, List<MobileKey> mobileKeys) {
+        super(context, viewResourceId, mobileKeys);
+        this.context = context;
+        this.viewResourceId = viewResourceId;
+        this.mobileKeys = mobileKeys;
+    }
+
+    @Override
+    public MobileKey getItem(int index) {
+        return mobileKeys.get(index);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(viewResourceId, null);
+        }
+        final MobileKey mobileKey = mobileKeys.get(position);
+        updateMobileKeyLabels(view, mobileKey);
+        return view;
+    }
+
+    private void updateMobileKeyLabels(View view, MobileKey mobileKey) {
+        if(mobileKey != null) {
+            TextView associatedFileView = (TextView) view.findViewById(R.id.associated_file_label);
+            TextView urlView = (TextView) view.findViewById(R.id.url_label);
+            TextView keyOwnerView = (TextView) view.findViewById(R.id.key_owner_label);
+            changeText(associatedFileView, mobileKey.getAssociatedFile().getAbsolutePath());
+            changeText(keyOwnerView, mobileKey.getKeyOwner());
+            changeText(urlView, mobileKey.getUrlForUpload());
+        }
+    }
+
+    private void changeText(TextView view, CharSequence text) {
+        if (view != null) {
+            view.setText(text);
+        }
+    }
+
+    // TODO Add corresponding behavior for upload button
+}
