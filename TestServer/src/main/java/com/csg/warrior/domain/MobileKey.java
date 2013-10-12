@@ -4,10 +4,11 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.SecureRandom;
 
 @Entity
 public class MobileKey {
@@ -16,9 +17,16 @@ public class MobileKey {
     @Id
     @GeneratedValue
     private Long id;
-    private String keyUploaded;
+    @Column(length = 2048)
+    private String keyString;
     @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime uploadTime;
+
+    public MobileKey() {}
+
+    public MobileKey(String keyString) {
+        this.keyString = keyString;
+    }
 
     public Long getId() {
         return id;
@@ -28,12 +36,12 @@ public class MobileKey {
         this.id = id;
     }
 
-    public String getKeyUploaded() {
-        return keyUploaded;
+    public String getKeyString() {
+        return keyString;
     }
 
-    public void setKeyUploaded(String keyUploaded) {
-        this.keyUploaded = keyUploaded;
+    public void setKeyString(String keyString) {
+        this.keyString = keyString;
     }
 
     public DateTime getUploadTime() {
@@ -53,6 +61,28 @@ public class MobileKey {
 
     @Override
     public String toString() {
-        return "MobileKey{" + "keyUploaded='" + keyUploaded + "', uploadTime=" + uploadTime + '}';
+        return "MobileKey{" + "keyString='" + keyString + "', uploadTime=" + uploadTime + '}';
+    }
+
+    public static MobileKey generateKey() {
+        try {
+
+            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            keyGen.initialize(2048, random);
+            KeyPair pair = keyGen.generateKeyPair();
+            PrivateKey priv = pair.getPrivate();
+
+            //print as hex string
+            byte[] publicKey = priv.getEncoded();
+            StringBuffer retString = new StringBuffer();
+            for (int i = 0; i < publicKey.length; ++i) {
+                retString.append(Integer.toHexString(0x0100 + (publicKey[i] & 0x00FF)).substring(1));
+            }
+            return new MobileKey(retString.toString());
+        } catch (Exception e) {
+            System.err.println("Caught exception " + e.toString());
+            return null;
+        }
     }
 }

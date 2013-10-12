@@ -28,4 +28,9 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.getCurrentSession();
         session.merge(user);
     }
+
+    @Override
+    public void save(User user) {
+        sessionFactory.getCurrentSession().save(user);
+    }
 }

@@ -6,4 +6,6 @@ public interface UserDao {
     User getUserByUsername(String username);
 
     void merge(User user);
+
+    void save(User user);
 }

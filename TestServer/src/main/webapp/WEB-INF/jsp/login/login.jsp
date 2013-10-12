@@ -22,6 +22,10 @@
                 <tr>
                     <td><input type="submit" value="Login"/></td>
                 </tr>
+                <tr>
+                    <s:url value="/signup" var="signupUrl"/>
+                    <td><a href=${signupUrl}>Signup</a></td>
+                </tr>
             </table>
         </form>
     </body>
