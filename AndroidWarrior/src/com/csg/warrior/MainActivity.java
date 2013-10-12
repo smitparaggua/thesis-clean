@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.persistence.DatabaseHandler;
+import com.csg.warrior.persistence.Triple;
 
 import java.util.List;
 
@@ -16,6 +17,10 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         
         db = new DatabaseHandler(this);
+        Triple t = new Triple("ray.torres07", "youtube.com", "ppppppppp");
+        
+        db.addTriple(t);
+        
         
         showMobileKeys();
     }
@@ -32,10 +37,6 @@ public class MainActivity extends ListActivity {
     private List<MobileKey> retrieveMobileKeys() {
         // TODO implement retrieving of mobile keys from DB
     	
-    	return db.getMobileKeys();
-    	
-    	
-    	
-    	
+    	return db.getMobileKeys();    	
     }
 }

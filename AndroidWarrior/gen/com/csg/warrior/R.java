@@ -25,13 +25,13 @@ public final class R {
         public static final int associated_file_name=0x7f060009;
         public static final int cancel_button=0x7f06000b;
         public static final int data_label=0x7f060001;
-        public static final int key_owner_label=0x7f060006;
+        public static final int key_owner_label=0x7f060007;
         public static final int name_label=0x7f060000;
         public static final int save_button=0x7f06000a;
         public static final int settings_button=0x7f060003;
         public static final int site_name_label=0x7f060008;
         public static final int upload_button=0x7f060004;
-        public static final int url_label=0x7f060007;
+        public static final int url_label=0x7f060006;
     }
     public static final class layout {
         public static final int file_chooser_view=0x7f030000;

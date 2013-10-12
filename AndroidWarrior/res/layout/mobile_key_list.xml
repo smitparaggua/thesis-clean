@@ -27,30 +27,34 @@
         android:text="Associated File"
         android:layout_alignParentRight="true"
         android:textSize="11sp"/>
-
-    <TextView
-        android:id="@+id/key_owner_label"
+    
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/upload_button"
-        android:layout_above="@id/associated_file_label"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="Key Owner"
-        android:textSize="11sp" />
-
-    <TextView
-        android:id="@+id/url_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/key_owner_label"
-        android:layout_alignParentRight="true"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/upload_button"
-        android:gravity="center_vertical"
-        android:text="URL Here"
-        android:textSize="16sp" />
+        android:layout_toRightOf="@id/upload_button">
+	    <TextView
+	        android:id="@+id/url_label"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignWithParentIfMissing="true"
+	        android:gravity="center_vertical"
+	        android:singleLine="true"
+	        android:text="URL Here"
+	        android:textSize="16sp" />
+	    
+	    <TextView
+	        android:id="@+id/key_owner_label"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:ellipsize="marquee"
+	        android:singleLine="true"
+	        android:text="Key Owner"
+	        android:textSize="11sp" />        
+    </LinearLayout>
+
 
 </RelativeLayout>

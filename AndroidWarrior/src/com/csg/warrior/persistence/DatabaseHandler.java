@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.csg.warrior.domain.MobileKey;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,6 +22,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     
     // Table names
     private static final String TABLE_TRIPLES = "triples";
+    
+    //Column names
+    private static final String COLUMN_TRIPLES_ID = "tripleid";
+    private static final String COLUMN_TRIPLES_USERNAME = "username";
+    private static final String COLUMN_TRIPLES_URL = "url";
+    private static final String COLUMN_TRIPLES_KEY = "key";
+    
 
  
     public DatabaseHandler(Context context) {
@@ -30,7 +38,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TRIPLE_TABLE = "CREATE TABLE triples (id INTEGER PRIMARY KEY, url TEXT, username TEXT, key TEXT)";
+    	String CREATE_TRIPLE_TABLE = "CREATE TABLE " + TABLE_TRIPLES + "("
+    			+ COLUMN_TRIPLES_ID + " INTEGER PRIMARY KEY,"
+    			+ COLUMN_TRIPLES_USERNAME + " TEXT,"
+    			+ COLUMN_TRIPLES_URL + " TEXT,"
+    			+ COLUMN_TRIPLES_KEY + " TEXT"
+    			+ ")";
         db.execSQL(CREATE_TRIPLE_TABLE);
     }
  
@@ -38,7 +51,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS mastertable");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRIPLES);
  
         // Create tables again
         onCreate(db);
@@ -58,8 +71,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         	do {
         		MobileKey mk = new MobileKey();
         		
+        		//System.out.println("Triple username: " + cursor.getString(1));
+        		//System.out.println("Triple url: " + cursor.getString(2));
+        		//System.out.println("Triple key: " + cursor.getString(3));
+        		
         		mk.setKeyOwner(cursor.getString(1));
-        		mk.setUrlForUpload(cursor.getString(2));
+        		mk.setUrlForUpload(cursor.getString(2));        		
         		mk.setAssociatedFile(new File(cursor.getString(3)));        		
         		
         		mobileKeyList.add(mk);
@@ -67,6 +84,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         
         return mobileKeyList;
+    }
+    
+    public void addTriple(Triple p_triple) {
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	
+    	ContentValues values = new ContentValues();
+    	values.put(COLUMN_TRIPLES_USERNAME, p_triple.getUsername());
+    	values.put(COLUMN_TRIPLES_URL, p_triple.getURL());
+    	values.put(COLUMN_TRIPLES_KEY, p_triple.getKey());
+    	
+    	db.insert(TABLE_TRIPLES, null, values);
+    	db.close();
     }
     
 }

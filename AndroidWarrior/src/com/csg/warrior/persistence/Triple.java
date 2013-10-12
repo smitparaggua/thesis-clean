@@ -7,14 +7,37 @@ public class Triple {
 	String key;
 	
 	//empty constructor
-	public Triple() {
-		
+
+	
+	public Triple(String p_username, String p_url, String p_key) {
+		this.username = p_username;
+		this.url = p_url;		
+		this.key = p_key;
 	}
 	
-	public Triple(int p_id, String p_username, String p_url, String p_key) {
-		this.id = p_id;
-		this.url = p_username;
-		this.username = p_url;
+	//getters
+	public String getUsername() {
+		return username;
+	}
+	
+	public String getURL() {
+		return url;
+	}
+	
+	public String getKey() {
+		return key;
+	}
+	
+	//setters
+	public void setUsername(String p_username) {
+		this.username = p_username;
+	}
+	
+	public void setURL(String p_url) {
+		this.url = p_url;
+	}
+	
+	public void setKey(String p_key) {
 		this.key = p_key;
 	}
 	
