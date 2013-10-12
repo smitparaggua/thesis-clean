@@ -24,7 +24,7 @@ public class MobileKey {
         return this;
     }
 
-    public MobileKey setAssociatedFilePath(File associatedFile) {
+    public MobileKey setAssociatedFile(File associatedFile) {
         this.associatedFile = associatedFile;
         return this;
     }
