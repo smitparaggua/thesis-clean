@@ -7,4 +7,6 @@ public interface MobileKeyDao {
     MobileKey getMobileKeyByUsername(String username);
 
     void updateMobileKeyUploadTime(MobileKey mobileKey, DateTime now);
+
+    void save(MobileKey mobileKey);
 }

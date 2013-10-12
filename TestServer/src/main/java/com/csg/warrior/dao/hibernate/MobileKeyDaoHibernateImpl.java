@@ -27,4 +27,9 @@ public class MobileKeyDaoHibernateImpl implements MobileKeyDao {
         mobileKey.setUploadTime(uploadTime);
         sessionFactory.getCurrentSession().merge(mobileKey);
     }
+
+    @Override
+    public void save(MobileKey mobileKey) {
+        sessionFactory.getCurrentSession().save(mobileKey);
+    }
 }
