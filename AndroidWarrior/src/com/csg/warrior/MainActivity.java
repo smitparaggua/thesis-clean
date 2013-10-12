@@ -31,7 +31,6 @@ public class MainActivity extends ListActivity {
         this.setListAdapter(adapter);
     }
 
-    // TODO Call upload on click of button
     // TODO call settings on click of ListAdapter
 
     private List<MobileKey> retrieveMobileKeys() {

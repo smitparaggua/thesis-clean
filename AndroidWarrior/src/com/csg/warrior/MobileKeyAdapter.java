@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import com.csg.warrior.domain.MobileKey;
 
@@ -36,6 +37,7 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
         }
         final MobileKey mobileKey = mobileKeys.get(position);
         updateMobileKeyLabels(view, mobileKey);
+        setUploadBehavior(view, mobileKey);
         return view;
     }
 
@@ -58,5 +60,13 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
         }
     }
 
-    // TODO Add corresponding behavior for upload button
+    private void setUploadBehavior(View view, final MobileKey mobileKey) {
+        ImageButton uploadButton = (ImageButton) view.findViewById(R.id.upload_button);
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mobileKey.uploadKey(context);
+            }
+        });
+    }
 }

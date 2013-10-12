@@ -27,7 +27,7 @@ public class SettingsActivity extends Activity {
     }
 
     public void cancelSettings(View clickedButton) {
-        // TODO implement cancel settings
+        finish();
     }
 
     @Override
