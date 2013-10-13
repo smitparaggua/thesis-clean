@@ -13,6 +13,7 @@ import java.util.List;
 
 public class MainActivity extends ListActivity {
     private static final int SETTINGS_REQUEST_CODE = 1;
+    public static final String EXTRAS_KEY_MOBILE_KEY = "mobileKey";
 
     private MobileKeyAdapter adapter;
     private DatabaseHandler db;
@@ -45,6 +46,16 @@ public class MainActivity extends ListActivity {
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
         MobileKey mobileKey = adapter.getItem(position);
+        callSettingsActivity(mobileKey);
+    }
+
+    public void addNewMobileKey(View clickedButton) {
+        // TODO Add new mobile key
+        MobileKey newKey = new MobileKey();
+        callSettingsActivity(newKey);
+    }
+
+    private void callSettingsActivity(MobileKey mobileKey) {
         Intent settingsIntent = new Intent(this, SettingsActivity.class);
         settingsIntent.putExtra("mobileKey", mobileKey);
         this.startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
@@ -59,9 +70,5 @@ public class MainActivity extends ListActivity {
                     break;
             }
         }
-    }
-
-    public void addNewMobileKey(View clickedButton) {
-        // TODO Add new mobile key
     }
 }

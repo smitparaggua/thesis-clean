@@ -43,8 +43,6 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
 
     private void updateMobileKeyLabels(View view, MobileKey mobileKey) {
         if(mobileKey != null) {
-        	System.out.println(mobileKey.getKeyOwner());
-        	System.out.println(mobileKey.getUrlForUpload());
             TextView associatedFileView = (TextView) view.findViewById(R.id.associated_file_label);
             TextView urlView = (TextView) view.findViewById(R.id.url_label);
             TextView keyOwnerView = (TextView) view.findViewById(R.id.key_owner_label);

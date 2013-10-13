@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.filechooser.FileChooserActivity;
@@ -18,18 +19,21 @@ public class SettingsActivity extends Activity {
     private MobileKey currentMobileKeySettings;
     private TextView addressBarView;
     private TextView associatedFilePathView;
+    private EditText keyOwnerView;
     // TODO Make other fields editable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_view);
-        currentMobileKeySettings = (MobileKey) getIntent().getSerializableExtra("mobileKey");
+        currentMobileKeySettings = (MobileKey) getIntent().getSerializableExtra(MainActivity.EXTRAS_KEY_MOBILE_KEY);
         initializeViewValues(currentMobileKeySettings);
     }
 
     private void initializeViewValues(MobileKey currentMobileKeySettings) {
         if (currentMobileKeySettings != null) {
+            keyOwnerView = (EditText) findViewById(R.id.key_owner);
+            keyOwnerView.setText(currentMobileKeySettings.getKeyOwner());
             addressBarView = (TextView) findViewById(R.id.address_bar);
             addressBarView.setText(currentMobileKeySettings.getUrlForUpload());
             associatedFilePathView = (TextView) findViewById(R.id.associated_file_name);
@@ -59,9 +63,10 @@ public class SettingsActivity extends Activity {
 
     // TODO Check for empty attributes
     private void fetchSettingsFromView() {
+        String keyOwner = keyOwnerView.getText().toString();
         File associatedFile = new File(associatedFilePathView.getText().toString());
         String url = addressBarView.getText().toString();
-        currentMobileKeySettings.setAssociatedFile(associatedFile).setUrlForUpload(url);
+        currentMobileKeySettings.setAssociatedFile(associatedFile).setUrlForUpload(url).setKeyOwner(keyOwner);
     }
 
     public void cancelSettings(View clickedButton) {

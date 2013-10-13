@@ -10,4 +10,5 @@
     <string name="settings_label">Settings</string>
     <string name="upload_button_description">Upload key</string>
     <string name="add_mobile_key_description">Add Mobile Key</string>
+    <string name="username_label">Username:</string>
 </resources>
