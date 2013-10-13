@@ -1,41 +1,67 @@
 package com.csg.warrior;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ListView;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.persistence.DatabaseHandler;
-import com.csg.warrior.persistence.Triple;
 
 import java.util.List;
 
 public class MainActivity extends ListActivity {
+    private static final int SETTINGS_REQUEST_CODE = 1;
+
     private MobileKeyAdapter adapter;
     private DatabaseHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         db = new DatabaseHandler(this);
-        Triple t = new Triple("ray.torres07", "youtube.com", "ppppppppp");
-        
-        db.addTriple(t);
-        
-        
+        createAddButtonFooter();
         showMobileKeys();
     }
 
-    public void showMobileKeys() {
+    private void createAddButtonFooter() {
+        LayoutInflater layoutInflater = getLayoutInflater();
+        ListView listView = getListView();
+        listView.addFooterView(layoutInflater.inflate(R.layout.mobile_key_list_footer, null));
+    }
+
+    private void showMobileKeys() {
         List<MobileKey> mobileKeys = retrieveMobileKeys();
         adapter = new MobileKeyAdapter(this, R.layout.mobile_key_list, mobileKeys);
         this.setListAdapter(adapter);
     }
 
-    // TODO call settings on click of ListAdapter
-
     private List<MobileKey> retrieveMobileKeys() {
-        // TODO implement retrieving of mobile keys from DB
-    	
     	return db.getMobileKeys();    	
+    }
+
+    @Override
+    protected void onListItemClick(ListView listView, View view, int position, long id) {
+        super.onListItemClick(listView, view, position, id);
+        MobileKey mobileKey = adapter.getItem(position);
+        Intent settingsIntent = new Intent(this, SettingsActivity.class);
+        settingsIntent.putExtra("mobileKey", mobileKey);
+        this.startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case SETTINGS_REQUEST_CODE:
+                    showMobileKeys();
+                    break;
+            }
+        }
+    }
+
+    public void addNewMobileKey(View clickedButton) {
+        // TODO Add new mobile key
     }
 }

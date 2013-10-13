@@ -8,4 +8,6 @@
     <string name="cancel_label">Cancel</string>
     <string name="save_label">Save</string>
     <string name="settings_label">Settings</string>
+    <string name="upload_button_description">Upload key</string>
+    <string name="add_mobile_key_description">Add Mobile Key</string>
 </resources>

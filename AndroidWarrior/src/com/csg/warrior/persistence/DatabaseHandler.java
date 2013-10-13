@@ -14,23 +14,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    // Database Version
     private static final int DATABASE_VERSION = 1;
- 
-    // Database Name
     private static final String DATABASE_NAME = "warrior";
-    
-    // Table names
     private static final String TABLE_TRIPLES = "triples";
-    
-    //Column names
     private static final String COLUMN_TRIPLES_ID = "tripleid";
     private static final String COLUMN_TRIPLES_USERNAME = "username";
     private static final String COLUMN_TRIPLES_URL = "url";
-    private static final String COLUMN_TRIPLES_KEY = "key";
-    
+    private static final String COLUMN_TRIPLES_ASSOCIATED_FILE = "key";
 
- 
+
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -42,18 +34,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     			+ COLUMN_TRIPLES_ID + " INTEGER PRIMARY KEY,"
     			+ COLUMN_TRIPLES_USERNAME + " TEXT,"
     			+ COLUMN_TRIPLES_URL + " TEXT,"
-    			+ COLUMN_TRIPLES_KEY + " TEXT"
+    			+ COLUMN_TRIPLES_ASSOCIATED_FILE + " TEXT"
     			+ ")";
         db.execSQL(CREATE_TRIPLE_TABLE);
     }
  
-    // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRIPLES);
- 
-        // Create tables again
         onCreate(db);
     }
     
@@ -65,20 +53,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     	SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-    	 
+
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
         	do {
         		MobileKey mk = new MobileKey();
-        		
-        		//System.out.println("Triple username: " + cursor.getString(1));
-        		//System.out.println("Triple url: " + cursor.getString(2));
-        		//System.out.println("Triple key: " + cursor.getString(3));
-        		
+                mk.setDatabaseId(cursor.getLong(0));
         		mk.setKeyOwner(cursor.getString(1));
         		mk.setUrlForUpload(cursor.getString(2));        		
-        		mk.setAssociatedFile(new File(cursor.getString(3)));        		
-        		
+        		mk.setAssociatedFile(new File(cursor.getString(3)));
         		mobileKeyList.add(mk);
         	} while(cursor.moveToNext());
         }
@@ -86,16 +69,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return mobileKeyList;
     }
     
-    public void addTriple(Triple p_triple) {
-    	SQLiteDatabase db = this.getWritableDatabase();
-    	
-    	ContentValues values = new ContentValues();
-    	values.put(COLUMN_TRIPLES_USERNAME, p_triple.getUsername());
-    	values.put(COLUMN_TRIPLES_URL, p_triple.getURL());
-    	values.put(COLUMN_TRIPLES_KEY, p_triple.getKey());
-    	
-    	db.insert(TABLE_TRIPLES, null, values);
-    	db.close();
+    public void updateMobileKey(MobileKey mobileKey) {
+        SQLiteDatabase db = this.getWritableDatabase();
+//        String updateQuery = "UPDATE " + TABLE_TRIPLES
+//                + " SET " + COLUMN_TRIPLES_USERNAME + "=\"?\", " + COLUMN_TRIPLES_ASSOCIATED_FILE + "=\"?\", " + COLUMN_TRIPLES_URL + "=\"?\" "
+//                + " WHERE " + COLUMN_TRIPLES_ID + "=\"?\"";
+        String updateQuery = "UPDATE triples SET username=?, key=?, url=? WHERE tripleid="+mobileKey.getDatabaseId();
+        String[] queryParameters = new String[] {mobileKey.getKeyOwner(), mobileKey.getAssociatedFilePath(), mobileKey.getUrlForUpload()};
+        Cursor cursor = db.rawQuery(updateQuery, queryParameters);
+        cursor.moveToFirst();
+        cursor.close();
+        // TODO how to get the ID of the settings
     }
-    
+
+    public void addMobileKey(MobileKey currentMobileKeySettings) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues valueToInsert = toContentValues(currentMobileKeySettings);
+        db.insert(TABLE_TRIPLES, null, valueToInsert);
+        db.close();
+    }
+
+    private ContentValues toContentValues(MobileKey mobileKey) {
+        ContentValues values = new ContentValues();
+        if (mobileKey != null) {
+            values.put(COLUMN_TRIPLES_USERNAME, mobileKey.getKeyOwner());
+            values.put(COLUMN_TRIPLES_URL, mobileKey.getUrlForUpload());
+            values.put(COLUMN_TRIPLES_ASSOCIATED_FILE, mobileKey.getAssociatedFilePath());
+
+        }
+        return values;
+    }
 }

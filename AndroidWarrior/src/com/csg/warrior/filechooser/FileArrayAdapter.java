@@ -50,14 +50,8 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
         if (file != null) {
             TextView nameLabel = (TextView) view.findViewById(R.id.name_label);
             TextView dataLabel = (TextView) view.findViewById(R.id.data_label);
-            changeText(nameLabel, name);
-            changeText(dataLabel, data);
-        }
-    }
-
-    private void changeText(TextView textView, CharSequence text) {
-        if (textView != null) {
-            textView.setText(text);
+            nameLabel.setText(name);
+            dataLabel.setText(data);
         }
     }
 }

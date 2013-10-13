@@ -48,15 +48,9 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
             TextView associatedFileView = (TextView) view.findViewById(R.id.associated_file_label);
             TextView urlView = (TextView) view.findViewById(R.id.url_label);
             TextView keyOwnerView = (TextView) view.findViewById(R.id.key_owner_label);
-            changeText(associatedFileView, mobileKey.getAssociatedFile().getAbsolutePath());
-            changeText(keyOwnerView, mobileKey.getKeyOwner());
-            changeText(urlView, mobileKey.getUrlForUpload());
-        }
-    }
-
-    private void changeText(TextView view, CharSequence text) {
-        if (view != null) {
-            view.setText(text);
+            associatedFileView.setText(mobileKey.getAssociatedFile().getAbsolutePath());
+            keyOwnerView.setText(mobileKey.getKeyOwner());
+            urlView.setText(mobileKey.getUrlForUpload());
         }
     }
 

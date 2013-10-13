@@ -5,16 +5,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.filechooser.FileChooserActivity;
+import com.csg.warrior.persistence.DatabaseHandler;
+
+import java.io.File;
 
 public class SettingsActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST_CODE = 1;
+    public static final String RESULT_KEY_NEW_SETTINGS = "newSettings";
+
+    private MobileKey currentMobileKeySettings;
+    private TextView addressBarView;
+    private TextView associatedFilePathView;
+    // TODO Make other fields editable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO initialize based on current settings
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_view);
+        currentMobileKeySettings = (MobileKey) getIntent().getSerializableExtra("mobileKey");
+        initializeViewValues(currentMobileKeySettings);
+    }
+
+    private void initializeViewValues(MobileKey currentMobileKeySettings) {
+        if (currentMobileKeySettings != null) {
+            addressBarView = (TextView) findViewById(R.id.address_bar);
+            addressBarView.setText(currentMobileKeySettings.getUrlForUpload());
+            associatedFilePathView = (TextView) findViewById(R.id.associated_file_name);
+            associatedFilePathView.setText(currentMobileKeySettings.getAssociatedFilePath());
+        }
     }
 
     public void setAssociatedFile(View clickedButton) {
@@ -23,10 +43,29 @@ public class SettingsActivity extends Activity {
     }
 
     public void saveSettings(View clickedButton) {
-        // TODO implement saving
+        // TODO check if some values are not filled
+        DatabaseHandler dbHandler = new DatabaseHandler(this);
+        fetchSettingsFromView();
+        if (currentMobileKeySettings.isTransient()) {
+            dbHandler.addMobileKey(currentMobileKeySettings);
+        } else {
+            dbHandler.updateMobileKey(currentMobileKeySettings);
+        }
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(RESULT_KEY_NEW_SETTINGS, currentMobileKeySettings);
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    // TODO Check for empty attributes
+    private void fetchSettingsFromView() {
+        File associatedFile = new File(associatedFilePathView.getText().toString());
+        String url = addressBarView.getText().toString();
+        currentMobileKeySettings.setAssociatedFile(associatedFile).setUrlForUpload(url);
     }
 
     public void cancelSettings(View clickedButton) {
+        setResult(RESULT_CANCELED);
         finish();
     }
 

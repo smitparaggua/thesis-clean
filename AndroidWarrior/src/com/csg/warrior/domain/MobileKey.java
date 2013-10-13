@@ -16,25 +16,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MobileKey {
+public class MobileKey implements Serializable {
+    private long databaseId;
     private String keyOwner;
     private File associatedFile;
     private String urlForUpload;
-
-    public MobileKey setKeyOwner(String username) {
-        this.keyOwner = username;
-        return this;
-    }
-
-    public MobileKey setAssociatedFile(File associatedFile) {
-        this.associatedFile = associatedFile;
-        return this;
-    }
-
-    public MobileKey setUrlForUpload(String url) {
-        this.urlForUpload = url;
-        return this;
-    }
 
     public void uploadKey(Context context) {
         // TODO Make this asynchronous
@@ -80,6 +66,30 @@ public class MobileKey {
         return key;
     }
 
+    public MobileKey setDatabaseId(long id) {
+        this.databaseId = id;
+        return this;
+    }
+
+    public MobileKey setKeyOwner(String username) {
+        this.keyOwner = username;
+        return this;
+    }
+
+    public MobileKey setAssociatedFile(File associatedFile) {
+        this.associatedFile = associatedFile;
+        return this;
+    }
+
+    public MobileKey setUrlForUpload(String url) {
+        this.urlForUpload = url;
+        return this;
+    }
+
+    public long getDatabaseId() {
+        return databaseId;
+    }
+
     public String getKeyOwner() {
         return keyOwner;
     }
@@ -90,5 +100,17 @@ public class MobileKey {
 
     public String getUrlForUpload() {
         return urlForUpload;
+    }
+
+    public String getAssociatedFilePath() {
+        if (associatedFile != null) {
+            return associatedFile.getPath();
+        }
+        return null;
+    }
+
+    // TODO not sure if this is reliable way to determine if the value is not yet saved in the database
+    public boolean isTransient() {
+        return databaseId == 0;
     }
 }
