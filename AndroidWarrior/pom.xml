@@ -36,6 +36,7 @@
             </resource>
         </resources>
         <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test/java</testSourceDirectory>
     </build>
 
 </project>
