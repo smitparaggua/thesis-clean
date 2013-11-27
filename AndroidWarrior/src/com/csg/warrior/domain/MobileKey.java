@@ -22,50 +22,6 @@ public class MobileKey implements Serializable {
     private File associatedFile;
     private String urlForUpload;
 
-    public void uploadKey(Context context) {
-        // TODO Make this asynchronous
-        try {
-            HttpClient client = new DefaultHttpClient();
-            HttpPost httpPostRequest = new HttpPost(urlForUpload);
-            httpPostRequest.setEntity(createKeyFormEntity());
-            String serverReply = client.execute(httpPostRequest, new BasicResponseHandler());
-            showPrompt(context, serverReply);
-        } catch (ClientProtocolException e) {
-            showPrompt(context, "Bad URL");
-        } catch (IOException e) {
-            showPrompt(context, "Connection Error");
-        } catch (InvalidAssociatedFileException e) {
-            showPrompt(context, "Invalid associated file");
-        } catch (Exception e) {
-            showPrompt(context, e.getClass().toString());
-        }
-    }
-
-    private void showPrompt(Context context, String message) {
-        if (context != null) {
-            Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
-
-    private UrlEncodedFormEntity createKeyFormEntity() throws UnsupportedEncodingException, InvalidAssociatedFileException {
-        try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("key", extractKey()));
-            params.add(new BasicNameValuePair("username", keyOwner));
-            return new UrlEncodedFormEntity(params, "UTF-8");
-        } catch (IOException e) {
-            throw new InvalidAssociatedFileException("Caused by IOException: ", e);
-        }
-    }
-
-    private String extractKey() throws IOException {
-        String key;
-        BufferedReader reader = new BufferedReader(new FileReader(associatedFile));
-        key = reader.readLine();
-        return key;
-    }
-
     public MobileKey setDatabaseId(long id) {
         this.databaseId = id;
         return this;

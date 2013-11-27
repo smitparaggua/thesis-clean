@@ -8,7 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.csg.warrior.domain.MobileKey;
+import com.csg.warrior.network.MobileKeyUploader;
+import com.csg.warrior.network.UploadMobileKeyOnClick;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 
 public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
@@ -54,11 +57,6 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
 
     private void setUploadBehavior(View view, final MobileKey mobileKey) {
         ImageButton uploadButton = (ImageButton) view.findViewById(R.id.upload_button);
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mobileKey.uploadKey(context);
-            }
-        });
+        uploadButton.setOnClickListener(new UploadMobileKeyOnClick(mobileKey, this.context));
     }
 }
