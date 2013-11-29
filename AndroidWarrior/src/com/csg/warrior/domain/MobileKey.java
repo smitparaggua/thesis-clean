@@ -1,20 +1,7 @@
 package com.csg.warrior.domain;
 
-import android.content.Context;
-import android.widget.Toast;
-import com.csg.warrior.exception.InvalidAssociatedFileException;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.Serializable;
 
 public class MobileKey implements Serializable {
     private long databaseId;

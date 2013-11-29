@@ -13,7 +13,7 @@ import java.net.URL;
 public class MobileKeyUploader {
     public static String upload(MobileKey mobileKey) throws FailedUploadException {
         // todo make it asynchronous
-        OutputStreamWriter writer = null;
+        DataOutputStream writer = null;
         BufferedReader reader = null;
         String response = "";
         try {
@@ -21,11 +21,13 @@ public class MobileKeyUploader {
             writer = sendParameters(mobileKey, connection);
             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             response = readServerResponse(reader);
+            connection.disconnect();
         } catch (MalformedURLException e) {
             throw new FailedUploadException("Malformed URL", e);
         } catch (ProtocolException e) {
             throw new FailedUploadException("Invalid Protocol", e);
         } catch (IOException e) {
+            // TODO note: IOException may result from connection problem or error in reading the key from file. Fix this
             throw new FailedUploadException("Connection Problem", e);
         } finally {
             closeIoStream(writer, reader);
@@ -38,12 +40,13 @@ public class MobileKeyUploader {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
+        connection.setDoInput(true);
         return connection;
     }
 
-    private static OutputStreamWriter sendParameters(MobileKey mobileKey, HttpURLConnection connection) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-        writer.write(parseParameters(mobileKey));
+    private static DataOutputStream sendParameters(MobileKey mobileKey, HttpURLConnection connection) throws IOException {
+        DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+        writer.writeBytes(parseParameters(mobileKey));
         writer.flush();
         return writer;
     }
@@ -62,7 +65,7 @@ public class MobileKeyUploader {
         return key;
     }
 
-    private static void closeIoStream(OutputStreamWriter writer, BufferedReader reader) {
+    private static void closeIoStream(DataOutputStream writer, BufferedReader reader) {
         IOUtils.closeQuietly(writer);
         IOUtils.closeQuietly(reader);
     }
