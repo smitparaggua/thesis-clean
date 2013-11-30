@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.AuthenticationException;
+
 @Transactional
 @Service("userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -47,5 +49,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public void save(User user) {
         userDao.save(user);
+    }
+
+    @Override
+    // TODO create tests for this and finish this
+    public void unlinkMobileKey(String username, String password) throws AuthenticationException {
+        validateCredentials(username, password);
+    }
+
+    private void validateCredentials(String username, String password) throws AuthenticationException {
+        User user = userDao.getUserByUsername(username);
+        if(user == null || user.getPassword() != password) {
+            throw new AuthenticationException("Invalid username or password");
+        }
     }
 }

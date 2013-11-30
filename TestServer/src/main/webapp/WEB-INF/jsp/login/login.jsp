@@ -26,6 +26,10 @@
                     <s:url value="/signup" var="signupUrl"/>
                     <td><a href=${signupUrl}>Signup</a></td>
                 </tr>
+                <tr>
+                    <s:url var="unlinkMobileUrl" value="/unlink-mobile"/>
+                    <td><a href=${unlinkMobileUrl}>Unlink Mobile</a> (for mobile key users)</td>
+                </tr>
             </table>
         </form>
     </body>

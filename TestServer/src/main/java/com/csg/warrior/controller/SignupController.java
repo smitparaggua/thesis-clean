@@ -1,5 +1,6 @@
 package com.csg.warrior.controller;
 
+import com.csg.warrior.KeyStringGenerator;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
 import com.csg.warrior.service.MobileKeyService;
@@ -32,9 +33,6 @@ public class SignupController {
         mobileKeyService.save(mobileKey);
         user.setMobileKey(mobileKey);
         userService.save(user);
-        // TODO create file for key (next sem na to. haha)
-        // mobileKeyService.writeKeyToFile(user, mobileKey);
-        // TODO Send to email. ito rin!
         redirectAttributes.addFlashAttribute("userRegistered", user);
         redirectAttributes.addFlashAttribute("mobileKey", mobileKey);
         return "redirect:/signup/success";
