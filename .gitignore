@@ -3,6 +3,7 @@
 .idea/
 *.swp
 *.iml
+**/Spike.java
 AndroidWarrior/bin/
 AndroidWarrior/.settings/
 AndroidWarrior/.classpath
