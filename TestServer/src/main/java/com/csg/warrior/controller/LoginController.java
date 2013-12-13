@@ -13,22 +13,6 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/login")
-    public String getLoginPage() {
-        return "login/login";
-    }
-
-    @RequestMapping("/login-success")
-    public String successfulLogin() {
-        return "redirect:/home";
-    }
-
-    @RequestMapping("/login-failed")
-    public String loginFailed(ModelMap model) {
-        model.addAttribute("error", "Invalid username or password");
-        return "login/login";
-    }
-
     @RequestMapping(value = "/key-upload", method = RequestMethod.POST)
     public String acceptKeyFromMobile(@RequestParam("username") String username, @RequestParam("key") String key) {
         boolean keyIsValid = userService.updateMobileKey(username, key);
