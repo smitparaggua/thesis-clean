@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.naming.AuthenticationException;
 
+// TODO Refactor: extract ServerConstants to an XML
 @Controller
 @RequestMapping(ServerConstants.UNLINK_MOBILE_KEY_URL)
 public class UnlinkMobileController {
@@ -24,22 +25,22 @@ public class UnlinkMobileController {
         return "key-management/unlink-mobile";
     }
 
-    // TODO extend for multiple keys per user
-    // note 1 key per user is impractical if user has many phones. removing a key for one phone removes the key of the other phones
-    @RequestMapping(method = RequestMethod.POST)
-    public String processRequestForKeyUnlink(@RequestParam("username") String username,
-                                             @RequestParam("password") String password,
-                                             RedirectAttributes redirectAttributes) {
-        try {
-            userService.unlinkMobileKey(username, password);
-            return "redirect:/unlink-mobile/success";
-        } catch(AuthenticationException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/unlink-mobile";
-        } catch (FailedUrlGenerationException e) {
-            return "redirect:/cannot-generate-link";
-        }
-    }
+//    // TODO extend for multiple keys per user
+//    // note 1 key per user is impractical if user has many phones. removing a key for one phone removes the key of the other phones
+//    @RequestMapping(method = RequestMethod.POST)
+//    public String processRequestForKeyUnlink(@RequestParam("username") String username,
+//                                             @RequestParam("password") String password,
+//                                             RedirectAttributes redirectAttributes) {
+//        try {
+//            userService.unlinkMobileKey(username, password);
+//            return "redirect:/unlink-mobile/success";
+//        } catch(AuthenticationException e) {
+//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+//            return "redirect:/unlink-mobile";
+//        } catch (FailedUrlGenerationException e) {
+//            return "redirect:/cannot-generate-link";
+//        }
+//    }
 
     @RequestMapping("/success")
     public String notifySuccessfulUnlink() {

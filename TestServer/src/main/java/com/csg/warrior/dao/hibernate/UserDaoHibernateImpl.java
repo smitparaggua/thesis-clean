@@ -1,36 +1,21 @@
 package com.csg.warrior.dao.hibernate;
 
 import com.csg.warrior.dao.UserDao;
-import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Repository("userDao")
-public class UserDaoHibernateImpl implements UserDao {
-    @Autowired
-    private SessionFactory sessionFactory;
+public class UserDaoHibernateImpl extends ParentDaoHibernateImpl<User> implements UserDao {
 
     @Override
-    public User getUserByUsername(String username) {
-        Session session = sessionFactory.getCurrentSession();
-        String hql = "FROM User WHERE username = :username";
-        Query query = session.createQuery(hql);
-        query.setParameter("username", username);
-        return (User) query.uniqueResult();
-    }
-
-    @Override
-    public void merge(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.merge(user);
-    }
-
-    @Override
-    public void save(User user) {
-        sessionFactory.getCurrentSession().save(user);
+    public User getUserByUsername(String username, String website) {
+        String hql = "FROM User WHERE username = :username AND website = :website";
+        Map<String, Object> queryParameters = new HashMap<String, Object>();
+        queryParameters.put("username", username);
+        queryParameters.put("website", website);
+        return queryUniqueResult(hql, queryParameters);
     }
 }

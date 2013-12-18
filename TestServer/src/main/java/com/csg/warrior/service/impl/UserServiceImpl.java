@@ -5,17 +5,14 @@ import com.csg.warrior.dao.MobileKeyDao;
 import com.csg.warrior.dao.UserDao;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
+import com.csg.warrior.service.UserMobileKeyService;
 import com.csg.warrior.service.UserService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.AuthenticationException;
 import java.net.Inet4Address;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,28 +20,15 @@ import java.net.UnknownHostException;
 
 @Transactional
 @Service("userService")
-public class UserServiceImpl implements UserDetailsService, UserService {
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private MobileKeyDao mobileKeyDao;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.getUserByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid email or password");
-        }
-        UserDetails springSecurityUser = user.toSpringSecurityUser();
-        user.invalidateUploadedKey();
-        userDao.merge(user);
-        return springSecurityUser;
-    }
+public class UserServiceImpl implements UserService {
+    @Autowired private UserDao userDao;
+    @Autowired private MobileKeyDao mobileKeyDao;
+    @Autowired private UserMobileKeyService userMobileKeyService;
 
     // TODO: adjust to take care of hashes
     @Override
-    public boolean updateMobileKey(String username, String keyUploaded) throws NoMobileKeyForUserException {
-        MobileKey mobileKey = mobileKeyDao.getMobileKeyByUsername(username);
+    public boolean updateMobileKey(String username, String website, String keyUploaded) throws NoMobileKeyForUserException {
+        MobileKey mobileKey = getMobileKeyOfUser(username, website);
         if (mobileKey == null) {
             throw new NoMobileKeyForUserException();
         }
@@ -55,24 +39,29 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return false;
     }
 
+    private MobileKey getMobileKeyOfUser(String username, String website) {
+        User user = userDao.getUserByUsername(username, website);
+        return userMobileKeyService.getMobileKeyOfUser(user);
+    }
+
     @Override
     public void save(User user) {
         userDao.save(user);
     }
 
-    @Override
-    // TODO create tests for this and finish this
-    public void unlinkMobileKey(String username, String password) throws AuthenticationException, FailedUrlGenerationException {
-        validateCredentials(username, password);
-        URL generatedUrl = generateUnlinkUrl(username);
-    }
-
-    private void validateCredentials(String username, String password) throws AuthenticationException {
-        User user = userDao.getUserByUsername(username);
-        if (user == null || user.getPassword() != password) {
-            throw new AuthenticationException("Invalid username or password");
-        }
-    }
+//    @Override
+//    // TODO create tests for this and finish this
+//    public void unlinkMobileKey(String username, String password) throws AuthenticationException, FailedUrlGenerationException {
+//        validateCredentials(username, password);
+//        URL generatedUrl = generateUnlinkUrl(username);
+//    }
+//
+//    private void validateCredentials(String username, String password) throws AuthenticationException {
+//        User user = userDao.getUserByUsername(username, website);
+//        if (user == null || user.getPassword() != password) {
+//            throw new AuthenticationException("Invalid username or password");
+//        }
+//    }
 
     // TODO create a better approach for host address
     private URL generateUnlinkUrl(String username) throws FailedUrlGenerationException {

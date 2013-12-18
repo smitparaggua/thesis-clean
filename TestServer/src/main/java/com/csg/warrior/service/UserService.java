@@ -7,9 +7,12 @@ import com.csg.warrior.service.impl.NoMobileKeyForUserException;
 import javax.naming.AuthenticationException;
 
 public interface UserService {
-    public boolean updateMobileKey(String username, String keyUploaded) throws NoMobileKeyForUserException;
 
-    public void save(User user);
+    void save(User user);
 
-    void unlinkMobileKey(String username, String password) throws AuthenticationException, FailedUrlGenerationException;
+    // TODO: implement unlink mobile. currently commented out to avoid compilation errors
+//    void unlinkMobileKey(String username, String password) throws AuthenticationException, FailedUrlGenerationException;
+
+    // TODO: adjust to take care of hashes
+    boolean updateMobileKey(String username, String website, String keyUploaded) throws NoMobileKeyForUserException;
 }

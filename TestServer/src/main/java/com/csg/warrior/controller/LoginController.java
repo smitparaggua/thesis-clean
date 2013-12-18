@@ -15,12 +15,14 @@ public class LoginController {
     @Autowired
     UserService userService;
 
+    // TODO consider using ModelAttribute (too many parameters)
     @RequestMapping(value = "/key-upload", method = RequestMethod.POST)
     @ResponseBody
-    public String acceptKeyFromMobile(@RequestParam("username") String username, @RequestParam("key") String key) {
+    public String acceptKeyFromMobile(@RequestParam("username") String username, @RequestParam("key") String key,
+                                      @RequestParam("website") String requestSourceWebsite) {
         boolean keyIsValid;
         try {
-            keyIsValid = userService.updateMobileKey(username, key);
+            keyIsValid = userService.updateMobileKey(username, requestSourceWebsite, key);
         } catch (NoMobileKeyForUserException e) {
             return "User does not have a designated mobile key";
         }
