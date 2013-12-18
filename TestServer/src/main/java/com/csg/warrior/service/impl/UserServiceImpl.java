@@ -43,8 +43,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     // TODO: adjust to take care of hashes
     @Override
-    public boolean updateMobileKey(String username, String keyUploaded) {
+    public boolean updateMobileKey(String username, String keyUploaded) throws NoMobileKeyForUserException {
         MobileKey mobileKey = mobileKeyDao.getMobileKeyByUsername(username);
+        if (mobileKey == null) {
+            throw new NoMobileKeyForUserException();
+        }
         if (mobileKey.getKeyString().equals(keyUploaded)) {
             mobileKeyDao.updateMobileKeyUploadTime(mobileKey, DateTime.now());
             return true;

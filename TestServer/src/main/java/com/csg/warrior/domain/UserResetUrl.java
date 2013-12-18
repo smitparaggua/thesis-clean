@@ -4,10 +4,14 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class UserResetUrl {
+    @Id
     private Long id;
+    @OneToOne
     private User user;
     private String url;
     @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
