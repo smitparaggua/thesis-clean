@@ -14,4 +14,8 @@ public class ToastUtils {
             toast.show();
         }
     }
+    
+    public static void showPromptLong(Context context, String message) {
+        showPrompt(context, message, Toast.LENGTH_LONG);
+    }
 }
