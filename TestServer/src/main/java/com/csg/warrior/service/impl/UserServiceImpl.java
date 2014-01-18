@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public String reportKeyLoginStatus(String username, String website, boolean invalidateForLogin) {
+        return null;
+    }
+
     private MobileKey getMobileKeyOfUser(String username, String website) {
         User user = userDao.getUserByUsername(username, website);
         return userMobileKeyService.getMobileKeyOfUser(user);
@@ -91,4 +96,19 @@ public class UserServiceImpl implements UserService {
         }
         return address;
     }
+
+    @Override
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Override
+    public void setMobileKeyDao(MobileKeyDao mobileKeyDao) {
+        this.mobileKeyDao = mobileKeyDao;
+    }
+
+    @Override
+    public void setUserMobileKeyService(UserMobileKeyService userMobileKeyService) {
+    }
+
 }

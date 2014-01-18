@@ -1,6 +1,5 @@
 package com.csg.warrior.raydotcom.controller;
 
-import com.csg.warrior.raydotcom.controller.SignUpController;
 import com.csg.warrior.raydotcom.domain.User;
 import com.csg.warrior.raydotcom.service.UserService;
 import org.junit.Before;
@@ -9,7 +8,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class SignUpControllerTest {
     SignUpController signUpController;
@@ -30,9 +30,8 @@ public class SignUpControllerTest {
     @Test
     public void signUpSuccess() {
         User user = new User();
-        String controllerResponse = signUpController.processSignUp(user, new RedirectAttributesModelMap());
+        String controllerResponse = signUpController.processSignUp(user);
         assertEquals("redirect:/sign-up/success", controllerResponse);
-        verify(userService).save(user);
-        verify(userService).signUpToWarrior(user);
+        verify(userService).signUp(user);
     }
 }

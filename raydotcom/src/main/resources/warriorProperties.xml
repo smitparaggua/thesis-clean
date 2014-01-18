@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<warrior>
+    <address>http://localhost:8080</address>
+    <urls>
+        <sign-up>/sign-up</sign-up>
+    </urls>
+    <replies>
+        <key-not-uploaded>User must upload mobile key</key-not-uploaded>
+    </replies>
+</warrior>

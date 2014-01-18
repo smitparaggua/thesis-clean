@@ -22,33 +22,36 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired private UserDao userDao;
     @Autowired private WarriorService warriorService;
 
+    @Override
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
 
+    @Override
     public void setWarriorService(WarriorService warriorService) {
         this.warriorService = warriorService;
     }
 
     @Override
     public void save(User user) {
-        // TODO add register to Warrior System
         userDao.save(user);
     }
 
     @Override
-    public void signUpToWarrior(User user) {
-        // TODO implement sign up to warrior
+    public void signUp(User user) {
+        // TODO Error checking for failed sign up (eg. server is down, moved to other IP, etc)
+        userDao.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        boolean isUserWarriorLocked = warriorService.isUserLocked(username);
+        String warriorReply = warriorService.requestForMobileKey(username, "ray.com");
+        boolean isUserWarriorLocked = warriorService.isWarriorLockedFromReply(warriorReply);
         return toSpringSecurityUser(user, isUserWarriorLocked);
     }
 
-    public UserDetails toSpringSecurityUser(User user, boolean isWarriorLocked) {
+    private UserDetails toSpringSecurityUser(User user, boolean isWarriorLocked) {
         boolean accountEnabled = true;
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;

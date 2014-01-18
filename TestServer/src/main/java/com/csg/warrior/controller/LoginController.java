@@ -18,7 +18,8 @@ public class LoginController {
     // TODO consider using ModelAttribute (too many parameters)
     @RequestMapping(value = "/key-upload", method = RequestMethod.POST)
     @ResponseBody
-    public String acceptKeyFromMobile(@RequestParam("username") String username, @RequestParam("key") String key,
+    public String acceptKeyFromMobile(@RequestParam("username") String username,
+                                      @RequestParam("key") String key,
                                       @RequestParam("website") String requestSourceWebsite) {
         boolean keyIsValid;
         try {
@@ -27,5 +28,13 @@ public class LoginController {
             return "User does not have a designated mobile key";
         }
         return keyIsValid? "Key Uploaded!" : "Invalid Key";
+    }
+
+    @RequestMapping(value = "/key-login-status")
+    @ResponseBody
+    public String getKeyLoginStatus(@RequestParam("username") String username,
+                                    @RequestParam("website") String website,
+                                    @RequestParam("invalidateForLogin") boolean invalidateForLogin) {
+        return userService.reportKeyLoginStatus(username, website, invalidateForLogin);
     }
 }
