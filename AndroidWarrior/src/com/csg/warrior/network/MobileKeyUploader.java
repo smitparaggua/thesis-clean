@@ -1,8 +1,8 @@
 package com.csg.warrior.network;
 
+import com.csg.warrior.IOUtils;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.exception.FailedUploadException;
-import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
