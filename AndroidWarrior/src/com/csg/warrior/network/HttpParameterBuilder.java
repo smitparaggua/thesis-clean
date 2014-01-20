@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class HttpParameterParser {
+public class HttpParameterBuilder {
     Map<String, String> parameters = new LinkedHashMap<String, String>();
 
     public void addParameter(String parameterName, String parameterValue) {

@@ -17,7 +17,7 @@ public final class GCMUtilities {
 	static final String SERVER_URL = null;
 	static final String SENDER_ID = "41226186172";
 	static final String SHAREDPREF_regID = "registration_ID";
-	static final String TAG = "GCMUtilities";
+	static final String TAG = "DAN";
 	
 	//hindi ko alam ginagawa nito hahahahahaha
 	static final int PLAY_SERVICES_RESOLUTION_REQUEST = 99999;
@@ -30,12 +30,10 @@ public final class GCMUtilities {
 	                    PLAY_SERVICES_RESOLUTION_REQUEST).show();
 	        } 
 	        else {
-	            Log.i("GCMUtilities.checkPlayServices()", "This device is not supported.");
-	        	//ToastUtils.showPromptLong(context,"This device is not supported.");
+	            Log.i(TAG + "GCMUtilities.checkPlayServices()", "This device is not supported.");
 	        }
 	        return false;
 	    }
-	    //ToastUtils.showPromptLong(context, "PlayServices good to go!");
 	    return true;
 	}
 	
@@ -60,6 +58,8 @@ public final class GCMUtilities {
 	private static void sendRegID(String regID){
 		//TODO: implement on server		
 		Log.i(TAG+".sendRegID",regID);
+		
+		
 	}
 	
 	private static void storeRegID(Context context, String regID){

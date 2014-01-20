@@ -69,4 +69,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 authorities
         );
     }
+
+	@Override
+	public User getUser(String username, String password) {
+		User user = userDao.getUserByUsername(username);
+		if(user.getPassword().equals(password)) {
+			return user;
+		}
+		else return null;
+	}
 }

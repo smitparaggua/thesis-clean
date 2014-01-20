@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/sign-up")
-public class SignUpController {
+@RequestMapping("/key-request")
+public class WarriorKeyRequestController {
     @Autowired private UserMobileKeyService userMobileKeyService;
 
     @RequestMapping(method=RequestMethod.POST)

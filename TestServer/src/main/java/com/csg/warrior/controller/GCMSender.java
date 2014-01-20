@@ -17,13 +17,20 @@ public class GCMSender {
 	@RequestMapping("/gcmtest")
 	public String send() {
 		
-		System.out.println("Eclipse4!");
+		System.out.println("Eclipse6!");
 		
 		try {
 			Sender sender = new Sender(API_KEY);
 			Message message = new Message.Builder()
+				.addData("warriorkey", "HACK")
 				.build();
-			Result result = sender.send(message,TEST_TARGET, 1);
+			
+			String x = message.getData().get("warriorkey");
+			if (x == null) System.out.println("Null data");
+			else System.out.println("payload: " + x);
+			
+			
+			Result result = sender.send(message,TEST_TARGET, 10);
 			System.out.println(result.toString());			
 		}
 		catch (InvalidRequestException e){

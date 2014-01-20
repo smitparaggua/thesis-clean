@@ -34,6 +34,8 @@ public class MainActivity extends ListActivity {
 	
     private static final int SETTINGS_REQUEST_CODE = 1;
     public static final String EXTRAS_KEY_MOBILE_KEY = "mobileKey";
+    
+    private static final String TAG = "DAN";
 
     private MobileKeyAdapter adapter;
     private DatabaseHandler db;
@@ -50,12 +52,13 @@ public class MainActivity extends ListActivity {
         if (GCMUtilities.checkPlayServices(activity, context)){
         	String regID = GCMUtilities.getRegistrationID(context);        	
         	if(regID.isEmpty()) {
-        		Log.i("MainActivity.onCreate", "Commencing registration");
-        		ToastUtils.showPromptLong(context,"Commencing registration");
+        		Log.i(TAG + " MainActivity.onCreate", "Commencing registration");
         		GCMUtilities.registerInBackground(context);        		
         	}
+        	else {
+        		Log.i(TAG + " MainActivity.onCreate", "Registration ID: " + regID);
+        	}
         }
-        else finish(); //finish kagad ba kapag walang appropriate Google Play Services APK?
 		
         //end GCM stuff
 
@@ -70,10 +73,8 @@ public class MainActivity extends ListActivity {
     	
     	Activity activity = this;
         Context context = getApplicationContext();
-    	if (!GCMUtilities.checkPlayServices(activity, context)){
-        	finish(); //finish kagad ba kapag walang appropriate Google Play Services APK?
-        }
     	
+        GCMUtilities.checkPlayServices(activity, context);    	
     }
 
     private void createAddButtonFooter() {

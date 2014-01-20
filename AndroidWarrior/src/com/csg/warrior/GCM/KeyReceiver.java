@@ -13,9 +13,8 @@ public class KeyReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive (Context context, Intent intent){
-		Log.i("GCMUtilities.KeyReceiver", "GCM success!");
+		String warkey = intent.getStringExtra("warriorkey");		
+		Log.i("GCMUtilities.KeyReceiver", "GCM success! Received key: " + warkey);
 		ToastUtils.showPromptLong(context, "GCM success!");
-		// implement code that will receive key and launch an activity?
-		// di ko pa alam ano gagawin mismo pag nakuha na yung key
 	}
 }
