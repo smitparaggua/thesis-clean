@@ -13,5 +13,5 @@ TestServer/.classpath
 TestServer/.project
 TestServer/.settings/org.eclipse.wst.common.component
 TestServer/.settings/org.eclipse.wst.common.project.facet.core.xml
-AndroidWarrior/gen/com/google/android/gms/R.java
-AndroidWarrior/gen/com/csg/warrior/BuildConfig.java
+AndroidWarrior/gen/*
+AndroidWarrior/project.properties
