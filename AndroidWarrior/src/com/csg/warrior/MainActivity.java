@@ -1,17 +1,37 @@
+//testing out git!!!!1
+//dummy commit
+
 package com.csg.warrior;
 
+import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.persistence.DatabaseHandler;
+import com.csg.warrior.GCM.*;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.util.List;
 
 public class MainActivity extends ListActivity {
+	
+	//GCM variables
+
+    
+	//end GCM variables
+	
     private static final int SETTINGS_REQUEST_CODE = 1;
     public static final String EXTRAS_KEY_MOBILE_KEY = "mobileKey";
 
@@ -20,10 +40,40 @@ public class MainActivity extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	
         super.onCreate(savedInstanceState);
+        
+        //GCM stuff        
+        
+        Activity activity = this;
+        Context context = this;
+        if (GCMUtilities.checkPlayServices(activity, context)){
+        	String regID = GCMUtilities.getRegistrationID(context);        	
+        	if(regID.isEmpty()) {
+        		Log.i("MainActivity.onCreate", "Commencing registration");
+        		ToastUtils.showPromptLong(context,"Commencing registration");
+        		GCMUtilities.registerInBackground(context);        		
+        	}
+        }
+        else finish(); //finish kagad ba kapag walang appropriate Google Play Services APK?
+		
+        //end GCM stuff
+
         db = new DatabaseHandler(this);
         createAddButtonFooter();
         showMobileKeys();
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	
+    	Activity activity = this;
+        Context context = getApplicationContext();
+    	if (!GCMUtilities.checkPlayServices(activity, context)){
+        	finish(); //finish kagad ba kapag walang appropriate Google Play Services APK?
+        }
+    	
     }
 
     private void createAddButtonFooter() {
@@ -71,4 +121,6 @@ public class MainActivity extends ListActivity {
             }
         }
     }
+    
+    
 }
