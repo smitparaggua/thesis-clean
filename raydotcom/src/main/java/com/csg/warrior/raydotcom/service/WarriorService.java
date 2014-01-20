@@ -1,11 +1,10 @@
 package com.csg.warrior.raydotcom.service;
 
+import com.csg.warrior.raydotcom.domain.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.exception.WarriorSignUpException;
 
 public interface WarriorService {
-    String requestForMobileKey(String username, String requestSourceUrl);
-
-    boolean isWarriorLockedFromReply(String warriorReply);
+    WarriorKeyStatus getWarriorKeyStatus(String username, String requestSourceUrl);
 
     void signUpToWarrior(String username) throws WarriorSignUpException;
 

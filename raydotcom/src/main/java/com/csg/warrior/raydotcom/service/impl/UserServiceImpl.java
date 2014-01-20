@@ -2,6 +2,7 @@ package com.csg.warrior.raydotcom.service.impl;
 
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
+import com.csg.warrior.raydotcom.domain.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,22 +34,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void save(User user) {
-        userDao.save(user);
-    }
-
-    @Override
     public void signUp(User user) {
-        // TODO Error checking for failed sign up (eg. server is down, moved to other IP, etc)
         userDao.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        String warriorReply = warriorService.requestForMobileKey(username, "ray.com");
-        boolean isUserWarriorLocked = warriorService.isWarriorLockedFromReply(warriorReply);
-        return toSpringSecurityUser(user, isUserWarriorLocked);
+        WarriorKeyStatus keyStatus= warriorService.getWarriorKeyStatus(username, "ray.com");
+        return toSpringSecurityUser(user, isUserWarriorLocked(keyStatus));
+    }
+
+    private boolean isUserWarriorLocked(WarriorKeyStatus keyStatus) {
+        if(keyStatus.isRegisteredInWarrior() == false) {
+            return false;
+        } else {
+            return !keyStatus.isWarriorKeyValid();
+        }
     }
 
     private UserDetails toSpringSecurityUser(User user, boolean isWarriorLocked) {

@@ -5,8 +5,6 @@ import com.csg.warrior.raydotcom.domain.User;
 
 public interface UserService {
 
-    void save(User user);
-
     void signUp(User user);
 
     void setUserDao(UserDao userDao);
