@@ -12,4 +12,6 @@ public interface UserService {
     void setUserDao(UserDao userDao);
 
     void setWarriorService(WarriorService warriorService);
+    
+    User getUser(String username, String password);
 }

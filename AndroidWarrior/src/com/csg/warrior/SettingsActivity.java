@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.filechooser.FileChooserActivity;
+import com.csg.warrior.network.HttpPOSTHelper;
 import com.csg.warrior.persistence.DatabaseHandler;
 
 import java.io.File;
@@ -41,10 +42,27 @@ public class SettingsActivity extends Activity {
         }
     }
 
-    public void setAssociatedFile(View clickedButton) {
-        Intent fileChooserIntent = new Intent(this, FileChooserActivity.class);
-        this.startActivityForResult(fileChooserIntent, FILE_CHOOSER_REQUEST_CODE);
+    public void requestWarriorKey(View clickedButton) {
+    	//send (user, pass, device_id) to ray.com
+    	
+    	//TODO: resolve these variables
+    	String username = null;
+    	String password = null;
+    	String url = null;
+    	String gcm_device_id = null;
+    	
+    	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
+    	httpPOST.addParameter("username", username);
+    	httpPOST.addParameter("password", password);
+    	httpPOST.addParameter("gcm_device_id", gcm_device_id);
+    	
+    	httpPOST.sendPOST(url);
+    	//TODO: handling of http response
+    	
+    	
     }
+    
+    
 
     public void saveSettings(View clickedButton) {
         // TODO check if some values are not filled
