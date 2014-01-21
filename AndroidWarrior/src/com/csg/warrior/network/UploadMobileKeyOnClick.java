@@ -20,7 +20,10 @@ public class UploadMobileKeyOnClick implements View.OnClickListener{
         // todo this is what should be async
         String response = "";
         try {
-            response = MobileKeyUploader.upload(mobileKey);
+        	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
+        	httpPOST.addParameter("key", "magic");	//HAHA SI RAY MAY ALAM NITO
+        	httpPOST.addParameter("username", mobileKey.getKeyOwner());
+            response = httpPOST.sendPOST(mobileKey.getUrlForUpload());
         } catch (FailedUploadException e) {
             response = e.getMessage();
         } finally {

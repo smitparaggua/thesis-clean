@@ -17,11 +17,29 @@ public class WarriorKeyRequestController {
 
     @RequestMapping(method=RequestMethod.POST)
     @ResponseBody
-    public String processSignUp(@RequestParam("username") String username, @RequestParam("website") String website) {
+    public String processKeyRequest(@RequestParam("username") String username, 
+    								@RequestParam("website") String website,
+    								@RequestParam("gcm_device_id") String gcm_device_id) {
+    									
         // TODO HANDLE THIS SIGN UP
+    	
+    	/*
+    	 * Possible situations:
+    	 * 1.) First time cinlick yung "Request key" button --> no (username, website, device_id, warriorkey) yet
+    	 * 2.) "This (username, website, device_id) already has a warriorkey"
+    	 * 3.) "This (username, website) already exists but different device_id and/or warriorkey: you are an impostor"
+    	 * 
+    	 * Best order of checking: 
+    	 * 2 --> regenerate key or ibigay na lang yung key?
+    	 * 1 --> create quadruple
+    	 * 3 --> LOLNOPE
+    	 */
+    	
         MobileKey mobileKey = MobileKey.generateKey();
         User user = new User(username, website);
         userMobileKeyService.save(user, mobileKey);
         return "User successfully registered to warrior server";
     }
+    
+    
 }

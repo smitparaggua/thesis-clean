@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.filechooser.FileChooserActivity;
+import com.csg.warrior.exception.FailedUploadException;
 import com.csg.warrior.network.HttpPOSTHelper;
 import com.csg.warrior.persistence.DatabaseHandler;
 
@@ -45,18 +45,28 @@ public class SettingsActivity extends Activity {
     public void requestWarriorKey(View clickedButton) {
     	//send (user, pass, device_id) to ray.com
     	
+    	/*
+    	 * TODO: detect if enrolled na sa warrior (may entry na sa database) --> pop-up [yes,no] for key regeneration
+    	 * TODO: loading screen habang hinihintay yung key :))
+    	 */
+    	
     	//TODO: resolve these variables
     	String username = null;
     	String password = null;
-    	String url = null;
+    	String url = "localhost:8080/settings/key-request";
     	String gcm_device_id = null;
     	
     	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
     	httpPOST.addParameter("username", username);
     	httpPOST.addParameter("password", password);
     	httpPOST.addParameter("gcm_device_id", gcm_device_id);
+    	try {
+    		httpPOST.sendPOST(url);
+    	}
+    	catch (FailedUploadException e) {
+    		ToastUtils.showPromptLong(this, e.getMessage());
+    	}
     	
-    	httpPOST.sendPOST(url);
     	//TODO: handling of http response
     	
     	

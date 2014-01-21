@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.network.MobileKeyUploader;
 import com.csg.warrior.network.UploadMobileKeyOnClick;
 
 import java.net.HttpURLConnection;
