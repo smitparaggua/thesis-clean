@@ -3,6 +3,7 @@ package com.csg.warrior;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ public class SettingsActivity extends Activity {
     private TextView associatedFilePathView;
     private EditText keyOwnerView;
     // TODO Make other fields editable
+    
+    private static final String TAG = "DAN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +53,18 @@ public class SettingsActivity extends Activity {
     	 * TODO: loading screen habang hinihintay yung key :))
     	 */
     	
+    	Log.i("DAN", "Eclipse9!");
     	//TODO: resolve these variables
-    	String username = null;
-    	String password = null;
-    	String url = "localhost:8080/settings/key-request";
-    	String gcm_device_id = null;
+    	String username = "ray";
+    	String password = "pass";
+    	String url = "http://172.16.1.117:8080/raydotcom/warrior/key-request";
+    	String gcm_device_id = "APA91bEFG_TmtG_iFlNJ842Y8uaonnoGD29zKor7rykQg0D6XSlTXzLbWAZdvjisgJOTtHpkJ9J5hT6Mzmr3xMIwKwHoOim8tdLJP_xRnsjjtsswP05CwGbripGkeFWPTxiWS8wXbDD_o4x_4B8ATbZeBzy-y_r_VQ";
     	
     	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
     	httpPOST.addParameter("username", username);
     	httpPOST.addParameter("password", password);
     	httpPOST.addParameter("gcm_device_id", gcm_device_id);
+    	
     	try {
     		httpPOST.sendPOST(url);
     	}

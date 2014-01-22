@@ -12,6 +12,6 @@ public class WarriorConfig {
     }
     
     public String getWarriorKeyRequestURL() {
-    	return "http://localhost:8080/key-request";
+    	return "http://localhost:8080/testserver/key-request";
     }
 }

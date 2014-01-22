@@ -38,17 +38,19 @@ public class KeyRequestServiceImpl implements KeyRequestService {
 			MobileKey mobilekey = new MobileKey(KeyStringGenerator.generateKeyString());
 			userMobileKeyService.save(user, mobilekey);
 			
-			gcm_sendWARKey(user.getGcmDeviceID(), mobilekey.getKeyString());
+			gcm_sendWARKey(username, website, user.getGcmDeviceID(), mobilekey.getKeyString());
 		}
 		
 		
 		
 	}
 	
-	private void gcm_sendWARKey(String target_gcm_device_id, String warriorkey) {
+	private void gcm_sendWARKey(String username, String website, String target_gcm_device_id, String warriorkey) {
 		try {
 			Sender sender = new Sender(ServerConstants.GCM_API_KEY);
 			Message message = new Message.Builder()
+				.addData("username", username)
+				.addData("website", website)
 				.addData("warriorkey", warriorkey)
 				.build();
 			Result result = sender.send(message, target_gcm_device_id, 10);

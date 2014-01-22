@@ -34,10 +34,9 @@ public class WarriorKeyRequestController {
     	 * 1 --> create quadruple
     	 * 3 --> LOLNOPE
     	 */
+    	System.out.println("WAR server: WarriorKeyRequestController");
     	
-        MobileKey mobileKey = MobileKey.generateKey();
-        User user = new User(username, website);
-        userMobileKeyService.save(user, mobileKey);
+    	
         return "User successfully registered to warrior server";
     }
     

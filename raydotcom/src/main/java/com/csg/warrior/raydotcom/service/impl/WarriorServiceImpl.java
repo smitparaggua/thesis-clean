@@ -4,7 +4,6 @@ import com.csg.warrior.raydotcom.HttpUtils;
 import com.csg.warrior.raydotcom.WarriorConfig;
 import com.csg.warrior.raydotcom.domain.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.exception.WarriorKeyRequestException;
-import com.csg.warrior.raydotcom.exception.WarriorSignUpException;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 
