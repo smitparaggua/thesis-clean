@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class MobileKey implements Serializable {
     private long databaseId;
     private String keyOwner;
-    private File associatedFile;
+    private String Key;
     private String urlForUpload;
 
     public MobileKey setDatabaseId(long id) {
@@ -19,8 +19,8 @@ public class MobileKey implements Serializable {
         return this;
     }
 
-    public MobileKey setAssociatedFile(File associatedFile) {
-        this.associatedFile = associatedFile;
+    public MobileKey setKey(String Key) {
+        this.Key = Key;
         return this;
     }
 
@@ -37,20 +37,15 @@ public class MobileKey implements Serializable {
         return keyOwner;
     }
 
-    public File getAssociatedFile() {
-        return associatedFile;
+    public String getKey() {
+        return Key;
     }
 
     public String getUrlForUpload() {
         return urlForUpload;
     }
 
-    public String getAssociatedFilePath() {
-        if (associatedFile != null) {
-            return associatedFile.getPath();
-        }
-        return null;
-    }
+   
 
     // TODO not sure if this is reliable way to determine if the value is not yet saved in the database
     public boolean isTransient() {

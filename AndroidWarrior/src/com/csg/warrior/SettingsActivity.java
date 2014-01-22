@@ -20,11 +20,8 @@ public class SettingsActivity extends Activity {
 
     private MobileKey currentMobileKeySettings;
     private TextView addressBarView;
-    private TextView associatedFilePathView;
+    private TextView associatedKeyView;
     private EditText keyOwnerView;
-    // TODO Make other fields editable
-    
-    private static final String TAG = "DAN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +37,9 @@ public class SettingsActivity extends Activity {
             keyOwnerView.setText(currentMobileKeySettings.getKeyOwner());
             addressBarView = (TextView) findViewById(R.id.address_bar);
             addressBarView.setText(currentMobileKeySettings.getUrlForUpload());
-            associatedFilePathView = (TextView) findViewById(R.id.associated_file_name);
-            associatedFilePathView.setText(currentMobileKeySettings.getAssociatedFilePath());
+       
+            associatedKeyView = (TextView) findViewById(R.id.associated_file_name);
+            associatedKeyView.setText(currentMobileKeySettings.getKey());
         }
     }
 
@@ -50,6 +48,10 @@ public class SettingsActivity extends Activity {
     	
     	/*
     	 * TODO: detect if enrolled na sa warrior (may entry na sa database) --> pop-up [yes,no] for key regeneration
+    	 * 
+    	 * DatabaseHandler db = new DatabaseHandler(this);
+    	 * db.doesUsernameExist(username) -> nirereturn niya kung may laman na or wala;
+    	 *
     	 * TODO: loading screen habang hinihintay yung key :))
     	 */
     	
@@ -97,9 +99,11 @@ public class SettingsActivity extends Activity {
     // TODO Check for empty attributes
     private void fetchSettingsFromView() {
         String keyOwner = keyOwnerView.getText().toString();
-        File associatedFile = new File(associatedFilePathView.getText().toString());
+        //dito ifefetch yung key
+        String key = "lalalla";
+      
         String url = addressBarView.getText().toString();
-        currentMobileKeySettings.setAssociatedFile(associatedFile).setUrlForUpload(url).setKeyOwner(keyOwner);
+        currentMobileKeySettings.setKey(key).setUrlForUpload(url).setKeyOwner(keyOwner);
     }
 
     public void cancelSettings(View clickedButton) {
@@ -112,8 +116,8 @@ public class SettingsActivity extends Activity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case FILE_CHOOSER_REQUEST_CODE:
-                    TextView associatedFileLabel = (TextView) findViewById(R.id.associated_file_name);
-                    associatedFileLabel.setText(data.getStringExtra("selectedFilePath"));
+                  //  TextView associatedFileLabel = (TextView) findViewById(R.id.associated_file_name);
+                  //  associatedFileLabel.setText(data.getStringExtra("selectedFilePath"));
             }
         }
     }
