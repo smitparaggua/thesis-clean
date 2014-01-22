@@ -14,4 +14,8 @@ public class WarriorConfig {
     public String getSignUpSuccessReply() {
         return "Sign up successful";
     }
+
+    public String getKeyStatusUrl() {
+        return "http://localhost:8080/key-status";
+    }
 }

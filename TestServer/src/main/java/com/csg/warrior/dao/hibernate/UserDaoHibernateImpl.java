@@ -11,7 +11,7 @@ import java.util.Map;
 public class UserDaoHibernateImpl extends ParentDaoHibernateImpl<User> implements UserDao {
 
     @Override
-    public User getUserByUsername(String username, String website) {
+    public User getUser(String username, String website) {
         String hql = "FROM User WHERE username = :username AND website = :website";
         Map<String, Object> queryParameters = new HashMap<String, Object>();
         queryParameters.put("username", username);

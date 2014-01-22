@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private MobileKey getMobileKeyOfUser(String username, String website) {
-        User user = userDao.getUserByUsername(username, website);
+        User user = userDao.getUser(username, website);
         return userMobileKeyService.getMobileKeyOfUser(user);
     }
 
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 //    }
 //
 //    private void validateCredentials(String username, String password) throws AuthenticationException {
-//        User user = userDao.getUserByUsername(username, website);
+//        User user = userDao.getUser(username, website);
 //        if (user == null || user.getPassword() != password) {
 //            throw new AuthenticationException("Invalid username or password");
 //        }
@@ -109,6 +109,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void setUserMobileKeyService(UserMobileKeyService userMobileKeyService) {
+    }
+
+    @Override
+    public User getUser(String username, String website) {
+        return userDao.getUser(username, website);
     }
 
 }

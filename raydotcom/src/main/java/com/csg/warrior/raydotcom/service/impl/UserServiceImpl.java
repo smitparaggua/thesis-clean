@@ -2,7 +2,7 @@ package com.csg.warrior.raydotcom.service.impl;
 
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
-import com.csg.warrior.raydotcom.domain.WarriorKeyStatus;
+import com.csg.warrior.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;

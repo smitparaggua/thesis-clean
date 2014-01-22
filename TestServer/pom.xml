@@ -97,10 +97,10 @@
     		<artifactId>gcm-server</artifactId>
     		<version>1.0.2</version>
 		</dependency>
-		<dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1</version>
+        <dependency>
+            <groupId>com.csg.warrior</groupId>
+            <artifactId>warrior-core</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     

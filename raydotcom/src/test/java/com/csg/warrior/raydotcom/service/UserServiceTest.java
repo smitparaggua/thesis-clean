@@ -2,7 +2,7 @@ package com.csg.warrior.raydotcom.service;
 
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
-import com.csg.warrior.raydotcom.domain.WarriorKeyStatus;
+import com.csg.warrior.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.service.impl.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
