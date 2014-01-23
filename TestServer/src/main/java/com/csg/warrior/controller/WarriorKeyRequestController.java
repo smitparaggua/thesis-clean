@@ -1,7 +1,6 @@
 package com.csg.warrior.controller;
 
-import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.domain.User;
+import com.csg.warrior.service.KeyRequestService;
 import com.csg.warrior.service.UserMobileKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/key-request")
 public class WarriorKeyRequestController {
     @Autowired private UserMobileKeyService userMobileKeyService;
+    @Autowired private KeyRequestService keyRequestService;
 
     @RequestMapping(method=RequestMethod.POST)
     @ResponseBody
@@ -34,6 +34,9 @@ public class WarriorKeyRequestController {
     	 * 1 --> create quadruple
     	 * 3 --> LOLNOPE
     	 */
+    	
+    	keyRequestService.checkWarriorRegistration(username, website, gcm_device_id);
+    	
     	System.out.println("WAR server: WarriorKeyRequestController");
     	
     	
