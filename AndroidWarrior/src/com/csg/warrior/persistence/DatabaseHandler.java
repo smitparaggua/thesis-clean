@@ -20,7 +20,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_TRIPLES_ID = "tripleid";
     private static final String COLUMN_TRIPLES_USERNAME = "username";
     private static final String COLUMN_TRIPLES_URL = "url";
-    private static final String COLUMN_TRIPLES_ASSOCIATED_FILE = "key";
+    private static final String COLUMN_TRIPLES_KEY= "key";
 
 
     public DatabaseHandler(Context context) {
@@ -34,7 +34,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     			+ COLUMN_TRIPLES_ID + " INTEGER PRIMARY KEY,"
     			+ COLUMN_TRIPLES_USERNAME + " TEXT,"
     			+ COLUMN_TRIPLES_URL + " TEXT,"
-    			+ COLUMN_TRIPLES_ASSOCIATED_FILE + " TEXT"
+    			+ COLUMN_TRIPLES_KEY + " TEXT"
     			+ ")";
         db.execSQL(CREATE_TRIPLE_TABLE);
     }
@@ -61,7 +61,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 mk.setDatabaseId(cursor.getLong(0));
         		mk.setKeyOwner(cursor.getString(1));
         		mk.setUrlForUpload(cursor.getString(2));        		
-        		mk.setAssociatedFile(new File(cursor.getString(3)));
+        		mk.setKey(cursor.getString(3));
         		mobileKeyList.add(mk);
         	} while(cursor.moveToNext());
         }
@@ -75,7 +75,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //                + " SET " + COLUMN_TRIPLES_USERNAME + "=\"?\", " + COLUMN_TRIPLES_ASSOCIATED_FILE + "=\"?\", " + COLUMN_TRIPLES_URL + "=\"?\" "
 //                + " WHERE " + COLUMN_TRIPLES_ID + "=\"?\"";
         String updateQuery = "UPDATE triples SET username=?, key=?, url=? WHERE tripleid="+mobileKey.getDatabaseId();
-        String[] queryParameters = new String[] {mobileKey.getKeyOwner(), mobileKey.getAssociatedFilePath(), mobileKey.getUrlForUpload()};
+        String[] queryParameters = new String[] {mobileKey.getKeyOwner(), mobileKey.getKey(), mobileKey.getUrlForUpload()};
         Cursor cursor = db.rawQuery(updateQuery, queryParameters);
         cursor.moveToFirst();
         cursor.close();
@@ -94,7 +94,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (mobileKey != null) {
             values.put(COLUMN_TRIPLES_USERNAME, mobileKey.getKeyOwner());
             values.put(COLUMN_TRIPLES_URL, mobileKey.getUrlForUpload());
-            values.put(COLUMN_TRIPLES_ASSOCIATED_FILE, mobileKey.getAssociatedFilePath());
+            values.put(COLUMN_TRIPLES_KEY, mobileKey.getKey());
 
         }
         return values;
