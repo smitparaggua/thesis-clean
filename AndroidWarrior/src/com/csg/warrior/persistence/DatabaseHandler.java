@@ -23,9 +23,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_TRIPLES_KEY= "key";
 
 
+    
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+    
+    
  
     // Creating Tables
     @Override
@@ -111,5 +114,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         }
         return values;
+    }
+    
+    public void addData(String username, String url, String key){
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	ContentValues valueToInsert = toPut(username, url, key);
+    	db.insert(TABLE_TRIPLES, null, valueToInsert);
+        db.close();
+    }
+    
+    public ContentValues toPut(String username, String url, String key){
+    	ContentValues values = new ContentValues();
+    	
+    	values.put(COLUMN_TRIPLES_USERNAME, username);
+        values.put(COLUMN_TRIPLES_URL, url);
+        values.put(COLUMN_TRIPLES_KEY, key);
+    	
+    	return values;
     }
 }
