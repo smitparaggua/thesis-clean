@@ -66,7 +66,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         	} while(cursor.moveToNext());
         }
         
+        cursor.close();
         return mobileKeyList;
+    }
+    //Checker if nageexist na yung username
+    public boolean doesUsernameExist(String username){
+    	
+    	String selectQuery = "SELECT * FROM " +TABLE_TRIPLES + " WHERE username=?"; 
+    	boolean doesExist = true;
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	String[] parameters = new String [] {username};
+        Cursor cursor = db.rawQuery(selectQuery, parameters);
+        if(cursor.getCount() == 0) { doesExist = false; }
+        cursor.close();
+    	return doesExist;
     }
     
     public void updateMobileKey(MobileKey mobileKey) {
