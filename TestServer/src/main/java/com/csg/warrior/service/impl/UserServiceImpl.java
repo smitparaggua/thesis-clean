@@ -39,11 +39,6 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    @Override
-    public String reportKeyLoginStatus(String username, String website, boolean invalidateForLogin) {
-        return null;
-    }
-
     private MobileKey getMobileKeyOfUser(String username, String website) {
         User user = userDao.getUser(username, website);
         return userMobileKeyService.getMobileKeyOfUser(user);

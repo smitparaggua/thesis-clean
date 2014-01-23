@@ -1,6 +1,5 @@
 package com.csg.warrior.raydotcom.service;
 
-import com.csg.warrior.WarriorKeyStatus;
 import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.exception.WarriorSignUpException;

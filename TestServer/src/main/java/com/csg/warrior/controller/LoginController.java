@@ -40,4 +40,12 @@ public class LoginController {
         User keyOwner = userService.getUser(username, website);
         return userMobileKeyService.reportMobileKeyStatusOf(keyOwner, invalidateForLogin);
     }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void setUserMobileKeyService(UserMobileKeyService userMobileKeyService) {
+        this.userMobileKeyService = userMobileKeyService;
+    }
 }
