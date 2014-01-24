@@ -1,15 +1,13 @@
 package com.csg.warrior.raydotcom.service.impl;
 
+import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.HttpUtils;
 import com.csg.warrior.raydotcom.WarriorConfig;
-import com.csg.warrior.core.WarriorKeyStatus;
+import com.csg.warrior.raydotcom.exception.WarriorKeyRequestException;
 import com.csg.warrior.raydotcom.exception.WarriorRequestException;
-import com.csg.warrior.raydotcom.exception.WarriorSignUpException;
+import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.apache.http.HttpResponse;
-import com.csg.warrior.raydotcom.exception.WarriorKeyRequestException;
-import com.csg.warrior.raydotcom.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
