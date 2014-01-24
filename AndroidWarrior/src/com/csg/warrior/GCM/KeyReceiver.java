@@ -14,14 +14,18 @@ public class KeyReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive (Context context, Intent intent){
-		String warkey = intent.getStringExtra("warriorkey");	
+		String username = intent.getStringExtra("username");
+		String website = intent.getStringExtra("website");
+		String warriorkey = intent.getStringExtra("warriorkey");
+		
+		
 		//dito ilalagay yung username, url and key
 		
 		DatabaseHandler db = new DatabaseHandler(context);
 		
-		db.addData("ray", "localhost.com", "21312-293lsdma");
+		db.addData(username, website, warriorkey);
 		
-		Log.i("GCMUtilities.KeyReceiver", "GCM success! Received key: " + warkey);
-		ToastUtils.showPromptLong(context, "GCM success!");
+		Log.i("DAN KeyReceiver", "GCM success! Received message: "
+								+ username + " " + website + " " + warriorkey);
 	}
 }

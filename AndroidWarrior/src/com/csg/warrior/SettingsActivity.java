@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.csg.warrior.GCM.GCMUtilities;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.exception.FailedUploadException;
 import com.csg.warrior.network.HttpPOSTHelper;
@@ -55,28 +57,32 @@ public class SettingsActivity extends Activity {
     	 * TODO: loading screen habang hinihintay yung key :))
     	 */
     	
-    	Log.i("DAN", "Eclipse9!");
+    	Log.i("DAN", "Clicked request button!");
     	//TODO: resolve these variables
     	String username = "ray";
-    	String password = "pass";
+    	String password = "pass"; 
     	String url = "http://172.16.1.117:8080/raydotcom/warrior/key-request";
-    	String gcm_device_id = "APA91bEFG_TmtG_iFlNJ842Y8uaonnoGD29zKor7rykQg0D6XSlTXzLbWAZdvjisgJOTtHpkJ9J5hT6Mzmr3xMIwKwHoOim8tdLJP_xRnsjjtsswP05CwGbripGkeFWPTxiWS8wXbDD_o4x_4B8ATbZeBzy-y_r_VQ";
+    	
+    	//TODO: pop up pag pinindot yung request "Request WAR Key for username ray at website http://172.16.1.117 ?" [yes,no]
+    	
+    	String gcm_device_id = GCMUtilities.getRegistrationID(this);
+    	//String gcm_device_id = "APA91bEFG_TmtG_iFlNJ842Y8uaonnoGD29zKor7rykQg0D6XSlTXzLbWAZdvjisgJOTtHpkJ9J5hT6Mzmr3xMIwKwHoOim8tdLJP_xRnsjjtsswP05CwGbripGkeFWPTxiWS8wXbDD_o4x_4B8ATbZeBzy-y_r_VQ";
     	
     	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
     	httpPOST.addParameter("username", username);
     	httpPOST.addParameter("password", password);
     	httpPOST.addParameter("gcm_device_id", gcm_device_id);
     	
+    	String response = "";
     	try {
-    		httpPOST.sendPOST(url);
+    		response = httpPOST.sendPOST(url);
+    		Log.i("DAN.SettingsActivity.requestWarriorKey", "Received key: " + response);
     	}
     	catch (FailedUploadException e) {
-    		ToastUtils.showPromptLong(this, e.getMessage());
+    		Log.i("DAN.SettingsActivity.requestWarriorKey", e.getMessage());
     	}
     	
     	//TODO: handling of http response
-    	
-    	
     }
     
     

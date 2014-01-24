@@ -12,6 +12,10 @@ public class UserMobileKey {
     @ManyToOne private User user;
     @ManyToOne private MobileKey mobileKey;
 
+    public UserMobileKey () {
+    	
+    }
+    
     public UserMobileKey(User user, MobileKey mobileKey) {
         this.user = user;
         this.mobileKey = mobileKey;

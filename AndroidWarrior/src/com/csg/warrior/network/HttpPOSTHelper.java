@@ -31,10 +31,8 @@ public class HttpPOSTHelper {
 		DataOutputStream writer = null;
         BufferedReader reader = null;
         String response = "";
-        
-        
+
         try {
-        	
         	URL url = new URL(param_url);
         	HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
         	connection.setRequestMethod("POST");
@@ -49,8 +47,7 @@ public class HttpPOSTHelper {
             
             response = readServerResponse(reader);
             
-            connection.disconnect();
-            
+            connection.disconnect(); 
         } catch (MalformedURLException e) {
         	Log.i("DAN", "Class: " + e.getClass() +
         			"\n Description" + e.getMessage());

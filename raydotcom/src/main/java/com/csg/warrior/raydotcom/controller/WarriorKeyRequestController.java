@@ -21,15 +21,12 @@ public class WarriorKeyRequestController {
     								@RequestParam("password") String password,
     								@RequestParam("gcm_device_id") String gcm_device_id) {
     	
-    	System.out.println("ray.com: WarriorKeyRequestController");
-    	
     	/* At this part, check if the username and password match.
     	 * This will vary depending on the webhost.
     	 */
     	if (userService.getUser(username, password) != null) {
     		try {
-    			warriorService.createQuadrupleOnWarrior(username, gcm_device_id);
-    			return "Sign-up success";
+    			return warriorService.forwardKeyRequestToWARServer(username, gcm_device_id);
     		} catch(WarriorKeyRequestException e) {
     			return "Sign-up Failed";
     		}

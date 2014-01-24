@@ -13,6 +13,10 @@ public class User {
     private String website;
     private String gcmDeviceID;
     
+    public User() {
+    	
+    }
+    
     public User(String username, String website, String gcmDeviceID) {
         this.username = username;
         this.website = website;
