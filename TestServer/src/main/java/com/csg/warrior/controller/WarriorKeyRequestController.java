@@ -1,5 +1,6 @@
 package com.csg.warrior.controller;
 
+import com.csg.warrior.domain.User;
 import com.csg.warrior.service.KeyRequestService;
 import com.csg.warrior.service.UserMobileKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,7 @@ public class WarriorKeyRequestController {
     public String processKeyRequest(@RequestParam("username") String username, 
     								@RequestParam("website") String website,
     								@RequestParam("gcm_device_id") String gcm_device_id) {
-    									
         // TODO HANDLE THIS SIGN UP
-    	
     	/*
     	 * Possible situations:
     	 * 1.) First time cinlick yung "Request key" button --> no (username, website, device_id, warriorkey) yet
@@ -34,12 +33,8 @@ public class WarriorKeyRequestController {
     	 * 1 --> create quadruple
     	 * 3 --> LOLNOPE
     	 */
-    	
-    	keyRequestService.checkWarriorRegistration(username, website, gcm_device_id);
-    	
+    	keyRequestService.checkWarriorRegistration(new User(username, website, gcm_device_id));
     	System.out.println("WAR server: WarriorKeyRequestController");
-    	
-    	
         return "User successfully registered to warrior server";
     }
     
