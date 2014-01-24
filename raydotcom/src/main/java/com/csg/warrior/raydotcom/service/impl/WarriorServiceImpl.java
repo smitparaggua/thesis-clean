@@ -45,16 +45,16 @@ public class WarriorServiceImpl implements WarriorService {
     }
     
     @Override
-    public String forwardKeyRequestToWARServer(String username, String gcm_device_id) throws WarriorKeyRequestException{
+    public String forwardKeyRequestToWARServer(String username, String device_id) throws WarriorKeyRequestException{
     	
 		HttpUtils httpPOST = new HttpUtils();
 		httpPOST.addParameter("username", username);
 		httpPOST.addParameter("website", "ray.com");
-		httpPOST.addParameter("gcm_device_id", gcm_device_id);
+		httpPOST.addParameter("device_id", device_id);
 		System.out.println("ray.com HTTP posting to WAR server:" +
 							"\nusername: " + username +
 							"\nwebsite: " + warriorConfig.getHostWebsite() +
-							"\ngcm_device_id: " + gcm_device_id);
+							"\ndevice_id: " + device_id);
 		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL()); 
 		return response;
 		

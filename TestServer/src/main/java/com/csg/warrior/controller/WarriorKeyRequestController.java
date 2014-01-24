@@ -20,7 +20,7 @@ public class WarriorKeyRequestController {
     @ResponseBody
     public String processKeyRequest(@RequestParam("username") String username, 
     								@RequestParam("website") String website,
-    								@RequestParam("gcm_device_id") String gcm_device_id) {
+    								@RequestParam("device_id") String gcm_device_id) {
     	
     	return keyRequestService.checkWarriorRegistration(new User(username, website, gcm_device_id));
     	
