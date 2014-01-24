@@ -1,8 +1,9 @@
 package com.csg.warrior.raydotcom.service;
 
+import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
-import com.csg.warrior.raydotcom.domain.WarriorKeyStatus;
+import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.service.impl.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class UserServiceTest {
     private User mockValidUser;
 
     @Before
-    public void setup() {
+    public void setup() throws WarriorRequestException {
         userDao = mock(UserDao.class);
         mockValidUser = mockValidUser();
         warriorService = mock(WarriorService.class);
@@ -41,7 +42,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validLoadOfSpringSecurityUser() {
+    public void validLoadOfSpringSecurityUser() throws WarriorRequestException {
         userService.loadUserByUsername(mockValidUser.getUsername());
         verify(warriorService).getWarriorKeyStatus(mockValidUser.getUsername(), URL);
         verify(userDao).getUserByUsername(mockValidUser.getUsername());
@@ -54,7 +55,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void nonWarriorValidatedUserCanLogin() {
+    public void nonWarriorValidatedUserCanLogin() throws WarriorRequestException {
         when(warriorService.getWarriorKeyStatus(mockValidUser.getUsername(), URL))
                 .thenReturn(new WarriorKeyStatus(false, false));
         UserDetails springUser = userService.loadUserByUsername(mockValidUser.getUsername());
@@ -62,7 +63,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void mobileKeyNotUploadedLocksLogin() {
+    public void mobileKeyNotUploadedLocksLogin() throws WarriorRequestException {
         when(warriorService.getWarriorKeyStatus(mockValidUser.getUsername(), URL))
                 .thenReturn(new WarriorKeyStatus(true, false));
         UserDetails springUser = userService.loadUserByUsername(mockValidUser.getUsername());

@@ -1,5 +1,6 @@
 package com.csg.warrior.service.impl;
 
+import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.dao.UserMobileKeyDao;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
@@ -33,5 +34,18 @@ public class UserMobileKeyServiceImpl implements UserMobileKeyService {
         queryParameters.put("user", user);
         UserMobileKey userMobileKey = userMobileKeyDao.queryUniqueResult(hql, queryParameters);
         return userMobileKey.getMobileKey();
+    }
+
+    @Override
+    public WarriorKeyStatus reportMobileKeyStatusOf(User keyOwner, boolean invalidateForLogin) {
+        MobileKey mobileKey = getMobileKeyOfUser(keyOwner);
+        if(mobileKey == null) {
+            return new WarriorKeyStatus(false, false);
+        } else {
+            if(invalidateForLogin) {
+                mobileKeyService.invalidateForLogin(mobileKey);
+            }
+            return new WarriorKeyStatus(true, mobileKey.isValid());
+        }
     }
 }

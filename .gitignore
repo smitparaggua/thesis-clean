@@ -16,7 +16,7 @@ TestServer/.project
 TestServer/.settings/org.eclipse.wst.common.component
 TestServer/.settings/org.eclipse.wst.common.project.facet.core.xml
 
-AndroidWarrior/gen/*
+AndroidWarrior/gen/
 AndroidWarrior/project.properties
 
 raydotcom/.classpath

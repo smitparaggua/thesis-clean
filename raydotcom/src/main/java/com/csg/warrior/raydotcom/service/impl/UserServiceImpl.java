@@ -1,8 +1,9 @@
 package com.csg.warrior.raydotcom.service.impl;
 
+import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
-import com.csg.warrior.raydotcom.domain.WarriorKeyStatus;
+import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        WarriorKeyStatus keyStatus= warriorService.getWarriorKeyStatus(username, "ray.com");
+        WarriorKeyStatus keyStatus= null;
+        // TODO handle problem if warrior server has errors (and user is not a warrior user)
+        try {
+            keyStatus = warriorService.getWarriorKeyStatus(username, "ray.com");
+        } catch (WarriorRequestException e) {
+            e.printStackTrace();
+        }
         return toSpringSecurityUser(user, isUserWarriorLocked(keyStatus));
     }
 
@@ -52,7 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return !keyStatus.isWarriorKeyValid();
         }
     }
-
+    
     private UserDetails toSpringSecurityUser(User user, boolean isWarriorLocked) {
         boolean accountEnabled = true;
         boolean accountNonExpired = true;
@@ -78,4 +85,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		else return null;
 	}
+
+	
 }

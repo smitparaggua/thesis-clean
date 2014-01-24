@@ -24,18 +24,7 @@ public class MobileKeyServiceImpl implements MobileKeyService {
     }
 
     @Override
-    public void writeKeyToFile(User owner, MobileKey mobileKey) {
-        try {
-            File file = new File(owner.getUsername()+"-key");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(mobileKey.getKeyString());
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void invalidateForLogin(MobileKey mobileKey) {
+        mobileKeyDao.updateMobileKeyUploadTime(mobileKey, null);
     }
 }

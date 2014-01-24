@@ -1,15 +1,17 @@
 package com.csg.warrior.raydotcom.service.impl;
 
+import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.HttpUtils;
 import com.csg.warrior.raydotcom.WarriorConfig;
-import com.csg.warrior.raydotcom.domain.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.exception.WarriorKeyRequestException;
-import com.csg.warrior.raydotcom.exception.WarriorSignUpException;
+import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
-
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service("warriorService")
 public class WarriorServiceImpl implements WarriorService {
@@ -19,8 +21,18 @@ public class WarriorServiceImpl implements WarriorService {
     
 
     @Override
-    public WarriorKeyStatus getWarriorKeyStatus(String username, String requestSourceUrl) {
-        return null;
+    public WarriorKeyStatus getWarriorKeyStatus(String username, String website) throws WarriorRequestException {
+        HttpUtils httpUtils = new HttpUtils();
+        httpUtils.addParameter("username", username);
+        httpUtils.addParameter("website", website);
+        try {
+            HttpResponse response = httpUtils.sendPostRequest(warriorConfig.getKeyStatusUrl());
+            return (WarriorKeyStatus) httpUtils.receiveReplyAsObject(response);
+        } catch (IOException e) {
+            throw new WarriorRequestException("Error connecting to warrior server", e);
+        } catch (ClassNotFoundException e) {
+            throw new WarriorRequestException("Error in warrior server response", e);
+        }
     }
 
 

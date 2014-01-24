@@ -1,14 +1,15 @@
 package com.csg.warrior.raydotcom.controller;
 
-import com.csg.warrior.raydotcom.HttpUtils;
 import com.csg.warrior.raydotcom.exception.WarriorKeyRequestException;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@Controller
 @RequestMapping("/warrior")
 public class WarriorKeyRequestController {
     @Autowired private WarriorService warriorService;
@@ -20,7 +21,7 @@ public class WarriorKeyRequestController {
     								@RequestParam("password") String password,
     								@RequestParam("gcm_device_id") String gcm_device_id) {
     	
-    	System.out.println("ray.com/warrior/key-request: requesting key!");
+    	System.out.println("ray.com: WarriorKeyRequestController");
     	
     	/* At this part, check if the username and password match.
     	 * This will vary depending on the webhost.
