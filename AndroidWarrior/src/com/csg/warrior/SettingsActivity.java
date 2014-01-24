@@ -3,11 +3,12 @@ package com.csg.warrior;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.filechooser.FileChooserActivity;
+import com.csg.warrior.exception.FailedUploadException;
 import com.csg.warrior.network.HttpPOSTHelper;
 import com.csg.warrior.persistence.DatabaseHandler;
 
@@ -19,9 +20,8 @@ public class SettingsActivity extends Activity {
 
     private MobileKey currentMobileKeySettings;
     private TextView addressBarView;
-    private TextView associatedFilePathView;
+    private TextView associatedKeyView;
     private EditText keyOwnerView;
-    // TODO Make other fields editable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +37,43 @@ public class SettingsActivity extends Activity {
             keyOwnerView.setText(currentMobileKeySettings.getKeyOwner());
             addressBarView = (TextView) findViewById(R.id.address_bar);
             addressBarView.setText(currentMobileKeySettings.getUrlForUpload());
-            associatedFilePathView = (TextView) findViewById(R.id.associated_file_name);
-            associatedFilePathView.setText(currentMobileKeySettings.getAssociatedFilePath());
+       
+            associatedKeyView = (TextView) findViewById(R.id.associated_file_name);
+            associatedKeyView.setText(currentMobileKeySettings.getKey());
         }
     }
 
     public void requestWarriorKey(View clickedButton) {
     	//send (user, pass, device_id) to ray.com
     	
+    	/*
+    	 * TODO: detect if enrolled na sa warrior (may entry na sa database) --> pop-up [yes,no] for key regeneration
+    	 * 
+    	 * DatabaseHandler db = new DatabaseHandler(this);
+    	 * db.doesUsernameExist(username) -> nirereturn niya kung may laman na or wala;
+    	 *
+    	 * TODO: loading screen habang hinihintay yung key :))
+    	 */
+    	
+    	Log.i("DAN", "Eclipse9!");
     	//TODO: resolve these variables
-    	String username = null;
-    	String password = null;
-    	String url = null;
-    	String gcm_device_id = null;
+    	String username = "ray";
+    	String password = "pass";
+    	String url = "http://172.16.1.117:8080/raydotcom/warrior/key-request";
+    	String gcm_device_id = "APA91bEFG_TmtG_iFlNJ842Y8uaonnoGD29zKor7rykQg0D6XSlTXzLbWAZdvjisgJOTtHpkJ9J5hT6Mzmr3xMIwKwHoOim8tdLJP_xRnsjjtsswP05CwGbripGkeFWPTxiWS8wXbDD_o4x_4B8ATbZeBzy-y_r_VQ";
     	
     	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
     	httpPOST.addParameter("username", username);
     	httpPOST.addParameter("password", password);
     	httpPOST.addParameter("gcm_device_id", gcm_device_id);
     	
-    	httpPOST.sendPOST(url);
+    	try {
+    		httpPOST.sendPOST(url);
+    	}
+    	catch (FailedUploadException e) {
+    		ToastUtils.showPromptLong(this, e.getMessage());
+    	}
+    	
     	//TODO: handling of http response
     	
     	
@@ -82,9 +99,11 @@ public class SettingsActivity extends Activity {
     // TODO Check for empty attributes
     private void fetchSettingsFromView() {
         String keyOwner = keyOwnerView.getText().toString();
-        File associatedFile = new File(associatedFilePathView.getText().toString());
+        //dito ifefetch yung key
+        String key = "lalalla";
+      
         String url = addressBarView.getText().toString();
-        currentMobileKeySettings.setAssociatedFile(associatedFile).setUrlForUpload(url).setKeyOwner(keyOwner);
+        currentMobileKeySettings.setKey(key).setUrlForUpload(url).setKeyOwner(keyOwner);
     }
 
     public void cancelSettings(View clickedButton) {
@@ -97,8 +116,8 @@ public class SettingsActivity extends Activity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case FILE_CHOOSER_REQUEST_CODE:
-                    TextView associatedFileLabel = (TextView) findViewById(R.id.associated_file_name);
-                    associatedFileLabel.setText(data.getStringExtra("selectedFilePath"));
+                  //  TextView associatedFileLabel = (TextView) findViewById(R.id.associated_file_name);
+                  //  associatedFileLabel.setText(data.getStringExtra("selectedFilePath"));
             }
         }
     }

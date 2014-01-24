@@ -9,6 +9,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import android.util.Log;
+
 import com.csg.warrior.IOUtils;
 import com.csg.warrior.exception.FailedUploadException;
 
@@ -30,6 +32,7 @@ public class HttpPOSTHelper {
         BufferedReader reader = null;
         String response = "";
         
+        
         try {
         	
         	URL url = new URL(param_url);
@@ -37,7 +40,7 @@ public class HttpPOSTHelper {
         	connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             connection.setDoInput(true);
-            
+           
             writer = new DataOutputStream(connection.getOutputStream());
             writer.writeBytes(paramBuilder.parse());
             writer.flush();
@@ -49,11 +52,18 @@ public class HttpPOSTHelper {
             connection.disconnect();
             
         } catch (MalformedURLException e) {
-            throw new FailedUploadException("Malformed URL", e);
+        	Log.i("DAN", "Class: " + e.getClass() +
+        			"\n Description" + e.getMessage());
+        	throw new FailedUploadException("Malformed URL", e);            
         } catch (ProtocolException e) {
+        	Log.i("DAN", "Class: " + e.getClass() +
+        			"\n Description: " + e.getMessage());
             throw new FailedUploadException("Invalid Protocol", e);
+
         } catch (IOException e) {
-            // TODO note: IOException may result from connection problem or error in reading the key from file. Fix this
+        	 // TODO note: IOException may result from connection problem or error in reading the key from file. Fix this
+        	Log.i("DAN", "Class: " + e.getClass() +
+        			"\n Description" + e.getMessage());           
             throw new FailedUploadException("Connection Problem", e);
         } finally {
             closeIoStream(writer, reader);

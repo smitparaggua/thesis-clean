@@ -11,10 +11,12 @@ public class User {
     private Long userId;
     private String username;
     private String website;
-
-    public User(String username, String website) {
+    private String gcmDeviceID;
+    
+    public User(String username, String website, String gcmDeviceID) {
         this.username = username;
         this.website = website;
+        this.gcmDeviceID = gcmDeviceID;
     }
 
     public Long getUserId() {
@@ -39,6 +41,14 @@ public class User {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+    
+    public void setGcmDeviceID(String gcmDeviceID) {
+    	this.gcmDeviceID = gcmDeviceID;
+    }
+    
+    public String getGcmDeviceID() {
+    	return gcmDeviceID;
     }
 
     @Override

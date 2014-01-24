@@ -7,6 +7,10 @@ import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.exception.WarriorSignUpException;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.apache.http.HttpResponse;
+import com.csg.warrior.raydotcom.exception.WarriorKeyRequestException;
+import com.csg.warrior.raydotcom.service.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,6 +18,9 @@ import java.io.IOException;
 @Service("warriorService")
 public class WarriorServiceImpl implements WarriorService {
     WarriorConfig warriorConfig = new WarriorConfig();
+    
+    @Autowired private UserService userService;
+    
 
     @Override
     public WarriorKeyStatus getWarriorKeyStatus(String username, String website) throws WarriorRequestException {
@@ -30,17 +37,6 @@ public class WarriorServiceImpl implements WarriorService {
         }
     }
 
-    @Override
-    public void signUpToWarrior(String username) throws WarriorSignUpException {
-        HttpUtils httpUtils = new HttpUtils();
-        httpUtils.addParameter("username", username);
-        httpUtils.addParameter("website", "ray.com");
-        String response = httpUtils.sendPost(warriorConfig.getSignUpRL());
-        if(!isSignUpSuccessFromReply(response)) {
-            throw new WarriorSignUpException("Sign up failed");
-        };
-        // TODO separate causes of exception (failed connection, already registered, ...)
-    }
 
     @Override
     public boolean isSignUpSuccessFromReply(String response) {
@@ -48,5 +44,18 @@ public class WarriorServiceImpl implements WarriorService {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public void createQuadrupleOnWarrior(String username, String gcm_device_id) throws WarriorKeyRequestException{
+    	
+		HttpUtils httpPOST = new HttpUtils();
+		httpPOST.addParameter("username", username);
+		httpPOST.addParameter("website", "ray.com");
+		httpPOST.addParameter("gcm_device_id", gcm_device_id);
+		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL()); 
+		if (response.equals("FAIL")) throw new WarriorKeyRequestException("Sign up failed");
+		
+		// TODO separate causes of exception (failed connection, already registered, ...)
     }
 }

@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return !keyStatus.isWarriorKeyValid();
         }
     }
-
+    
     private UserDetails toSpringSecurityUser(User user, boolean isWarriorLocked) {
         boolean accountEnabled = true;
         boolean accountNonExpired = true;
@@ -85,4 +85,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		else return null;
 	}
+
+	
 }

@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.network.MobileKeyUploader;
 import com.csg.warrior.network.UploadMobileKeyOnClick;
 
 import java.net.HttpURLConnection;
@@ -46,10 +45,10 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
 
     private void updateMobileKeyLabels(View view, MobileKey mobileKey) {
         if(mobileKey != null) {
-            TextView associatedFileView = (TextView) view.findViewById(R.id.associated_file_label);
+            TextView associatedKeyView = (TextView) view.findViewById(R.id.associated_file_label);
             TextView urlView = (TextView) view.findViewById(R.id.url_label);
             TextView keyOwnerView = (TextView) view.findViewById(R.id.key_owner_label);
-            associatedFileView.setText(mobileKey.getAssociatedFile().getAbsolutePath());
+            associatedKeyView.setText(mobileKey.getKey());
             keyOwnerView.setText(mobileKey.getKeyOwner());
             urlView.setText(mobileKey.getUrlForUpload());
         }

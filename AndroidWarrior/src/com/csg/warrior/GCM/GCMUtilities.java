@@ -48,6 +48,8 @@ public final class GCMUtilities {
 					storeRegID(context, regID);
 				}
 				catch (Exception e) {
+					Log.i(TAG+".registerInBackground", e.getMessage());
+					
 					//TODO: next time na 'tong exception handling hahahahaha
 				}
 				return null;
@@ -58,8 +60,7 @@ public final class GCMUtilities {
 	private static void sendRegID(String regID){
 		//TODO: implement on server		
 		Log.i(TAG+".sendRegID",regID);
-		
-		
+
 	}
 	
 	private static void storeRegID(Context context, String regID){
