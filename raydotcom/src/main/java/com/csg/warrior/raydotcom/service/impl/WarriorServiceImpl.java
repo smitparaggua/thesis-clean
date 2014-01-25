@@ -61,4 +61,17 @@ public class WarriorServiceImpl implements WarriorService {
 		
 		// TODO separate causes of exception (failed connection, already registered, ...)
     }
+    
+    @Override
+    public void forwardUnlinkRequestToWARServer(String username, String website) {
+    	// TODO error handling
+    	
+    	HttpUtils httpPOST = new HttpUtils();
+    	httpPOST.addParameter("username", username);
+    	httpPOST.addParameter("website", website);
+		System.out.println("ray.com HTTP posting to WAR server/unlink-mobile:" +
+				"\nusername: " + username +
+				"\nwebsite: " + warriorConfig.getHostWebsite());
+		httpPOST.sendPost(warriorConfig.getWarriorUnlinkMobileURL());    	
+    }
 }

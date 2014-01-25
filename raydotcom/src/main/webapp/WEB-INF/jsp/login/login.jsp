@@ -23,10 +23,10 @@
                 <c:url value="/sign-up" var="signupUrl"/>
                 <td><a href=${signupUrl}>Sign Up</a></td>
             </tr>
-            <%--<tr>--%>
-                <%--<c:url var="unlinkMobileUrl" value="/unlink-mobile"/>--%>
-                <%--<td><a href=${unlinkMobileUrl}>Unlink Mobile</a> (for mobile key users)</td>--%>
-            <%--</tr>--%>
+            <tr>
+                <c:url var="unlinkMobileUrl" value="/unlink-mobile"/>
+                <td><a href=${unlinkMobileUrl}>Unlink Mobile</td>
+            </tr>
         </table>
     </form>
 </body>

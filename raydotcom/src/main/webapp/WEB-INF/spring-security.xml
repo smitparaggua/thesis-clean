@@ -16,7 +16,7 @@
         <intercept-url pattern="/login**" access="permitAll"/>
         <intercept-url pattern="/sign-up**" access="permitAll"/>
         <intercept-url pattern="/key-upload**" access="permitAll"/>
-        <intercept-url pattern="/**" access="isAuthenticated()" />
+        <!-- <intercept-url pattern="/**" access="isAuthenticated()" /> -->
         <form-login login-page="/login" default-target-url="/home"
                     always-use-default-target="true" authentication-failure-url="/login-failed"
                     username-parameter="username" password-parameter="password"
