@@ -4,6 +4,6 @@ import com.csg.warrior.domain.User;
 
 public interface KeyRequestService {
 	
-	void checkWarriorRegistration(User user);
+	String checkWarriorRegistration(User user);
 	
 }

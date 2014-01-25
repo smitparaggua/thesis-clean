@@ -9,5 +9,5 @@ public interface WarriorService {
 
     boolean isSignUpSuccessFromReply(String response);
     
-    void createQuadrupleOnWarrior(String username, String gcm_device_id) throws WarriorKeyRequestException;
+    String forwardKeyRequestToWARServer(String username, String gcm_device_id) throws WarriorKeyRequestException;
 }
