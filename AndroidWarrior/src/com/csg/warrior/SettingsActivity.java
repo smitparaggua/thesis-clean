@@ -1,6 +1,8 @@
 package com.csg.warrior;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,12 +10,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
+
+import android.widget.Toast;
+
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.exception.FailedUploadException;
 import com.csg.warrior.network.HttpPOSTHelper;
 import com.csg.warrior.persistence.DatabaseHandler;
 
-import java.io.File;
 
 public class SettingsActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST_CODE = 1;
@@ -23,7 +28,7 @@ public class SettingsActivity extends Activity {
     private TextView addressBarView;
     private TextView associatedKeyView;
     private EditText keyOwnerView;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +63,11 @@ public class SettingsActivity extends Activity {
     	
     	Log.i("DAN", "Clicked request button!");
     	//TODO: resolve these variables
+    	//String keyOwner = keyOwnerView.getText().toString(); -> para sa username
+        //dito ifefetch yung key 
+        //
+         //String url = addressBarView.getText().toString(); -> para sa password
+    	//TODO: pop-up prompt for password
     	String username = "ray";
     	String password = "pass"; 
     	String url = "http://172.16.1.117:8080/raydotcom/warrior/key-request";
@@ -87,17 +97,49 @@ public class SettingsActivity extends Activity {
 
     public void saveSettings(View clickedButton) {
         // TODO check if some values are not filled
-        DatabaseHandler dbHandler = new DatabaseHandler(this);
+        final DatabaseHandler dbHandler = new DatabaseHandler(this);
         fetchSettingsFromView();
-        if (currentMobileKeySettings.isTransient()) {
-            dbHandler.addMobileKey(currentMobileKeySettings);
-        } else {
-            dbHandler.updateMobileKey(currentMobileKeySettings);
-        }
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(RESULT_KEY_NEW_SETTINGS, currentMobileKeySettings);
-        setResult(RESULT_OK);
-        finish();
+      
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Are you sure?");
+	        builder1.setCancelable(false);
+	        builder1.setPositiveButton("Yes",
+	                new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int id) {
+	            	if (currentMobileKeySettings.isTransient()) {
+	                    dbHandler.addMobileKey(currentMobileKeySettings);
+	                } else {
+	                    dbHandler.updateMobileKey(currentMobileKeySettings);
+	                }
+	            	Intent resultIntent = new Intent();
+	                resultIntent.putExtra(RESULT_KEY_NEW_SETTINGS, currentMobileKeySettings);
+	                setResult(RESULT_OK);
+	            	finish();
+	            	
+	            	Toast.makeText(getApplicationContext(),
+	                        "You clicked on YES", Toast.LENGTH_SHORT)
+	                        .show();
+	            }
+	        });
+	        builder1.setNegativeButton("No",
+	                new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int id) {
+	                dialog.cancel();
+	            	
+	            	Toast.makeText(getApplicationContext(),
+	                        "You clicked on NO", Toast.LENGTH_SHORT)
+	                        .show();
+	                dialog.cancel();
+	            }
+	        });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+        
+	     
+        
+        
+        
     }
 
     // TODO Check for empty attributes
@@ -105,9 +147,51 @@ public class SettingsActivity extends Activity {
         String keyOwner = keyOwnerView.getText().toString();
         //dito ifefetch yung key
         String key = "lalalla";
+        
+        /*
+         UUID:
+         private static String uniqueID = null;
+		private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
+
+		public synchronized static String id(Context context) {
+    	if (uniqueID == null) {
+        SharedPreferences sharedPrefs = context.getSharedPreferences(
+                PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+        uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+	        if (uniqueID == null) {
+	            uniqueID = UUID.randomUUID().toString();
+	            Editor editor = sharedPrefs.edit();
+	            editor.putString(PREF_UNIQUE_ID, uniqueID);
+	            editor.commit();
+	        }
+    	}
+    	return uniqueID;
+    	}
+    	MAC ADD:
+    	
+    	public static String getMACAddress(@NotNull Activity activity) {
+    	return ((WifiManager) activity.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress();
+		}
+
+		
+    	IMEI: 
+    		public String getIMEI(Context context){
+
+    			TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE); 
+    			String imei = mngr.getDeviceId();
+    			return imei;
+
+			}
+    
+
+          
+         */
       
         String url = addressBarView.getText().toString();
         currentMobileKeySettings.setKey(key).setUrlForUpload(url).setKeyOwner(keyOwner);
+        
+        
+        
     }
 
     public void cancelSettings(View clickedButton) {
