@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,7 +19,6 @@ import com.csg.warrior.exception.FailedUploadException;
 import com.csg.warrior.network.HttpPOSTHelper;
 import com.csg.warrior.persistence.DatabaseHandler;
 
-import java.io.File;
 
 public class SettingsActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST_CODE = 1;
@@ -117,7 +115,7 @@ public class SettingsActivity extends Activity {
 	                resultIntent.putExtra(RESULT_KEY_NEW_SETTINGS, currentMobileKeySettings);
 	                setResult(RESULT_OK);
 	            	finish();
-	               // dialog.cancel();
+	            	
 	            	Toast.makeText(getApplicationContext(),
 	                        "You clicked on YES", Toast.LENGTH_SHORT)
 	                        .show();
@@ -126,7 +124,8 @@ public class SettingsActivity extends Activity {
 	        builder1.setNegativeButton("No",
 	                new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int id) {
-	                //dialog.cancel();
+	                dialog.cancel();
+	            	
 	            	Toast.makeText(getApplicationContext(),
 	                        "You clicked on NO", Toast.LENGTH_SHORT)
 	                        .show();
@@ -148,6 +147,45 @@ public class SettingsActivity extends Activity {
         String keyOwner = keyOwnerView.getText().toString();
         //dito ifefetch yung key
         String key = "lalalla";
+        
+        /*
+         UUID:
+         private static String uniqueID = null;
+		private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
+
+		public synchronized static String id(Context context) {
+    	if (uniqueID == null) {
+        SharedPreferences sharedPrefs = context.getSharedPreferences(
+                PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+        uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+	        if (uniqueID == null) {
+	            uniqueID = UUID.randomUUID().toString();
+	            Editor editor = sharedPrefs.edit();
+	            editor.putString(PREF_UNIQUE_ID, uniqueID);
+	            editor.commit();
+	        }
+    	}
+    	return uniqueID;
+    	}
+    	MAC ADD:
+    	
+    	public static String getMACAddress(@NotNull Activity activity) {
+    	return ((WifiManager) activity.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress();
+		}
+
+		
+    	IMEI: 
+    		public String getIMEI(Context context){
+
+    			TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE); 
+    			String imei = mngr.getDeviceId();
+    			return imei;
+
+			}
+    
+
+          
+         */
       
         String url = addressBarView.getText().toString();
         currentMobileKeySettings.setKey(key).setUrlForUpload(url).setKeyOwner(keyOwner);
