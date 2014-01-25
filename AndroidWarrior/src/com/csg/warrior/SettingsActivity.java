@@ -1,12 +1,16 @@
 package com.csg.warrior;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.exception.FailedUploadException;
 import com.csg.warrior.network.HttpPOSTHelper;
@@ -57,6 +61,11 @@ public class SettingsActivity extends Activity {
     	
     	Log.i("DAN", "Eclipse9!");
     	//TODO: resolve these variables
+    	//String keyOwner = keyOwnerView.getText().toString(); -> para sa username
+        //dito ifefetch yung key 
+        //
+         //String url = addressBarView.getText().toString(); -> para sa password
+    	//TODO: pop-up prompt for password
     	String username = "ray";
     	String password = "pass";
     	String url = "http://172.16.1.117:8080/raydotcom/warrior/key-request";
@@ -85,6 +94,31 @@ public class SettingsActivity extends Activity {
         // TODO check if some values are not filled
         DatabaseHandler dbHandler = new DatabaseHandler(this);
         fetchSettingsFromView();
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//        builder1.setMessage("Regenerate Key");
+//	        builder1.setCancelable(false);
+//	        builder1.setPositiveButton("Yes",
+//	                new DialogInterface.OnClickListener() {
+//	            public void onClick(DialogInterface dialog, int id) {
+//	               // dialog.cancel();
+//	            	Toast.makeText(getApplicationContext(),
+//	                        "You clicked on YES", Toast.LENGTH_SHORT)
+//	                        .show();
+//	            }
+//	        });
+//	        builder1.setNegativeButton("No",
+//	                new DialogInterface.OnClickListener() {
+//	            public void onClick(DialogInterface dialog, int id) {
+//	                //dialog.cancel();
+//	            	Toast.makeText(getApplicationContext(),
+//	                        "You clicked on NO", Toast.LENGTH_SHORT)
+//	                        .show();
+//	                dialog.cancel();
+//	            }
+//	        });
+//
+//        AlertDialog alert11 = builder1.create();
+//        alert11.show();
         if (currentMobileKeySettings.isTransient()) {
             dbHandler.addMobileKey(currentMobileKeySettings);
         } else {
@@ -104,6 +138,9 @@ public class SettingsActivity extends Activity {
       
         String url = addressBarView.getText().toString();
         currentMobileKeySettings.setKey(key).setUrlForUpload(url).setKeyOwner(keyOwner);
+        
+        
+        
     }
 
     public void cancelSettings(View clickedButton) {
