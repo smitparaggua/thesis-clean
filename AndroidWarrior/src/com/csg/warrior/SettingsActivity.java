@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
+
+import android.widget.Toast;
 
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.exception.FailedUploadException;
@@ -27,7 +30,7 @@ public class SettingsActivity extends Activity {
     private TextView addressBarView;
     private TextView associatedKeyView;
     private EditText keyOwnerView;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,42 +99,48 @@ public class SettingsActivity extends Activity {
 
     public void saveSettings(View clickedButton) {
         // TODO check if some values are not filled
-        DatabaseHandler dbHandler = new DatabaseHandler(this);
+        final DatabaseHandler dbHandler = new DatabaseHandler(this);
         fetchSettingsFromView();
-//        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-//        builder1.setMessage("Regenerate Key");
-//	        builder1.setCancelable(false);
-//	        builder1.setPositiveButton("Yes",
-//	                new DialogInterface.OnClickListener() {
-//	            public void onClick(DialogInterface dialog, int id) {
-//	               // dialog.cancel();
-//	            	Toast.makeText(getApplicationContext(),
-//	                        "You clicked on YES", Toast.LENGTH_SHORT)
-//	                        .show();
-//	            }
-//	        });
-//	        builder1.setNegativeButton("No",
-//	                new DialogInterface.OnClickListener() {
-//	            public void onClick(DialogInterface dialog, int id) {
-//	                //dialog.cancel();
-//	            	Toast.makeText(getApplicationContext(),
-//	                        "You clicked on NO", Toast.LENGTH_SHORT)
-//	                        .show();
-//	                dialog.cancel();
-//	            }
-//	        });
-//
-//        AlertDialog alert11 = builder1.create();
-//        alert11.show();
-        if (currentMobileKeySettings.isTransient()) {
-            dbHandler.addMobileKey(currentMobileKeySettings);
-        } else {
-            dbHandler.updateMobileKey(currentMobileKeySettings);
-        }
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(RESULT_KEY_NEW_SETTINGS, currentMobileKeySettings);
-        setResult(RESULT_OK);
-        finish();
+      
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Are you sure?");
+	        builder1.setCancelable(false);
+	        builder1.setPositiveButton("Yes",
+	                new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int id) {
+	            	if (currentMobileKeySettings.isTransient()) {
+	                    dbHandler.addMobileKey(currentMobileKeySettings);
+	                } else {
+	                    dbHandler.updateMobileKey(currentMobileKeySettings);
+	                }
+	            	Intent resultIntent = new Intent();
+	                resultIntent.putExtra(RESULT_KEY_NEW_SETTINGS, currentMobileKeySettings);
+	                setResult(RESULT_OK);
+	            	finish();
+	               // dialog.cancel();
+	            	Toast.makeText(getApplicationContext(),
+	                        "You clicked on YES", Toast.LENGTH_SHORT)
+	                        .show();
+	            }
+	        });
+	        builder1.setNegativeButton("No",
+	                new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int id) {
+	                //dialog.cancel();
+	            	Toast.makeText(getApplicationContext(),
+	                        "You clicked on NO", Toast.LENGTH_SHORT)
+	                        .show();
+	                dialog.cancel();
+	            }
+	        });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+        
+	     
+        
+        
+        
     }
 
     // TODO Check for empty attributes
