@@ -31,10 +31,8 @@ public class HttpPOSTHelper {
 		DataOutputStream writer = null;
         BufferedReader reader = null;
         String response = "";
-        
-        
+
         try {
-        	
         	URL url = new URL(param_url);
         	HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
         	connection.setRequestMethod("POST");
@@ -49,21 +47,20 @@ public class HttpPOSTHelper {
             
             response = readServerResponse(reader);
             
-            connection.disconnect();
-            
+            connection.disconnect(); 
         } catch (MalformedURLException e) {
-        	Log.i("DAN", "Class: " + e.getClass() +
+        	Log.i("DAN1", "Class: " + e.getClass() +
         			"\n Description" + e.getMessage());
         	throw new FailedUploadException("Malformed URL", e);            
         } catch (ProtocolException e) {
-        	Log.i("DAN", "Class: " + e.getClass() +
-        			"\n Description: " + e.getMessage());
+        	Log.i("DAN2", "Class: " + e.getClass() +
+        			"\nDescription: " + e.getMessage());
             throw new FailedUploadException("Invalid Protocol", e);
 
         } catch (IOException e) {
         	 // TODO note: IOException may result from connection problem or error in reading the key from file. Fix this
-        	Log.i("DAN", "Class: " + e.getClass() +
-        			"\n Description" + e.getMessage());           
+        	Log.i("DAN3", "Class: " + e.getClass() +
+        			"\nDescription" + e.getMessage());           
             throw new FailedUploadException("Connection Problem", e);
         } finally {
             closeIoStream(writer, reader);

@@ -14,4 +14,12 @@ public class WarriorConfig {
     public String getWarriorKeyRequestURL() {
     	return "http://localhost:8080/testserver/key-request";
     }
+    
+    public String getWarriorUnlinkMobileURL() {
+    	return "http://localhost:8080/testserver/unlink-mobile";
+    }
+    
+    public String getHostWebsite() {
+    	return "ray.com";
+    }
 }

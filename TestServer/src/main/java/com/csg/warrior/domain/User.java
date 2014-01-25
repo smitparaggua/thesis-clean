@@ -11,12 +11,16 @@ public class User {
     private Long userId;
     private String username;
     private String website;
-    private String gcmDeviceID;
+    private String deviceID;
     
-    public User(String username, String website, String gcmDeviceID) {
+    public User() {
+    	
+    }
+    
+    public User(String username, String website, String deviceID) {
         this.username = username;
         this.website = website;
-        this.gcmDeviceID = gcmDeviceID;
+        this.deviceID = deviceID;
     }
 
     public Long getUserId() {
@@ -43,12 +47,12 @@ public class User {
         this.website = website;
     }
     
-    public void setGcmDeviceID(String gcmDeviceID) {
-    	this.gcmDeviceID = gcmDeviceID;
+    public void setDeviceID(String gcmDeviceID) {
+    	this.deviceID = gcmDeviceID;
     }
     
-    public String getGcmDeviceID() {
-    	return gcmDeviceID;
+    public String getDeviceID() {
+    	return deviceID;
     }
 
     @Override

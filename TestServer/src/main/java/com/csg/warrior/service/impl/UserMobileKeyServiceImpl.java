@@ -29,7 +29,7 @@ public class UserMobileKeyServiceImpl implements UserMobileKeyService {
 
     @Override
     public MobileKey getMobileKeyOfUser(User user) {
-        String hql = "FROM UserMobileKey WHERE user := user";
+        String hql = "FROM UserMobileKey WHERE user = :user";
         Map<String, Object> queryParameters = new HashMap<String, Object>();
         queryParameters.put("user", user);
         UserMobileKey userMobileKey = userMobileKeyDao.queryUniqueResult(hql, queryParameters);

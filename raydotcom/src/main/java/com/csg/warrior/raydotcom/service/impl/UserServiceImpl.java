@@ -86,6 +86,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		else return null;
 	}
+	
+	@Override
+	public boolean verifyUserPass(User user) {
+		if (getUser(user.getUsername(), user.getPassword()) != null) return true;
+		else return false;
+	}
 
 	
 }

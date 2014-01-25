@@ -12,4 +12,6 @@ public interface UserService {
     void setWarriorService(WarriorService warriorService);
     
     User getUser(String username, String password);
+    
+    boolean verifyUserPass(User user);
 }

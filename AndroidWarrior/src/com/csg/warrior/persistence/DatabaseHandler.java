@@ -87,9 +87,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     
     public void updateMobileKey(MobileKey mobileKey) {
         SQLiteDatabase db = this.getWritableDatabase();
-//        String updateQuery = "UPDATE " + TABLE_TRIPLES
-//                + " SET " + COLUMN_TRIPLES_USERNAME + "=\"?\", " + COLUMN_TRIPLES_ASSOCIATED_FILE + "=\"?\", " + COLUMN_TRIPLES_URL + "=\"?\" "
-//                + " WHERE " + COLUMN_TRIPLES_ID + "=\"?\"";
         String updateQuery = "UPDATE triples SET username=?, key=?, url=? WHERE tripleid="+mobileKey.getDatabaseId();
         String[] queryParameters = new String[] {mobileKey.getKeyOwner(), mobileKey.getKey(), mobileKey.getUrlForUpload()};
         Cursor cursor = db.rawQuery(updateQuery, queryParameters);
