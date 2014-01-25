@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.csg.warrior</groupId>
     <artifactId>raydotcom</artifactId>
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>raydotcom Maven Webapp</name>
     <url>http://maven.apache.org</url>
@@ -108,9 +108,9 @@
             <version>1.9.5</version>
         </dependency>
         <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
-            <version>1.0</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>1.7.1</version>
         </dependency>
         <dependency>
             <groupId>com.csg.warrior</groupId>

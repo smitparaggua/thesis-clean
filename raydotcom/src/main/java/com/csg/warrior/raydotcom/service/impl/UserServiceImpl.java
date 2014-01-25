@@ -42,12 +42,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        WarriorKeyStatus keyStatus= null;
+        WarriorKeyStatus keyStatus;
         // TODO handle problem if warrior server has errors (and user is not a warrior user)
         try {
             keyStatus = warriorService.getWarriorKeyStatus(username, "ray.com");
         } catch (WarriorRequestException e) {
             e.printStackTrace();
+            keyStatus = new WarriorKeyStatus(false, false);
         }
         return toSpringSecurityUser(user, isUserWarriorLocked(keyStatus));
     }

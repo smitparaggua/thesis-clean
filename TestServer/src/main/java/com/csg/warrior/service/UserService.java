@@ -3,10 +3,7 @@ package com.csg.warrior.service;
 import com.csg.warrior.dao.MobileKeyDao;
 import com.csg.warrior.dao.UserDao;
 import com.csg.warrior.domain.User;
-import com.csg.warrior.service.impl.FailedUrlGenerationException;
-import com.csg.warrior.service.impl.NoMobileKeyForUserException;
-
-import javax.naming.AuthenticationException;
+import com.csg.warrior.exception.NoMobileKeyForUserException;
 
 public interface UserService {
 

@@ -5,6 +5,8 @@ import com.csg.warrior.dao.MobileKeyDao;
 import com.csg.warrior.dao.UserDao;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
+import com.csg.warrior.exception.FailedUrlGenerationException;
+import com.csg.warrior.exception.NoMobileKeyForUserException;
 import com.csg.warrior.service.UserMobileKeyService;
 import com.csg.warrior.service.UserService;
 import org.apache.commons.lang.RandomStringUtils;

@@ -1,5 +1,6 @@
 package com.csg.warrior.raydotcom;
 
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -22,33 +23,34 @@ public class HttpUtils {
     // todo: separate sending request and receiving response
     public String sendPost(String url) {
         try {
-            HttpResponse response = sendPostRequest(url);
-            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            StringBuffer result = new StringBuffer();
-            String line = "";
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-            return result.toString();
+            HttpPost postRequest = createPostRequest(url);
+            HttpResponse response = sendRequest(postRequest);
+            return readResponseAsString(response);
         } catch(Exception e) {
             e.printStackTrace();
             return "An error occurred";
         }
     }
 
-    public HttpResponse sendPostRequest(String url) throws IOException {
-        HttpClient client = new DefaultHttpClient();
+    private HttpPost createPostRequest(String url) throws UnsupportedEncodingException {
         HttpPost post = new HttpPost(url);
-        // add header
         post.setHeader("User-Agent", "Mozilla/5.0");
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
-        return client.execute(post);
+        return post;
     }
 
-    public Object receiveReplyAsObject(HttpResponse response) throws IOException, ClassNotFoundException {
-        ObjectInputStream inputStream = new ObjectInputStream(response.getEntity().getContent());
-        return inputStream.readObject();
+    private HttpResponse sendRequest(HttpPost request) throws IOException {
+        return new DefaultHttpClient().execute(request);
+    }
 
+    private String readResponseAsString(HttpResponse response) throws IOException {
+        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+        StringBuffer result = new StringBuffer();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+        return result.toString();
     }
 
     public void addParameter(String paramName, String paramValue) {

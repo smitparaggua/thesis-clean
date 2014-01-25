@@ -1,4 +1,4 @@
-package com.csg.warrior.service.impl;
+package com.csg.warrior.exception;
 
 public class NoMobileKeyForUserException extends Throwable {
 
