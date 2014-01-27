@@ -1,7 +1,6 @@
 package com.csg.warrior.service.impl;
 
 import com.csg.warrior.KeyStringGenerator;
-import com.csg.warrior.ServerConstants;
 import com.csg.warrior.dao.UserDao;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
@@ -37,9 +36,9 @@ public class KeyRequestServiceImpl implements KeyRequestService {
 		if(queriedUser == null) {
 			System.out.println("WAR server keyrequest 1");
 			MobileKey mobileKey = new MobileKey(KeyStringGenerator.generateKeyString());
-			userMobileKeyService.save(param_user, mobileKey);
+            param_user.setMobileKey(mobileKey);
+            userDao.save(param_user);
 			return mobileKey.getKeyString();
-			//gcm_sendWARKey(param_user, mobilekey);
 		}
 		else if (queriedUser.getDeviceID().equals(param_user.getDeviceID())) {
 			System.out.println("WAR server keyrequest 2");
@@ -50,8 +49,7 @@ public class KeyRequestServiceImpl implements KeyRequestService {
 								"\nGCM Device ID: " + queriedUser.getDeviceID() +
 								"\nWAR key: " + mobileKey.getKeyString());
 			return mobileKey.getKeyString();
-			//gcm_sendWARKey(param_user, mobileKey);
-		}   
+		}
 		else {
 			System.out.println("WAR SERVER Queried user:" +
 					"\nUsername: " + queriedUser.getUsername() +

@@ -65,14 +65,14 @@ public class UserServiceImpl implements UserService {
 //        }
 //    }
 
-    // TODO create a better approach for host address
-    private URL generateUnlinkUrl(String username) throws FailedUrlGenerationException {
-        String unlinkUrlId = RandomStringUtils.randomAlphanumeric(32);
-        String hostAddress = getCurrentHostAddress();
-        String url = String.format("%s/%s/%s", ServerConstants.UNLINK_MOBILE_KEY_URL, username, unlinkUrlId);
-        URL unlinkUrl = assembleUrl(hostAddress, url);
-        return unlinkUrl;
-    }
+//    // TODO create a better approach for host address
+//    private URL generateUnlinkUrl(String username) throws FailedUrlGenerationException {
+//        String unlinkUrlId = RandomStringUtils.randomAlphanumeric(32);
+//        String hostAddress = getCurrentHostAddress();
+//        String url = String.format("%s/%s/%s", ServerConstants.UNLINK_MOBILE_KEY_URL, username, unlinkUrlId);
+//        URL unlinkUrl = assembleUrl(hostAddress, url);
+//        return unlinkUrl;
+//    }
 
     private URL assembleUrl(String hostAddress, String url) throws FailedUrlGenerationException {
         try {
