@@ -1,10 +1,10 @@
-package com.csg.warrior.network;
+package com.csg.warrior.android.network;
 
 import android.content.Context;
 import android.view.View;
-import com.csg.warrior.ToastUtils;
-import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.exception.FailedUploadException;
+import com.csg.warrior.android.ToastUtils;
+import com.csg.warrior.android.domain.MobileKey;
+import com.csg.warrior.android.exception.FailedUploadException;
 
 public class UploadMobileKeyOnClick implements View.OnClickListener{
     MobileKey mobileKey;

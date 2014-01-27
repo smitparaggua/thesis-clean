@@ -1,6 +1,4 @@
-package com.csg.warrior.exception;
-
-import java.io.IOException;
+package com.csg.warrior.android.exception;
 
 public class InvalidAssociatedFileException extends Exception {
 

@@ -1,4 +1,4 @@
-package com.csg.warrior.network;
+package com.csg.warrior.android.network;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

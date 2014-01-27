@@ -1,12 +1,13 @@
 package com.csg.warrior.network;
 
+import com.csg.warrior.android.network.HttpParameterBuilder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HttpParameterParserTest {
-    HttpParameterParser httpParameterParser = new HttpParameterParser();
+    HttpParameterBuilder httpParameterParser = new HttpParameterBuilder();
 
     @Test
     public void addingNewParameters() {

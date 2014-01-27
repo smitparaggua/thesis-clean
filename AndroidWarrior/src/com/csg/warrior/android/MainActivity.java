@@ -1,26 +1,17 @@
 //testing out git!!!!1
 //dummy commit
 
-package com.csg.warrior;
+package com.csg.warrior.android;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
-
-import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.persistence.DatabaseHandler;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.csg.warrior.android.domain.MobileKey;
+import com.csg.warrior.android.persistence.DatabaseHandler;
+import com.csg.warrior.R;
 
 import java.util.List;
 

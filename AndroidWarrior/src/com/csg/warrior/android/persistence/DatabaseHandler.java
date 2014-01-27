@@ -1,10 +1,9 @@
-package com.csg.warrior.persistence;
+package com.csg.warrior.android.persistence;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.csg.warrior.domain.MobileKey;
+import com.csg.warrior.android.domain.MobileKey;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,6 +1,5 @@
-package com.csg.warrior.domain;
+package com.csg.warrior.android.domain;
 
-import java.io.File;
 import java.io.Serializable;
 
 public class MobileKey implements Serializable {

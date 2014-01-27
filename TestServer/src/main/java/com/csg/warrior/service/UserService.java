@@ -1,7 +1,9 @@
 package com.csg.warrior.service;
 
+import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.dao.MobileKeyDao;
 import com.csg.warrior.dao.UserDao;
+import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
 import com.csg.warrior.exception.NoMobileKeyForUserException;
 
@@ -19,7 +21,9 @@ public interface UserService {
 
     void setMobileKeyDao(MobileKeyDao mobileKeyDao);
 
-    void setUserMobileKeyService(UserMobileKeyService userMobileKeyService);
-
     User getUser(String username, String website);
+
+    MobileKey getMobileKeyOfUser(String username, String website);
+
+    WarriorKeyStatus reportMobileKeyStatusOf(User keyOwner, boolean invalidateForLogin);
 }

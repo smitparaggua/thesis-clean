@@ -1,4 +1,4 @@
-package com.csg.warrior;
+package com.csg.warrior.android;
 
 import java.io.Closeable;
 import java.io.IOException;

@@ -1,9 +1,6 @@
 package com.csg.warrior.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -13,8 +10,9 @@ public class User {
     private String username;
     private String website;
     private String deviceID;
+    @OneToOne
     private MobileKey mobileKey;
-    
+
     public User() {  }
     
     public User(String username, String website, String deviceID) {
@@ -26,6 +24,11 @@ public class User {
     @Transient
     public boolean isMobileKeyTransient() {
         return mobileKey.isTransient();
+    }
+
+    @Transient
+    public boolean isMobileKeyValid() {
+        return mobileKey.isValid();
     }
 
     public Long getUserId() {
@@ -71,5 +74,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "username='" + username +  "', website=" + website + "}";
+    }
+
+    @Transient
+    public String getMobileKeyString() {
+        return mobileKey.getKeyString();
     }
 }

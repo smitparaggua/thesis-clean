@@ -1,4 +1,4 @@
-package com.csg.warrior;
+package com.csg.warrior.android;
 
 import android.content.Context;
 import android.widget.Toast;

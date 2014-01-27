@@ -5,7 +5,6 @@ import com.csg.warrior.dao.UserDao;
 import com.csg.warrior.domain.MobileKey;
 import com.csg.warrior.domain.User;
 import com.csg.warrior.service.KeyRequestService;
-import com.csg.warrior.service.UserMobileKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class KeyRequestServiceImpl implements KeyRequestService {
     @Autowired private UserDao userDao;
-	@Autowired private UserMobileKeyService userMobileKeyService;
-	
+
 	@Override
 	public String checkWarriorRegistration(User param_user) {
 		
@@ -42,13 +40,12 @@ public class KeyRequestServiceImpl implements KeyRequestService {
 		}
 		else if (queriedUser.getDeviceID().equals(param_user.getDeviceID())) {
 			System.out.println("WAR server keyrequest 2");
-			MobileKey mobileKey = userMobileKeyService.getMobileKeyOfUser(queriedUser);
 			System.out.println("This device already WAR registered." +
 								"\nUsername: " + queriedUser.getUsername() +
 								"\nWebsite: " + queriedUser.getWebsite() +
 								"\nGCM Device ID: " + queriedUser.getDeviceID() +
-								"\nWAR key: " + mobileKey.getKeyString());
-			return mobileKey.getKeyString();
+								"\nWAR key: " + queriedUser.getMobileKeyString());
+			return queriedUser.getMobileKeyString();
 		}
 		else {
 			System.out.println("WAR SERVER Queried user:" +

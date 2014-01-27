@@ -1,4 +1,4 @@
-package com.csg.warrior.network;
+package com.csg.warrior.android.network;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -11,8 +11,8 @@ import java.net.URL;
 
 import android.util.Log;
 
-import com.csg.warrior.IOUtils;
-import com.csg.warrior.exception.FailedUploadException;
+import com.csg.warrior.android.IOUtils;
+import com.csg.warrior.android.exception.FailedUploadException;
 
 public class HttpPOSTHelper {
 	

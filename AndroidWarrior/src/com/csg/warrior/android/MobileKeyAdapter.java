@@ -1,4 +1,4 @@
-package com.csg.warrior;
+package com.csg.warrior.android;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.network.UploadMobileKeyOnClick;
+import com.csg.warrior.android.domain.MobileKey;
+import com.csg.warrior.android.network.UploadMobileKeyOnClick;
+import com.csg.warrior.R;
 
-import java.net.HttpURLConnection;
 import java.util.List;
 
 public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {

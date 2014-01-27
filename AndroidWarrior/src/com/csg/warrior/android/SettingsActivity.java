@@ -1,4 +1,4 @@
-package com.csg.warrior;
+package com.csg.warrior.android;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,10 +14,11 @@ import android.widget.TextView;
 
 import android.widget.Toast;
 
-import com.csg.warrior.domain.MobileKey;
-import com.csg.warrior.exception.FailedUploadException;
-import com.csg.warrior.network.HttpPOSTHelper;
-import com.csg.warrior.persistence.DatabaseHandler;
+import com.csg.warrior.android.persistence.DatabaseHandler;
+import com.csg.warrior.R;
+import com.csg.warrior.android.domain.MobileKey;
+import com.csg.warrior.android.exception.FailedUploadException;
+import com.csg.warrior.android.network.HttpPOSTHelper;
 
 
 public class SettingsActivity extends Activity {

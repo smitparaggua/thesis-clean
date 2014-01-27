@@ -2,7 +2,6 @@ package com.csg.warrior.controller;
 
 import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.domain.User;
-import com.csg.warrior.service.UserMobileKeyService;
 import com.csg.warrior.service.UserService;
 import com.csg.warrior.exception.NoMobileKeyForUserException;
 import com.google.gson.Gson;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
     @Autowired private UserService userService;
-    @Autowired private UserMobileKeyService userMobileKeyService;
 
     // TODO consider using ModelAttribute (too many parameters)
     @RequestMapping(value = "/key-upload", method = RequestMethod.POST)
@@ -39,15 +37,11 @@ public class LoginController {
                                     @RequestParam("website") String website,
                                     @RequestParam("invalidateForLogin") boolean invalidateForLogin) {
         User keyOwner = userService.getUser(username, website);
-        WarriorKeyStatus status = userMobileKeyService.reportMobileKeyStatusOf(keyOwner, invalidateForLogin);
+        WarriorKeyStatus status = userService.reportMobileKeyStatusOf(keyOwner, invalidateForLogin);
         return new Gson().toJson(status);
     }
 
     public void setUserService(UserService userService) {
         this.userService = userService;
-    }
-
-    public void setUserMobileKeyService(UserMobileKeyService userMobileKeyService) {
-        this.userMobileKeyService = userMobileKeyService;
     }
 }

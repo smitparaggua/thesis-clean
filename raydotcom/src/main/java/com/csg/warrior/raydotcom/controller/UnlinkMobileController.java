@@ -31,6 +31,6 @@ public class UnlinkMobileController {
 			//TODO send email?
 			warriorService.forwardUnlinkRequestToWARServer(user.getUsername(), warriorConfig.getHostWebsite());
 		}
-		return "";
+		return "redirect:/login";
 	}
 }
