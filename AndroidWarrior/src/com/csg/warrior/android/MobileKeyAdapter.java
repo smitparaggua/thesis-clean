@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import com.csg.warrior.android.domain.MobileKey;
 import com.csg.warrior.android.network.UploadMobileKeyOnClick;
-import com.csg.warrior.R;
+import com.csg.warrior.android.R;
 
 import java.util.List;
 

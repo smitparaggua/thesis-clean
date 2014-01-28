@@ -1,6 +1,5 @@
 package com.csg.warrior.raydotcom.controller;
 
-import com.csg.warrior.raydotcom.exception.WarriorKeyRequestException;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,11 @@ public class WarriorKeyRequestController {
     	 */
     	System.out.println("ray.com: WarriorKeyRequestController");
     	if (userService.getUser(username, password) != null) {
-    		try {
-    			return warriorService.forwardKeyRequestToWARServer(username, device_id);
-    		} catch(WarriorKeyRequestException e) {
-    			return "Sign-up Failed";
-    		}
+   			return warriorService.forwardKeyRequestToWARServer(username, device_id);
     	}
-    	else return "Username and password mismatch";
+    	else {
+    		System.out.println("ray.com: username and password mismatch");
+    		return "From ray.com: Username and password mismatch";
+    	}
     }
 }

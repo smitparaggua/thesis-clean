@@ -35,7 +35,7 @@ public class WarriorServiceImpl implements WarriorService {
     }
     
     @Override
-    public String forwardKeyRequestToWARServer(String username, String device_id) throws WarriorKeyRequestException{
+    public String forwardKeyRequestToWARServer(String username, String device_id){
 		HttpUtils httpPOST = new HttpUtils();
 		httpPOST.addParameter("username", username);
 		httpPOST.addParameter("website", "ray.com");
@@ -45,6 +45,7 @@ public class WarriorServiceImpl implements WarriorService {
 							"\nwebsite: " + warriorConfig.getHostWebsite() +
 							"\ndevice_id: " + device_id);
 		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL()); 
+		
 		return response;
 		// TODO separate causes of exception (failed connection, already registered, ...)
     }
@@ -52,7 +53,6 @@ public class WarriorServiceImpl implements WarriorService {
     @Override
     public void forwardUnlinkRequestToWARServer(String username, String website) {
     	// TODO error handling
-    	
     	HttpUtils httpPOST = new HttpUtils();
     	httpPOST.addParameter("username", username);
     	httpPOST.addParameter("website", website);

@@ -9,7 +9,7 @@ public interface WarriorService {
 
     boolean isSignUpSuccessFromReply(String response);
     
-    String forwardKeyRequestToWARServer(String username, String device_id) throws WarriorKeyRequestException;
+    String forwardKeyRequestToWARServer(String username, String device_id);
     
     void forwardUnlinkRequestToWARServer(String username, String website);
 }
