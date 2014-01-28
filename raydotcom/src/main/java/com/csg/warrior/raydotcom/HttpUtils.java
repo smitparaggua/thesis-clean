@@ -25,13 +25,26 @@ public class HttpUtils {
         try {
             HttpPost postRequest = createPostRequest(url);
             HttpResponse response = sendRequest(postRequest);
-            return readResponseAsString(response);
+            return check404(response);
         } catch(Exception e) {
             e.printStackTrace();
             return "An error occurred";
         }
     }
 
+    private String check404(HttpResponse response) {
+    	if (response.getStatusLine().getStatusCode() == 404) return "BLADE Server down";
+    	else {
+    		try {
+    			return readResponseAsString(response);
+    		}
+    		catch(Exception e) {
+    			e.printStackTrace();
+    			return "An error occured";
+    		}
+    	}
+    }
+    
     private HttpPost createPostRequest(String url) throws UnsupportedEncodingException {
         HttpPost post = new HttpPost(url);
         post.setHeader("User-Agent", "Mozilla/5.0");

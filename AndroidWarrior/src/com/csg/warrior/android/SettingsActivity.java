@@ -88,13 +88,11 @@ public class SettingsActivity extends Activity {
     	String response = "";
     	try {
     		response = httpPOST.sendPOST(url);
-    		Log.i("DAN.SettingsActivity.requestWarriorKey", "7Received key: " + response);
+    		Log.i("DAN.SettingsActivity.requestWarriorKey", response);
     	}
     	catch (FailedUploadException e) {
     		Log.i("DAN.SettingsActivity.requestWarriorKey", e.getMessage());
     	}
-    	
-    	//TODO: handling of http response
     }
     
     

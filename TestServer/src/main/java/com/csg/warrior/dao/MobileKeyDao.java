@@ -8,5 +8,5 @@ public interface MobileKeyDao {
 
     void save(MobileKey mobileKey);
 
-    void delete();
+    void delete(MobileKey mobileKey);
 }

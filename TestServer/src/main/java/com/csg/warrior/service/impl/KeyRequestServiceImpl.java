@@ -32,29 +32,23 @@ public class KeyRequestServiceImpl implements KeyRequestService {
         User queriedUser = userDao.getUser(param_user.getUsername(), param_user.getWebsite());
         
 		if(queriedUser == null) {
-			System.out.println("WAR server keyrequest 1");
+			System.out.println("BLADE Server: device not yet BLADE registered");
 			MobileKey mobileKey = new MobileKey(KeyStringGenerator.generateKeyString());
             param_user.setMobileKey(mobileKey);
             userDao.save(param_user);
 			return mobileKey.getKeyString();
 		}
 		else if (queriedUser.getDeviceID().equals(param_user.getDeviceID())) {
-			System.out.println("WAR server keyrequest 2");
-			System.out.println("This device already WAR registered." +
-								"\nUsername: " + queriedUser.getUsername() +
-								"\nWebsite: " + queriedUser.getWebsite() +
-								"\nGCM Device ID: " + queriedUser.getDeviceID() +
-								"\nWAR key: " + queriedUser.getMobileKeyString());
-			return queriedUser.getMobileKeyString();
+			System.out.println("BLADE Server: device already BLADE registered");
+			return "From BLADE Server: device already BLADE registered";
 		}
 		else {
-			System.out.println("WAR SERVER Queried user:" +
-					"\nUsername: " + queriedUser.getUsername() +
-					"\nWebsite: " + queriedUser.getWebsite() +
-					"\nGCM Device ID: " + queriedUser.getDeviceID());
+			System.out.println("BLADE Server: queried user:" +
+					"\t\nUsername: " + queriedUser.getUsername() +
+					"\t\nWebsite: " + queriedUser.getWebsite() +
+					"\t\nBLADE UUID: " + queriedUser.getDeviceID());
 			
-			System.out.println("WAR server keyrequest 3");
-			return "You are an impostor.";			
+			return "From BLADE Server: this is not the registered device";			
 			// TODO: action pag impostor (mismatch GCM device id)
 		}
 	}
