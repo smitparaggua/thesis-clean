@@ -3,7 +3,7 @@ package com.csg.warrior.android.domain;
 import java.io.Serializable;
 
 public class MobileKey implements Serializable {
-    private long databaseId;
+	private long databaseId;
     private String keyOwner;
     private String Key;
     private String urlForUpload;

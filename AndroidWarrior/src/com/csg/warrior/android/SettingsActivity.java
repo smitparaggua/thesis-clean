@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csg.warrior.android.persistence.DatabaseHandler;
-import com.csg.warrior.R;
+import com.csg.warrior.android.R;
 import com.csg.warrior.android.domain.MobileKey;
 import com.csg.warrior.android.exception.FailedUploadException;
 import com.csg.warrior.android.network.HttpPOSTHelper;
@@ -67,15 +69,16 @@ public class SettingsActivity extends Activity {
     	//String keyOwner = keyOwnerView.getText().toString(); -> para sa username
         //dito ifefetch yung key 
         //
-         //String url = addressBarView.getText().toString(); -> para sa password
+        //String url = addressBarView.getText().toString(); -> para sa password
     	//TODO: pop-up prompt for password
+    	
     	String username = "ray";
     	String password = "pass"; 
     	String url = "http://172.16.1.117:8080/raydotcom/warrior/key-request";
+    	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);    	
+    	String device_id = sharedPref.getString("BLADE_UUID", "No BLADE UUID upon installation?");
     	
     	//TODO: pop up pag pinindot yung request "Request WAR Key for username ray at website http://172.16.1.117 ?" [yes,no]
-    	
-    	String device_id = "APA91bEFG_TmtG_iFlNJ842Y8uaonnoGD29zKor7rykQg0D6XSlTXzLbWAZdvjisgJOTtHpkJ9J5hT6Mzmr3xMIwKwHoOim8tdLJP_xRnsjjtsswP05CwGbripGkeFWPTxiWS8wXbDD_o4x_4B8ATbZeBzy-y_r_VQ";
     	
     	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
     	httpPOST.addParameter("username", username);
@@ -135,9 +138,7 @@ public class SettingsActivity extends Activity {
 	        });
 
         AlertDialog alert11 = builder1.create();
-        alert11.show();
-        
-	     
+        alert11.show();   
         
         
         
