@@ -23,7 +23,7 @@ public class UserDaoHibernateImpl extends ParentDaoHibernateImpl<User> implement
 
     @Override
     public void delete(User user) {
-        mobileKeyDao.delete();
+        mobileKeyDao.delete(user.getMobileKey());
         super.delete(user);
     }
 

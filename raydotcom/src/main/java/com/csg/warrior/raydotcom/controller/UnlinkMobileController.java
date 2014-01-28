@@ -1,5 +1,6 @@
 package com.csg.warrior.raydotcom.controller;
 
+import com.csg.warrior.raydotcom.service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +19,18 @@ public class UnlinkMobileController {
 	
 	@Autowired private WarriorService warriorService;
 	@Autowired private UserService userService;
+    @Autowired private EmailSenderService emailSenderService;
 	
 	@RequestMapping(method= RequestMethod.GET)
 	public String unlinkMobileHomepage(ModelMap model) {
 		model.addAttribute("user", new User());
 		return "unlinkmobile";
 	}
-	
-	@RequestMapping(method=RequestMethod.POST) 
+
+	@RequestMapping(method=RequestMethod.POST)
 	public String unlinkMobile(User user) {
 		if (userService.verifyUserPass(user)) {
-			//TODO send email?
+            emailSenderService.sendMail("smitparaggua@yahoo.com", null, null);   // TODO CHANGE THIS LINE
 			warriorService.forwardUnlinkRequestToWARServer(user.getUsername(), warriorConfig.getHostWebsite());
 		}
 		return "redirect:/login";
