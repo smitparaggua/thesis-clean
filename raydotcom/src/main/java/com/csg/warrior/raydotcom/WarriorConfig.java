@@ -12,7 +12,7 @@ public class WarriorConfig {
     }
     
     public String getWarriorKeyRequestURL() {
-    	return "http://localhost:8080/testserver/key-request";
+    	return "http://localhost:8081/testserver/key-request";
     }
     
     public String getWarriorUnlinkMobileURL() {
@@ -22,4 +22,9 @@ public class WarriorConfig {
     public String getHostWebsite() {
     	return "ray.com";
     }
+    
+    public String getMessageWhenBLADEServerDown() {
+    	return "BLADE Server down";
+    }
+    
 }

@@ -6,7 +6,7 @@ import java.io.IOException;
 public class IOUtils {
     public static void closeQuietly(Closeable stream) {
         try {
-            stream.close();
+            if (stream != null) stream.close();
         } catch (IOException e) { }
     }
 }

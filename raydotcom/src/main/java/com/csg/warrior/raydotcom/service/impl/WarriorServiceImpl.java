@@ -8,6 +8,7 @@ import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import com.google.gson.Gson;
 import org.apache.http.HttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -47,7 +48,6 @@ public class WarriorServiceImpl implements WarriorService {
 		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL()); 
 		
 		return response;
-		// TODO separate causes of exception (failed connection, already registered, ...)
     }
     
     @Override

@@ -97,21 +97,7 @@ public class SettingsActivity extends Activity {
     	    	sharedPref = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);    	
     	    	String device_id = sharedPref.getString("BLADE_UUID", "No BLADE UUID upon installation?");
     	    	
-    	    	//TODO: pop up pag pinindot yung request "Request WAR Key for username ray at website http://172.16.1.117 ?" [yes,no]
-    	    	
-    	    	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
-    	    	httpPOST.addParameter("username", username);
-    	    	httpPOST.addParameter("password", password);
-    	    	httpPOST.addParameter("device_id", device_id);
-    	    	
-    	    	response = "";
-    	    	try {
-    	    		response = httpPOST.sendPOST(url);
-    	    		Log.i("DAN.SettingsActivity.requestWarriorKey", response);
-    	    	}
-    	    	catch (FailedUploadException e) {
-    	    		Log.i("DAN.SettingsActivity.requestWarriorKey", e.getMessage());
-    	    	}
+    	    	requestWarriorKey_sendPOST(username, password, device_id, url);
     	    }
     	});
     	builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -122,13 +108,34 @@ public class SettingsActivity extends Activity {
     	});
 
     	builder.show();
-    	
-    	
-    	
     }
     
+    private void requestWarriorKey_sendPOST(String username, String password, String device_id, String url) {
+    	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
+    	httpPOST.addParameter("username", username);
+    	httpPOST.addParameter("password", password);
+    	httpPOST.addParameter("device_id", device_id);
+    	
+    	response = "";
+    	try {
+    		response = httpPOST.sendPOST(url);
+    	}
+    	catch (FailedUploadException e) {
+    		response = "Please check the URL. If the URL is correct, the server might be down or something is wrong with your internet connection.";
+    	}
+    	
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(response);
+		
+		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {}
+		});
+		
+		AlertDialog dialog = builder.create();
+		dialog.show();
+    }
     
-
     public void saveSettings(View clickedButton) {
         // TODO check if some values are not filled
         final DatabaseHandler dbHandler = new DatabaseHandler(this);
@@ -169,9 +176,6 @@ public class SettingsActivity extends Activity {
 
         AlertDialog alert11 = builder1.create();
         alert11.show();   
-        
-        
-        
     }
 
     // TODO Check for empty attributes

@@ -15,9 +15,11 @@ import java.util.List;
 
 public class HttpUtils {
     private List<NameValuePair> urlParameters;
-
+    private WarriorConfig warriorConfig;
+    
     public HttpUtils() {
         urlParameters = new ArrayList<NameValuePair>();
+        warriorConfig = new WarriorConfig();
     }
 
     // todo: separate sending request and receiving response
@@ -26,14 +28,16 @@ public class HttpUtils {
             HttpPost postRequest = createPostRequest(url);
             HttpResponse response = sendRequest(postRequest);
             return check404(response);
+        } catch (IOException e) {
+        	return warriorConfig.getMessageWhenBLADEServerDown();
         } catch(Exception e) {
             e.printStackTrace();
-            return "An error occurred";
+            return "An error occured";
         }
     }
 
     private String check404(HttpResponse response) {
-    	if (response.getStatusLine().getStatusCode() == 404) return "BLADE Server down";
+    	if (response.getStatusLine().getStatusCode() == 404) return warriorConfig.getMessageWhenBLADEServerDown();
     	else {
     		try {
     			return readResponseAsString(response);
