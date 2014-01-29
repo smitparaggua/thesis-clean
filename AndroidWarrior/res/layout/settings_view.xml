@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/associated_file_label" />
+        android:text="@string/warrior_key_label" />
 
     <TableLayout
         android:orientation="horizontal"
@@ -47,8 +47,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="setAssociatedFile"
-                android:text="@string/change_label" />
+                android:onClick="requestWarriorKey"
+                android:text="@string/request_label" />
         </TableRow>
     </TableLayout>
 

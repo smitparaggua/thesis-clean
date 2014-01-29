@@ -7,4 +7,6 @@ public interface MobileKeyDao {
     void updateMobileKeyUploadTime(MobileKey mobileKey, DateTime now);
 
     void save(MobileKey mobileKey);
+
+    void delete(MobileKey mobileKey);
 }

@@ -21,7 +21,7 @@ public class SignUpController {
 
     @RequestMapping(method= RequestMethod.GET)
     public String getSignUpPage(ModelMap model) {
-        model.addAttribute(new User());
+        model.addAttribute("user", new User());
         return "sign-up/sign-up";
     }
 

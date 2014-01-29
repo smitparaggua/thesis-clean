@@ -5,11 +5,13 @@ import com.csg.warrior.raydotcom.domain.User;
 
 public interface UserService {
 
-    void save(User user);
-
     void signUp(User user);
 
     void setUserDao(UserDao userDao);
 
     void setWarriorService(WarriorService warriorService);
+    
+    User getUser(String username, String password);
+    
+    boolean verifyUserPass(User user);
 }

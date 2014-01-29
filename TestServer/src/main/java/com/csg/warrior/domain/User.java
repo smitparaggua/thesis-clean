@@ -1,8 +1,6 @@
 package com.csg.warrior.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -11,17 +9,33 @@ public class User {
     private Long userId;
     private String username;
     private String website;
+    private String deviceID;
+    @OneToOne
+    private MobileKey mobileKey;
 
-    public User(String username, String website) {
+    public User() {  }
+    
+    public User(String username, String website, String deviceID) {
         this.username = username;
         this.website = website;
+        this.deviceID = deviceID;
+    }
+
+    @Transient
+    public boolean isMobileKeyTransient() {
+        return mobileKey.isTransient();
+    }
+
+    @Transient
+    public boolean isMobileKeyValid() {
+        return mobileKey.isValid();
     }
 
     public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    private void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -40,9 +54,30 @@ public class User {
     public void setWebsite(String website) {
         this.website = website;
     }
+    
+    public void setDeviceID(String gcmDeviceID) {
+    	this.deviceID = gcmDeviceID;
+    }
+    
+    public String getDeviceID() {
+    	return deviceID;
+    }
+
+    public MobileKey getMobileKey() {
+        return mobileKey;
+    }
+
+    public void setMobileKey(MobileKey mobileKey) {
+        this.mobileKey = mobileKey;
+    }
 
     @Override
     public String toString() {
         return "User{" + "username='" + username +  "', website=" + website + "}";
+    }
+
+    @Transient
+    public String getMobileKeyString() {
+        return mobileKey.getKeyString();
     }
 }

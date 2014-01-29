@@ -1,7 +1,9 @@
 package com.csg.warrior.raydotcom.service.impl;
 
+import com.csg.warrior.core.WarriorKeyStatus;
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
+import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,24 +35,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void save(User user) {
-        userDao.save(user);
-    }
-
-    @Override
     public void signUp(User user) {
-        // TODO Error checking for failed sign up (eg. server is down, moved to other IP, etc)
         userDao.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        String warriorReply = warriorService.requestForMobileKey(username, "ray.com");
-        boolean isUserWarriorLocked = warriorService.isWarriorLockedFromReply(warriorReply);
-        return toSpringSecurityUser(user, isUserWarriorLocked);
+        WarriorKeyStatus keyStatus;
+        // TODO handle problem if warrior server has errors (and user is not a warrior user)
+        try {
+            keyStatus = warriorService.getWarriorKeyStatus(username, "ray.com");
+        } catch (WarriorRequestException e) {
+            e.printStackTrace();
+            keyStatus = new WarriorKeyStatus(false, false);
+        }
+        return toSpringSecurityUser(user, isUserWarriorLocked(keyStatus));
     }
 
+    private boolean isUserWarriorLocked(WarriorKeyStatus keyStatus) {
+        if(keyStatus.isRegisteredInWarrior() == false) {
+            return false;
+        } else {
+            return !keyStatus.isWarriorKeyValid();
+        }
+    }
+    
     private UserDetails toSpringSecurityUser(User user, boolean isWarriorLocked) {
         boolean accountEnabled = true;
         boolean accountNonExpired = true;
@@ -67,4 +77,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 authorities
         );
     }
+
+	@Override
+	public User getUser(String username, String password) {
+		User user = userDao.getUserByUsername(username);
+		if(user != null && user.getPassword().equals(password)) {
+			return user;
+		}
+		else return null;
+	}
+	
+	@Override
+	public boolean verifyUserPass(User user) {
+		if (getUser(user.getUsername(), user.getPassword()) != null) return true;
+		else return false;
+	}
+
+	
 }

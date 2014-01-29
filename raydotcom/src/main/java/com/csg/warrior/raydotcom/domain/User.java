@@ -1,12 +1,9 @@
 package com.csg.warrior.raydotcom.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class User {
@@ -17,8 +14,6 @@ public class User {
     private String username;
     private String password;
     private String email;
-    @ManyToOne
-    private MobileKey mobileKey;
 
     public long getUserId() {
         return userId;
@@ -52,17 +47,9 @@ public class User {
         this.email = email;
     }
 
-    public MobileKey getMobileKey() {
-        return mobileKey;
-    }
-
-    public void setMobileKey(MobileKey mobileKey) {
-        this.mobileKey = mobileKey;
-    }
-
     @Override
     public String toString() {
-        return "User{" + "username='" + username +  "', mobileKey=" + mobileKey + '}';
+        return "User{" + "username='" + username + '}';
     }
 
     @Override

@@ -31,6 +31,10 @@ public class ParentDaoHibernateImpl<T> {
             query.setParameter(parameter.getKey(), parameter.getValue());
         }
     }
+    
+    public void delete(T objectToDelete){
+    	getCurrentSession().delete(objectToDelete);
+    }
 
     private Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
