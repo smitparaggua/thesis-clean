@@ -1,12 +1,23 @@
 package com.csg.warrior.android;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
+import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -26,11 +37,16 @@ import com.csg.warrior.android.network.HttpPOSTHelper;
 public class SettingsActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST_CODE = 1;
     public static final String RESULT_KEY_NEW_SETTINGS = "newSettings";
+    private static String uniqueID = null;
+	private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
 
     private MobileKey currentMobileKeySettings;
     private TextView addressBarView;
     private TextView associatedKeyView;
     private EditText keyOwnerView;
+    private String password;
+    private SharedPreferences sharedPref;
+    private String response;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,46 +69,62 @@ public class SettingsActivity extends Activity {
     }
 
     public void requestWarriorKey(View clickedButton) {
-    	//send (user, pass, device_id) to ray.com
-    	
     	/*
-    	 * TODO: detect if enrolled na sa warrior (may entry na sa database) --> pop-up [yes,no] for key regeneration
-    	 * 
-    	 * DatabaseHandler db = new DatabaseHandler(this);
-    	 * db.doesUsernameExist(username) -> nirereturn niya kung may laman na or wala;
-    	 *
     	 * TODO: loading screen habang hinihintay yung key :))
     	 */
     	
     	Log.i("DAN", "Clicked request button!");
-    	//TODO: resolve these variables
-    	//String keyOwner = keyOwnerView.getText().toString(); -> para sa username
-        //dito ifefetch yung key 
-        //
-        //String url = addressBarView.getText().toString(); -> para sa password
-    	//TODO: pop-up prompt for password
+ 
     	
-    	String username = "ray";
-    	String password = "pass"; 
-    	String url = "http://172.16.1.117:8080/raydotcom/warrior/key-request";
-    	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);    	
-    	String device_id = sharedPref.getString("BLADE_UUID", "No BLADE UUID upon installation?");
     	
-    	//TODO: pop up pag pinindot yung request "Request WAR Key for username ray at website http://172.16.1.117 ?" [yes,no]
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle("Input Password");
+
+    	// Set up the input
+    	final EditText input = new EditText(this);
+    	// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+    	input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+    	builder.setView(input);
+
+    	// Set up the buttons
+    	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+    	    @Override
+    	    public void onClick(DialogInterface dialog, int which) {
+    	    	String username = keyOwnerView.getText().toString();
+    	        password = input.getText().toString();
+    	        String url = addressBarView.getText().toString();
+    	        url = url + "/warrior/key-request";
+    	    	sharedPref = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);    	
+    	    	String device_id = sharedPref.getString("BLADE_UUID", "No BLADE UUID upon installation?");
+    	    	
+    	    	//TODO: pop up pag pinindot yung request "Request WAR Key for username ray at website http://172.16.1.117 ?" [yes,no]
+    	    	
+    	    	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
+    	    	httpPOST.addParameter("username", username);
+    	    	httpPOST.addParameter("password", password);
+    	    	httpPOST.addParameter("device_id", device_id);
+    	    	
+    	    	response = "";
+    	    	try {
+    	    		response = httpPOST.sendPOST(url);
+    	    		Log.i("DAN.SettingsActivity.requestWarriorKey", response);
+    	    	}
+    	    	catch (FailedUploadException e) {
+    	    		Log.i("DAN.SettingsActivity.requestWarriorKey", e.getMessage());
+    	    	}
+    	    }
+    	});
+    	builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    	    @Override
+    	    public void onClick(DialogInterface dialog, int which) {
+    	        dialog.cancel();
+    	    }
+    	});
+
+    	builder.show();
     	
-    	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
-    	httpPOST.addParameter("username", username);
-    	httpPOST.addParameter("password", password);
-    	httpPOST.addParameter("device_id", device_id);
     	
-    	String response = "";
-    	try {
-    		response = httpPOST.sendPOST(url);
-    		Log.i("DAN.SettingsActivity.requestWarriorKey", response);
-    	}
-    	catch (FailedUploadException e) {
-    		Log.i("DAN.SettingsActivity.requestWarriorKey", e.getMessage());
-    	}
+    	
     }
     
     
@@ -144,54 +176,11 @@ public class SettingsActivity extends Activity {
 
     // TODO Check for empty attributes
     private void fetchSettingsFromView() {
-        String keyOwner = keyOwnerView.getText().toString();
-        //dito ifefetch yung key
-        String key = "lalalla";
-        
-        /*
-         UUID:
-         private static String uniqueID = null;
-		private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
-
-		public synchronized static String id(Context context) {
-    	if (uniqueID == null) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(
-                PREF_UNIQUE_ID, Context.MODE_PRIVATE);
-        uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
-	        if (uniqueID == null) {
-	            uniqueID = UUID.randomUUID().toString();
-	            Editor editor = sharedPrefs.edit();
-	            editor.putString(PREF_UNIQUE_ID, uniqueID);
-	            editor.commit();
-	        }
-    	}
-    	return uniqueID;
-    	}
-    	MAC ADD:
-    	
-    	public static String getMACAddress(@NotNull Activity activity) {
-    	return ((WifiManager) activity.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress();
-		}
-
-		
-    	IMEI: 
-    		public String getIMEI(Context context){
-
-    			TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE); 
-    			String imei = mngr.getDeviceId();
-    			return imei;
-
-			}
-    
-
-          
-         */
-      
+        String keyOwner = keyOwnerView.getText().toString(); 
         String url = addressBarView.getText().toString();
-        currentMobileKeySettings.setKey(key).setUrlForUpload(url).setKeyOwner(keyOwner);
-        
-        
-        
+     
+        currentMobileKeySettings.setKey(response).setUrlForUpload(url).setKeyOwner(keyOwner);
+
     }
 
     public void cancelSettings(View clickedButton) {
@@ -199,14 +188,50 @@ public class SettingsActivity extends Activity {
         finish();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case FILE_CHOOSER_REQUEST_CODE:
-                  //  TextView associatedFileLabel = (TextView) findViewById(R.id.associated_file_name);
-                  //  associatedFileLabel.setText(data.getStringExtra("selectedFilePath"));
-            }
-        }
-    }
+    
+    public String getIMEI(Context context){
+
+		TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE); 
+		String imei = mngr.getDeviceId();
+		Log.i("DAN", imei);
+		return imei;
+
+	}
+    
+    public static String getMACAddress(Context context) {
+    	WifiManager manager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
+    	WifiInfo info = manager.getConnectionInfo();
+    	String address = info.getMacAddress();
+    	Log.i("DAN", address);
+    	return address;
+	}
+    
+    
+
+	public synchronized static String id(Context context) {
+		if (uniqueID == null) {
+		    SharedPreferences sharedPrefs = context.getSharedPreferences(
+		            PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+		    uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+		        if (uniqueID == null) {
+		            uniqueID = UUID.randomUUID().toString();
+		            Editor editor = sharedPrefs.edit();
+		            editor.putString(PREF_UNIQUE_ID, uniqueID);
+		            editor.commit();
+		        }
+		}
+		
+		Log.i("DAN", uniqueID);
+		return uniqueID;
+	}
+	
+	public static String SHA256(String text) throws NoSuchAlgorithmException {
+
+	    MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+	    md.update(text.getBytes());
+	    byte[] digest = md.digest();
+
+	    return Base64.encodeToString(digest, Base64.DEFAULT);
+	}
 }

@@ -4,18 +4,26 @@
 package com.csg.warrior.android;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+
 import com.csg.warrior.android.domain.MobileKey;
 import com.csg.warrior.android.persistence.DatabaseHandler;
 import com.csg.warrior.android.R;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class MainActivity extends ListActivity {
@@ -32,12 +40,22 @@ public class MainActivity extends ListActivity {
     	boolean isFirstRun = sharedPref.getBoolean("FIRSTRUN", true);
     	if (isFirstRun)
     	{
+    		String android_id = getMACAddress(this) + getIMEI(this);
+            
+            
+            try{
+            	
+            	android_id = SHA256(android_id);
+            	Log.i("DAN", "First install, generating BLADE UUID");
+        		SharedPreferences.Editor editor = sharedPref.edit();
+        		editor.putString("BLADE_UUID",  android_id);
+        		
+        	    editor.putBoolean("FIRSTRUN", false);
+        	    editor.commit();
+            
+            }catch(Exception e){ }
     	    // generate BLADE UUID
-    		Log.i("DAN", "First install, generating BLADE UUID");
-    		SharedPreferences.Editor editor = sharedPref.edit();
-    		editor.putString("BLADE_UUID",  "dummy_BLADE_UUID");
-    	    editor.putBoolean("FIRSTRUN", false);
-    	    editor.commit();
+    		
     	}    	
         super.onCreate(savedInstanceState);
         db = new DatabaseHandler(this);
@@ -95,6 +113,33 @@ public class MainActivity extends ListActivity {
             }
         }
     }
+    
+    public String getIMEI(Context context){
+
+		TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE); 
+		String imei = mngr.getDeviceId();
+		Log.i("DAN", imei);
+		return imei;
+
+	}
+    
+    public static String getMACAddress(Context context) {
+    	WifiManager manager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
+    	WifiInfo info = manager.getConnectionInfo();
+    	String address = info.getMacAddress();
+    	Log.i("DAN", address);
+    	return address;
+	}
+    
+    public static String SHA256(String text) throws NoSuchAlgorithmException {
+
+	    MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+	    md.update(text.getBytes());
+	    byte[] digest = md.digest();
+
+	    return Base64.encodeToString(digest, Base64.DEFAULT);
+	}
     
     
 }
