@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
@@ -47,6 +49,8 @@ public class SettingsActivity extends Activity {
     private String password;
     private SharedPreferences sharedPref;
     private String response;
+    private ProgressDialog progressDialog;  
+    private boolean flag = true;  
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +73,8 @@ public class SettingsActivity extends Activity {
     }
 
     public void requestWarriorKey(View clickedButton) {
-    	/*
-    	 * TODO: loading screen habang hinihintay yung key :))
-    	 */
-    	
     	Log.i("DAN", "Clicked request button!");
- 
-    	
-    	
+
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setTitle("Input Password");
 
@@ -90,6 +88,8 @@ public class SettingsActivity extends Activity {
     	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
     	    @Override
     	    public void onClick(DialogInterface dialog, int which) {
+    	    	flag = true;
+    	    	new LoadViewTask().execute();
     	    	String username = keyOwnerView.getText().toString();
     	        password = input.getText().toString();
     	        String url = addressBarView.getText().toString();
@@ -103,10 +103,11 @@ public class SettingsActivity extends Activity {
     	    	httpPOST.addParameter("username", username);
     	    	httpPOST.addParameter("password", password);
     	    	httpPOST.addParameter("device_id", device_id);
-    	    	
+    	    	  
     	    	response = "";
     	    	try {
     	    		response = httpPOST.sendPOST(url);
+    	    		flag = false;
     	    		Log.i("DAN.SettingsActivity.requestWarriorKey", response);
     	    	}
     	    	catch (FailedUploadException e) {
@@ -151,19 +152,17 @@ public class SettingsActivity extends Activity {
 	            	finish();
 	            	
 	            	Toast.makeText(getApplicationContext(),
-	                        "You clicked on YES", Toast.LENGTH_SHORT)
+	                        "You made a new entry on the BLADE Server", Toast.LENGTH_SHORT)
 	                        .show();
 	            }
 	        });
 	        builder1.setNegativeButton("No",
 	                new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int id) {
+	            	
 	                dialog.cancel();
 	            	
-	            	Toast.makeText(getApplicationContext(),
-	                        "You clicked on NO", Toast.LENGTH_SHORT)
-	                        .show();
-	                dialog.cancel();
+	            	
 	            }
 	        });
 
@@ -207,7 +206,7 @@ public class SettingsActivity extends Activity {
 	}
     
     
-
+    //idedelete na ito
 	public synchronized static String id(Context context) {
 		if (uniqueID == null) {
 		    SharedPreferences sharedPrefs = context.getSharedPreferences(
@@ -234,4 +233,65 @@ public class SettingsActivity extends Activity {
 
 	    return Base64.encodeToString(digest, Base64.DEFAULT);
 	}
+	
+	private class LoadViewTask extends AsyncTask<Void, Integer, Void>  
+    {   
+        @Override  
+        protected void onPreExecute()  
+        {  
+            //Create a new progress dialog  
+            progressDialog = new ProgressDialog(SettingsActivity.this);  
+            //Set the progress dialog to display a horizontal progress bar  
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  
+            //Set the dialog title to 'Loading...'  
+            progressDialog.setTitle("Loading...");  
+            //Set the dialog message to 'Loading application View, please wait...'  
+            progressDialog.setMessage("Waiting for the BLADE Key...");  
+            //This dialog can't be canceled by pressing the back key  
+            progressDialog.setCancelable(false);  
+            //This dialog isn't indeterminate  
+            progressDialog.setIndeterminate(false);  
+            //Display the progress dialog  
+            progressDialog.show();  
+        }  
+  
+        //The code to be executed in a background thread.  
+        @Override  
+        protected Void doInBackground(Void... params)  
+        {  
+            try  
+            {  
+                //Get the current thread's token  
+                synchronized (this)  
+                {  
+                    while(flag)  
+                    {  
+                        this.wait(850);  
+                    }  
+                }  
+            }  
+            catch (InterruptedException e)  
+            {  
+                e.printStackTrace();  
+            }  
+            return null;  
+        }  
+  
+        //Update the progress  
+        @Override  
+        protected void onProgressUpdate(Integer... values)  
+        {  
+            //set the current progress of the progress dialog  
+            progressDialog.setProgress(values[0]);  
+        }  
+  
+        //after executing the code in the thread  
+        @Override  
+        protected void onPostExecute(Void result)  
+        {  
+            //close the progress dialog  
+            progressDialog.dismiss();  
+
+        }  
+    }   
 }
