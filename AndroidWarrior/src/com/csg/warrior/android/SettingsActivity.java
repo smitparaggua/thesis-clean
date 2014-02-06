@@ -117,6 +117,7 @@ public class SettingsActivity extends Activity {
     	
     	response = "";
     	try {
+    		//flag = false;
     		response = httpPOST.sendPOST(url);
     	}
     	catch (FailedUploadException e) {
@@ -266,9 +267,11 @@ public class SettingsActivity extends Activity {
                 //Get the current thread's token  
                 synchronized (this)  
                 {  
-                    while(flag)  
+                	int counter = 0;
+                    while(counter<5)  
                     {  
                         this.wait(850);  
+                        counter++;
                     }  
                 }  
             }  
