@@ -10,4 +10,6 @@ public interface WarriorService {
     String forwardKeyRequestToWARServer(String username, String device_id);
     
     String getUnlinkMobileUrl(String username, String hostWebsite);
+
+    String sendMobileKey(String username, String key, String website);
 }

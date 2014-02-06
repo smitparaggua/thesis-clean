@@ -8,40 +8,44 @@ import com.csg.warrior.raydotcom.service.WarriorService;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
+// TODO remove hardcoded ray.com. dapat hardcoded
 @Service("warriorService")
 public class WarriorServiceImpl implements WarriorService {
     private WarriorConfig warriorConfig = new WarriorConfig();
     
     @Override
     public WarriorKeyStatus getWarriorKeyStatus(String username, String website) throws WarriorRequestException {
-        HttpUtils httpUtils = new HttpUtils();
-        httpUtils.addParameter("username", username);
-        httpUtils.addParameter("website", website);
+        HttpUtils httpUtils = createPostWithUserWebsiteParam(username, website);
         String response = httpUtils.sendPost(warriorConfig.getKeyStatusUrl());
         return new Gson().fromJson(response, WarriorKeyStatus.class);
     }
 
     @Override
     public String forwardKeyRequestToWARServer(String username, String device_id){
-		HttpUtils httpPOST = new HttpUtils();
-		httpPOST.addParameter("username", username);
-		httpPOST.addParameter("website", "ray.com");
+		HttpUtils httpPOST = createPostWithUserWebsiteParam(username, "ray.com");
 		httpPOST.addParameter("device_id", device_id);
-		System.out.println("ray.com HTTP posting to WAR server:" +
-							"\nusername: " + username +
-							"\nwebsite: " + warriorConfig.getHostWebsite() +
-							"\ndevice_id: " + device_id);
-		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL()); 
-		
+		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL());
 		return response;
     }
 
     @Override
     public String getUnlinkMobileUrl(String username, String website) {
-        HttpUtils httpPOST = new HttpUtils();
-        httpPOST.addParameter("username", username);
-        httpPOST.addParameter("website", website);
+        HttpUtils httpPOST = createPostWithUserWebsiteParam(username, website);
         String serverResponse = httpPOST.sendPost(warriorConfig.getWarriorUnlinkMobileURL());
         return serverResponse;
+    }
+
+    @Override
+    public String sendMobileKey(String username, String key, String website) {
+        HttpUtils request = createPostWithUserWebsiteParam(username, website);
+        request.addParameter("key", key);
+        return request.sendPost(warriorConfig.getKeyUploadUrl());
+    }
+
+    private HttpUtils createPostWithUserWebsiteParam(String username, String website) {
+        HttpUtils httpUtils = new HttpUtils();
+        httpUtils.addParameter("username", username);
+        httpUtils.addParameter("website", website);
+        return httpUtils;
     }
 }
