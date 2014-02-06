@@ -72,8 +72,8 @@ public class HttpPOSTHelper {
     }
     
     private  void closeIoStream(DataOutputStream writer, BufferedReader reader) {
-        IOUtils.closeQuietly(writer);
-        IOUtils.closeQuietly(reader);
+    	if(writer != null) IOUtils.closeQuietly(writer);
+        if(reader != null) IOUtils.closeQuietly(reader);
     }
 	
 	
