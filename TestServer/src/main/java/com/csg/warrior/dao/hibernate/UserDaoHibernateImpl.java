@@ -1,6 +1,7 @@
 package com.csg.warrior.dao.hibernate;
 
 import com.csg.warrior.dao.MobileKeyDao;
+import com.csg.warrior.dao.UnlinkKeyDao;
 import com.csg.warrior.dao.UserDao;
 import com.csg.warrior.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.Map;
 @Repository("userDao")
 public class UserDaoHibernateImpl extends ParentDaoHibernateImpl<User> implements UserDao {
     @Autowired MobileKeyDao mobileKeyDao;
+    @Autowired UnlinkKeyDao unlinkKeyDao;
 
     @Override
     public void save(User user) {
@@ -24,6 +26,7 @@ public class UserDaoHibernateImpl extends ParentDaoHibernateImpl<User> implement
     @Override
     public void delete(User user) {
         mobileKeyDao.delete(user.getMobileKey());
+        unlinkKeyDao.delete(user.getUnlinkKey());
         super.delete(user);
     }
 

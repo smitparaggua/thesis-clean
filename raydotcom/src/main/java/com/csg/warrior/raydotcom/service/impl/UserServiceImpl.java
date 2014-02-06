@@ -1,9 +1,11 @@
 package com.csg.warrior.raydotcom.service.impl;
 
 import com.csg.warrior.core.WarriorKeyStatus;
+import com.csg.warrior.raydotcom.WarriorConfig;
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
 import com.csg.warrior.raydotcom.exception.WarriorRequestException;
+import com.csg.warrior.raydotcom.service.EmailSenderService;
 import com.csg.warrior.raydotcom.service.UserService;
 import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired private UserDao userDao;
     @Autowired private WarriorService warriorService;
+    @Autowired private EmailSenderService emailSenderService;
+    private WarriorConfig warriorConfig = new WarriorConfig();
 
     @Override
     public void setUserDao(UserDao userDao) {
@@ -78,6 +82,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         );
     }
 
+    @Override
+    public void unlinkMobileOf(User user) {
+        user = getUser(user.getUsername(), user.getPassword());
+        if(user != null) {
+            String url = warriorService.getUnlinkMobileUrl(user.getUsername(), warriorConfig.getHostWebsite());
+            emailSenderService.sendMail(user.getEmail(), "Mobile Key Unlink", url);   // TODO CHANGE THIS LINE
+        } else {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+    }
+
 	@Override
 	public User getUser(String username, String password) {
 		User user = userDao.getUserByUsername(username);
@@ -86,12 +101,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		else return null;
 	}
-	
-	@Override
-	public boolean verifyUserPass(User user) {
-		if (getUser(user.getUsername(), user.getPassword()) != null) return true;
-		else return false;
-	}
-
-	
 }

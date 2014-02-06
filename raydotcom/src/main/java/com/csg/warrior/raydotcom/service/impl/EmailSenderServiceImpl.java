@@ -21,9 +21,8 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("ray.com");
         message.setTo(recipient);
-        message.setSubject("Unsubscribe Mobile key");
-        message.setText("ang pangit mo");
-        mailSender.send(message);
+        message.setSubject(subject);
+        message.setText(content);
         mailSender.send(message);
     }
 }

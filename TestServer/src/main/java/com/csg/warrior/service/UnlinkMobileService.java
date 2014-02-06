@@ -1,5 +1,7 @@
 package com.csg.warrior.service;
 
 public interface UnlinkMobileService {
-	void unlinkMobile(String username, String website);
+    String generateUnlinkUrl(String username, String website);
+
+    void unlinkMobile(String username, String website, String unlinkKey);
 }

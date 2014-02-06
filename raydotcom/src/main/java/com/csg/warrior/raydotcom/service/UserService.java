@@ -13,5 +13,5 @@ public interface UserService {
     
     User getUser(String username, String password);
     
-    boolean verifyUserPass(User user);
+    void unlinkMobileOf(User user);
 }

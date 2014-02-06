@@ -1,10 +1,12 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sign Up</title>
+    <title>Unlink Mobile Key</title>
 </head>
+<p><c:out value="${error}"/></p>
 <body>
 <form:form modelAttribute="user" method="POST">
     <table>

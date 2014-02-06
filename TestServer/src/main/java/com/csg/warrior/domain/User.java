@@ -10,8 +10,8 @@ public class User {
     private String username;
     private String website;
     private String deviceID;
-    @OneToOne
-    private MobileKey mobileKey;
+    @OneToOne private MobileKey mobileKey;
+    @OneToOne private UnlinkKey unlinkKey;
 
     public User() {  }
     
@@ -79,5 +79,18 @@ public class User {
     @Transient
     public String getMobileKeyString() {
         return mobileKey.getKeyString();
+    }
+
+    public UnlinkKey getUnlinkKey() {
+        return unlinkKey;
+    }
+
+    public void setUnlinkKey(UnlinkKey unlinkKey) {
+        this.unlinkKey = unlinkKey;
+    }
+
+    @Transient
+    public String getUnlinkKeyString() {
+        return (unlinkKey == null)? null : unlinkKey.getKeyString();
     }
 }

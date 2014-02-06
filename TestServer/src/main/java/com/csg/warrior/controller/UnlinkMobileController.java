@@ -3,10 +3,7 @@ package com.csg.warrior.controller;
 import com.csg.warrior.service.UnlinkMobileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 // TODO Refactor: extract ServerConstants to an XML
 @Controller
@@ -14,21 +11,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UnlinkMobileController {
     @Autowired private UnlinkMobileService unlinkMobileService;
     
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/{username}/{website}/{unlinkKey}",method = RequestMethod.POST)
     @ResponseBody
-    public String unlinkMobile(@RequestParam("username") String username,
-    						   @RequestParam("website") String website) {
-    	unlinkMobileService.unlinkMobile(username, website);
+    public String unlinkMobile(@PathVariable String username, @PathVariable String website, @PathVariable String unlinkKey) {
+    	unlinkMobileService.unlinkMobile(username, website, unlinkKey);
     	return "Mobile key unlinked";
     }
 
-    @RequestMapping("/success")
-    public String notifySuccessfulUnlink() {
-        return "key-management/unlink-mobile-success";
-    }
-
-    @RequestMapping("/cannot-generate-link")
-    public String notifyFailureOfLinkGeneration() {
-        return "key-management/failed-unlink";
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public String getUnlinkMobileUrl(@RequestParam("username") String username,
+                                     @RequestParam("website") String website) {
+        return unlinkMobileService.generateUnlinkUrl(username, website);
     }
 }
