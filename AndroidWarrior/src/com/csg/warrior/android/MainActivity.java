@@ -40,15 +40,16 @@ public class MainActivity extends ListActivity {
     	boolean isFirstRun = sharedPref.getBoolean("FIRSTRUN", true);
     	if (isFirstRun)
     	{
-    		String android_id = getMACAddress(this) + getIMEI(this);
+    		//String android_id = getMACAddress(this) + getIMEI(this);
+    		// TODO: ray sumabog sa nexus 7 code mo :))
             
             
             try{
             	
-            	android_id = SHA256(android_id);
+            	//android_id = SHA256(android_id);
             	Log.i("DAN", "First install, generating BLADE UUID");
         		SharedPreferences.Editor editor = sharedPref.edit();
-        		editor.putString("BLADE_UUID",  android_id);
+        		editor.putString("BLADE_UUID",  "dummy_BLADE_UUID");
         		
         	    editor.putBoolean("FIRSTRUN", false);
         	    editor.commit();

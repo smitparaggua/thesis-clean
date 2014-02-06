@@ -53,6 +53,7 @@ public class HttpPOSTHelper {
         } catch (ProtocolException e) {
             throw new FailedUploadException("Invalid Protocol", e);
         } catch (IOException e) {          
+        	Log.i("DAN", "eto ba");
             throw new FailedUploadException("Connection Problem: please check your internet connection or the server may be down", e);
         } finally {
             closeIoStream(writer, reader);

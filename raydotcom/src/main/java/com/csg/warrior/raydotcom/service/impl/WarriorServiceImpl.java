@@ -34,7 +34,6 @@ public class WarriorServiceImpl implements WarriorService {
 		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL()); 
 		
 		return response;
-		// TODO separate causes of exception (failed connection, already registered, ...)
     }
 
     @Override
