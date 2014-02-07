@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import com.csg.warrior.android.domain.MobileKey;
 import com.csg.warrior.android.exception.FailedUploadException;
@@ -26,7 +25,7 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 	public void onClick(View view) {
 		String username = mobileKey.getKeyOwner();
 		//TODO: pop up for password
-		String password = "q";
+		String password = "pass";
 		String bladeKey = mobileKey.getKey();
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -45,7 +44,6 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
     	
     	String response = "";
     	try {
-    		//flag = false;
     		response = httpPOST.sendPOST(mobileKey.getUrlForUpload() + "/blade/quad-delete");
     	}
     	catch (FailedUploadException e) {
@@ -65,8 +63,10 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 		
 		
 		if (response.equals("SUCCESS")) {
-			//TODO: ray padelete sa database nung mobilekey na associated sa button na 'to
-			Log.i("DAN DeleteMobileKeyOnClick.requestQuadDelete_sendPOST", "Deleting quad");
+			/*
+			 *TODO: ray padelete sa database nung mobilekey na associated sa button na 'to
+			 *tapos after magdelete magre-refresh dapat yung view 
+			 */
 		}
 		
 	}

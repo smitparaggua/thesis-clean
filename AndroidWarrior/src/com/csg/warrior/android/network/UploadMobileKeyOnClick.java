@@ -24,7 +24,6 @@ public class UploadMobileKeyOnClick implements View.OnClickListener{
     	//TODO: pop up for password
     	String username = mobileKey.getKeyOwner();
     	String password = "q";
-    	String website = mobileKey.getUrlForUpload() + "/blade/quad-delete" ;
     	String bladeKey = mobileKey.getKey();
     	String bladeUUID = "dummy_BLADE_UUID";
     	
@@ -32,10 +31,9 @@ public class UploadMobileKeyOnClick implements View.OnClickListener{
         try {
         	HttpPOSTHelper httpPOST = new HttpPOSTHelper();
         	httpPOST.addParameter("username", username);	//HAHA SI RAY MAY ALAM NITO
-        	httpPOST.addParameter("website", website);
         	httpPOST.addParameter("bladeKey",  bladeKey);
         	httpPOST.addParameter("bladeUUID", bladeUUID);
-            response = httpPOST.sendPOST(mobileKey.getUrlForUpload());
+            response = httpPOST.sendPOST(mobileKey.getUrlForUpload() + "/warrior/login");
         } catch (FailedUploadException e) {
         	response = "Please check the URL. If the URL is correct, the server might be down or something is wrong with your internet connection.";
         } 

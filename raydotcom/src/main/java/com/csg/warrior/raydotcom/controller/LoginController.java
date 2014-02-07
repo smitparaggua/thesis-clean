@@ -32,7 +32,8 @@ public class LoginController {
     @RequestMapping(value = "/warrior/login", method= RequestMethod.POST)
     @ResponseBody
     public String acceptMobileKey(@RequestParam("username") String username,
-                                      @RequestParam("key") String key) {
-        return warriorService.sendMobileKey(username, key, "ray.com");
+    							  @RequestParam("bladeKey") String bladeKey,
+                                  @RequestParam("bladeUUID") String bladeUUID) {
+        return warriorService.sendMobileKey(username, bladeKey, bladeUUID);
     }
 }

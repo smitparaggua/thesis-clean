@@ -15,7 +15,7 @@ public interface UserService {
 //    void unlinkMobileKey(String username, String password) throws AuthenticationException, FailedUrlGenerationException;
 
     // TODO: adjust to take care of hashes
-    boolean updateMobileKey(String username, String website, String keyUploaded) throws NoMobileKeyForUserException;
+    boolean updateMobileKey(String username, String website, String keyUploaded, String bladeUUID) throws NoMobileKeyForUserException;
 
     void setUserDao(UserDao userDao);
 

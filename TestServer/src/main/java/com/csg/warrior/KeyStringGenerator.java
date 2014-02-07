@@ -8,12 +8,25 @@ import java.security.PrivateKey;
 import java.security.SecureRandom;
 
 public class KeyStringGenerator {
-    public static String generateKeyString() {
-        try {
-
-            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            keyGen.initialize(MobileKey.KEY_STRING_LENGTH, random);
+	
+	static KeyPairGenerator keyGen = null;
+	static SecureRandom random = null;
+	
+	public KeyStringGenerator() {
+		try {
+			if (keyGen == null && random == null) {
+				keyGen = KeyPairGenerator.getInstance("RSA");
+				random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+				keyGen.initialize(MobileKey.KEY_STRING_LENGTH, random);
+			}
+		}
+		catch (Exception e) {
+			System.err.println("Caught exception " + e.toString());
+		}
+	}
+	
+	public String generateKeyString() {
+        try {          
             KeyPair pair = keyGen.generateKeyPair();
             PrivateKey priv = pair.getPrivate();
 

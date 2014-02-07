@@ -20,12 +20,15 @@ public class UserServiceImpl implements UserService {
 
     // TODO: adjust to take care of hashes
     @Override
-    public boolean updateMobileKey(String username, String website, String keyUploaded) throws NoMobileKeyForUserException {
-        MobileKey mobileKey = getMobileKeyOfUser(username, website);
+    public boolean updateMobileKey(String username, String website, String keyUploaded, String bladeUUID) throws NoMobileKeyForUserException {
+        User queriedUser = userDao.getUser(username, website);
+        MobileKey mobileKey = queriedUser.getMobileKey();
+        
         if (mobileKey == null) {
             throw new NoMobileKeyForUserException();
         }
-        if (mobileKey.getKeyString().equals(keyUploaded)) {
+        if (mobileKey.getKeyString().equals(keyUploaded) 
+        		&& queriedUser.getDeviceID().equals(bladeUUID)) {    	
             mobileKeyDao.updateMobileKeyUploadTime(mobileKey, DateTime.now());
             return true;
         }

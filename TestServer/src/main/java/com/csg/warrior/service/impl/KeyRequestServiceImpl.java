@@ -22,7 +22,8 @@ public class KeyRequestServiceImpl implements KeyRequestService {
         
 		if(queriedUser == null) {
 			System.out.println("BLADE Server: device not yet BLADE registered");
-			MobileKey mobileKey = new MobileKey(KeyStringGenerator.generateKeyString());
+			KeyStringGenerator generator = new KeyStringGenerator();			
+			MobileKey mobileKey = new MobileKey(generator.generateKeyString());
             param_user.setMobileKey(mobileKey);
             userDao.save(param_user);
 			return mobileKey.getKeyString();

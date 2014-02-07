@@ -52,9 +52,12 @@ public class WarriorServiceImpl implements WarriorService {
     }
 
     @Override
-    public String sendMobileKey(String username, String key, String website) {
-        HttpUtils request = createPostWithUserWebsiteParam(username, website);
-        request.addParameter("key", key);
+    public String sendMobileKey(String username, String bladeKey, String bladeUUID) {
+        HttpUtils request = new HttpUtils();
+        request.addParameter("username", username);
+        request.addParameter("website", warriorConfig.getHostWebsite());
+        request.addParameter("bladeKey", bladeKey);
+        request.addParameter("bladeUUID", bladeUUID);
         return request.sendPost(warriorConfig.getKeyUploadUrl());
     }
 
