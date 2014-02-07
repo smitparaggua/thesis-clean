@@ -1,9 +1,5 @@
 package com.csg.warrior.android.network;
 
-import com.csg.warrior.android.SettingsActivity;
-import com.csg.warrior.android.domain.MobileKey;
-import com.csg.warrior.android.exception.FailedUploadException;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,14 +7,19 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import com.csg.warrior.android.domain.MobileKey;
+import com.csg.warrior.android.exception.FailedUploadException;
+import com.csg.warrior.android.persistence.DatabaseHandler;
 
 public class DeleteMobileKeyOnClick implements View.OnClickListener {
-	MobileKey mobileKey;
-	Context context;
-	
+	private MobileKey mobileKey;
+	private Context context;
+    private DatabaseHandler dbHandler;
+
 	public DeleteMobileKeyOnClick(MobileKey mobileKey, Context context) {
         this.mobileKey = mobileKey;
         this.context = context;
+        this.dbHandler = new DatabaseHandler(context);
     }
 	
 	@Override
@@ -32,6 +33,7 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 		String bladeUUID = sharedPref.getString("BLADE_UUID", "No BLADE UUID upon installation?");
 		
 		requestQuadDelete_sendPOST(username, password, bladeKey, bladeUUID);
+        dbHandler.deleteMobileKey(mobileKey);
 	}
 	
 	private void requestQuadDelete_sendPOST(String username, String password, String bladeKey, String bladeUUID) {
@@ -68,6 +70,4 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 		}
 		
 	}
-	
-
 }

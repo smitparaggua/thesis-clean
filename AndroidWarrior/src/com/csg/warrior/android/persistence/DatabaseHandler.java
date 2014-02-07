@@ -101,6 +101,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteMobileKey(MobileKey mobileKey) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_TRIPLES, COLUMN_TRIPLES_ID +"="+ mobileKey.getDatabaseId(), null);
+        db.close();
+    }
+
     private ContentValues toContentValues(MobileKey mobileKey) {
         ContentValues values = new ContentValues();
         if (mobileKey != null) {
