@@ -1,6 +1,5 @@
 package com.csg.warrior.android.network;
 
-import com.csg.warrior.android.SettingsActivity;
 import com.csg.warrior.android.domain.MobileKey;
 import com.csg.warrior.android.exception.FailedUploadException;
 
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 
 public class DeleteMobileKeyOnClick implements View.OnClickListener {
