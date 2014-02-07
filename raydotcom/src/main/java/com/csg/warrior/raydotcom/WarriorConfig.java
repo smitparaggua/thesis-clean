@@ -26,5 +26,8 @@ public class WarriorConfig {
     public String getMessageWhenBLADEServerDown() {
     	return "BLADE Server down";
     }
-    
+
+    public String getKeyUploadUrl() {
+        return "http://localhost:8080/testserver/key-upload";
+    }
 }

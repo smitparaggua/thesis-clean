@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController {
     @Autowired private UserService userService;
 
-    // TODO consider using ModelAttribute (too many parameters)
     @RequestMapping(value = "/key-upload", method = RequestMethod.POST)
     @ResponseBody
     public String acceptKeyFromMobile(@RequestParam("username") String username,
