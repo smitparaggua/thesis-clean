@@ -1,7 +1,8 @@
 package com.csg.warrior.controller;
 
 import com.csg.warrior.domain.User;
-import com.csg.warrior.service.KeyRequestService;
+import com.csg.warrior.service.QuadDeleteService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/key-request")
-public class WarriorKeyRequestController {
-    @Autowired private KeyRequestService keyRequestService;
+@RequestMapping("/quad-delete")
+public class QuadDeleteController {
+    @Autowired private QuadDeleteService quadDeleteService;
 
     @RequestMapping(method=RequestMethod.POST)
     @ResponseBody
-    public String processKeyRequest(@RequestParam("username") String username, 
+    public String processQuadDeleteRequest(@RequestParam("username") String username, 
     								@RequestParam("website") String website,
-    								@RequestParam("device_id") String gcm_device_id) {
-    	
-    	return keyRequestService.checkWarriorRegistration(new User(username, website, gcm_device_id));
+    								@RequestParam("bladeKey") String bladeKey,
+    								@RequestParam("bladeUUID") String bladeUUID) {
+    	return quadDeleteService.quadDelete(username, website, bladeUUID, bladeKey);
     }
     
     

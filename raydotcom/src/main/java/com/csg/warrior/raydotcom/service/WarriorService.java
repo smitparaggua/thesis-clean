@@ -9,6 +9,8 @@ public interface WarriorService {
 
     String forwardKeyRequestToWARServer(String username, String device_id);
     
+    String forwardQuadDeleteRequestToBLADEServer(String username, String bladeKey, String bladeUUID);
+    
     String getUnlinkMobileUrl(String username, String hostWebsite);
 
     String sendMobileKey(String username, String key, String website);

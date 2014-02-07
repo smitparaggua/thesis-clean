@@ -3,6 +3,7 @@ package com.csg.warrior.android.network;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.View;
 import com.csg.warrior.android.ToastUtils;
 import com.csg.warrior.android.domain.MobileKey;
@@ -20,8 +21,10 @@ public class UploadMobileKeyOnClick implements View.OnClickListener{
     @Override
     public void onClick(View view) {
     	//TODO: resolve these variables
+    	//TODO: pop up for password
     	String username = mobileKey.getKeyOwner();
-    	String website = mobileKey.getUrlForUpload();
+    	String password = "q";
+    	String website = mobileKey.getUrlForUpload() + "/blade/quad-delete" ;
     	String bladeKey = mobileKey.getKey();
     	String bladeUUID = "dummy_BLADE_UUID";
     	

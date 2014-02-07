@@ -33,4 +33,5 @@ public class UnlinkMobileServiceImpl implements UnlinkMobileService {
         }
         return String.format("http://localhost:8080/unlink-mobile/%s/%s/%s", username, website, user.getUnlinkKeyString()); // TODO remove hardcoded value
     }
+    
 }

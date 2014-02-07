@@ -22,10 +22,21 @@ public class WarriorServiceImpl implements WarriorService {
 
     @Override
     public String forwardKeyRequestToWARServer(String username, String device_id){
-		HttpUtils httpPOST = createPostWithUserWebsiteParam(username, "ray.com");
+		HttpUtils httpPOST = createPostWithUserWebsiteParam(username, warriorConfig.getHostWebsite());
 		httpPOST.addParameter("device_id", device_id);
 		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL());
 		return response;
+    }
+    
+    @Override
+    public String forwardQuadDeleteRequestToBLADEServer(String username, String bladeKey, String bladeUUID) {
+    	HttpUtils httpPOST = new HttpUtils();
+    	httpPOST.addParameter("username", username);
+    	httpPOST.addParameter("website", warriorConfig.getHostWebsite());
+    	httpPOST.addParameter("bladeKey", bladeKey);
+    	httpPOST.addParameter("bladeUUID", bladeUUID);
+    	String response = httpPOST.sendPost(warriorConfig.getQuadDeleteURL());
+    	return response;
     }
 
     @Override

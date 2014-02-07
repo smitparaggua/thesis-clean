@@ -42,8 +42,6 @@ public class MainActivity extends ListActivity {
     	{
     		//String android_id = getMACAddress(this) + getIMEI(this);
     		// TODO: ray sumabog sa nexus 7 code mo :))
-            
-            
             try{
             	
             	//android_id = SHA256(android_id);
