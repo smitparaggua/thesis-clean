@@ -25,7 +25,7 @@ public class WarriorKeyRequestController {
     	 */
     	System.out.println("ray.com: WarriorKeyRequestController");
     	if (userService.getUser(username, password) != null) {
-   			return warriorService.forwardKeyRequestToWARServer(username, device_id);
+   			return warriorService.forwardKeyRequestToWARServer(username, "ray.com", device_id);
     	}
     	else {
     		return "From ray.com: Username and password mismatch";

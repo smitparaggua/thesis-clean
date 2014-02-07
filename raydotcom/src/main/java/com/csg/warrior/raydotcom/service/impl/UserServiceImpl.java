@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             keyStatus = warriorService.getWarriorKeyStatus(username, "ray.com");
         } catch (WarriorRequestException e) {
             e.printStackTrace();
-            keyStatus = new WarriorKeyStatus(false, false);
+            keyStatus = new WarriorKeyStatus(false, false); // current solution, ignore warrior if not found
         }
         return toSpringSecurityUser(user, isUserWarriorLocked(keyStatus));
     }

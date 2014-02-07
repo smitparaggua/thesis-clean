@@ -27,8 +27,8 @@ public class User {
     }
 
     @Transient
-    public boolean isMobileKeyValid() {
-        return mobileKey.isValid();
+    public boolean isMobileKeyExpired() {
+        return mobileKey.isExpired();
     }
 
     public Long getUserId() {

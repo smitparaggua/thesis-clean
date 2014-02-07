@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         if(keyOwner == null) {
             return new WarriorKeyStatus(false, false);
         }
-        return new WarriorKeyStatus(true, keyOwner.isMobileKeyValid());
+        return new WarriorKeyStatus(true, !keyOwner.isMobileKeyExpired());
     }
 
     @Override
