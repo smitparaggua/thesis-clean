@@ -19,11 +19,12 @@ public class LoginController {
     @RequestMapping(value = "/key-upload", method = RequestMethod.POST)
     @ResponseBody
     public String acceptKeyFromMobile(@RequestParam("username") String username,
-                                      @RequestParam("key") String key,
-                                      @RequestParam("website") String requestSourceWebsite) {
+    								  @RequestParam("website") String website,
+                                      @RequestParam("bladeKey") String bladeKey,
+                                      @RequestParam("bladeUUID") String bladeUUID) {
         boolean keyIsValid;
         try {
-            keyIsValid = userService.updateMobileKey(username, requestSourceWebsite, key);
+            keyIsValid = userService.updateMobileKey(username, website, bladeKey, bladeUUID);
         } catch (NoMobileKeyForUserException e) {
             return "User does not have a designated mobile key";
         }
