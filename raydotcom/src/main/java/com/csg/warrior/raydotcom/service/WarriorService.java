@@ -7,6 +7,8 @@ import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 public interface WarriorService {
     WarriorKeyStatus getWarriorKeyStatus(String username, String requestSourceUrl) throws WarriorRequestException;
 
+    String forwardQuadDeleteRequestToBLADEServer(String username, String bladeKey, String bladeUUID);
+    
     String getUnlinkMobileUrl(String username, String hostWebsite);
 
     String sendMobileKey(String username, String key, String website);

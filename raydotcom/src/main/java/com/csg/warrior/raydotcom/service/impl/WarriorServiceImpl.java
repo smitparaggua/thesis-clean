@@ -32,6 +32,17 @@ public class WarriorServiceImpl implements WarriorService {
 		String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL());
 		return response;
     }
+    
+    @Override
+    public String forwardQuadDeleteRequestToBLADEServer(String username, String bladeKey, String bladeUUID) {
+    	HttpUtils httpPOST = new HttpUtils();
+    	httpPOST.addParameter("username", username);
+    	httpPOST.addParameter("website", warriorConfig.getHostWebsite());
+    	httpPOST.addParameter("bladeKey", bladeKey);
+    	httpPOST.addParameter("bladeUUID", bladeUUID);
+    	String response = httpPOST.sendPost(warriorConfig.getQuadDeleteURL());
+    	return response;
+    }
 
     @Override
     public String getUnlinkMobileUrl(String username, String website) {

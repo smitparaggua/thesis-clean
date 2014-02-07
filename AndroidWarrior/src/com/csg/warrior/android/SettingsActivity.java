@@ -91,7 +91,7 @@ public class SettingsActivity extends Activity {
     	    	String username = keyOwnerView.getText().toString();
     	        password = input.getText().toString();
     	        String url = addressBarView.getText().toString();
-    	        url = url + "/warrior/key-request";
+    	        url = url + "/blade/key-request";
     	    	sharedPref = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);    	
     	    	String device_id = sharedPref.getString("BLADE_UUID", "No BLADE UUID upon installation?");
     	    	

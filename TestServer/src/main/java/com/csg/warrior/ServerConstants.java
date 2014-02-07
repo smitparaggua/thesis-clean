@@ -11,4 +11,7 @@ public class ServerConstants {
     
     // This is the message for when a correct (username, website, BLADE key) is uploaded with the wrong deviceID
     public static final String messageIncorrectDevice = "From BLADE Server: this is not the registered device";	
+    
+    // This is the message when deleting a quad fails
+    public static final String messageFailedToDeleteQuad = "Something went wrong.";
 }

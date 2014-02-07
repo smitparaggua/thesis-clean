@@ -19,6 +19,11 @@ public class WarriorConfig {
     	return "http://localhost:8080/testserver/unlink-mobile";
     }
     
+    public String getQuadDeleteURL() {
+    	return "http://localhost:8080/testserver/quad-delete";
+    }
+    
+    //this must be the same base URL that you will give to users of the BLADE System
     public String getHostWebsite() {
     	return "ray.com";
     }

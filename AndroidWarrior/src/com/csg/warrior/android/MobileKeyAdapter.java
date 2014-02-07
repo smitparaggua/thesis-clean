@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.csg.warrior.android.domain.MobileKey;
+import com.csg.warrior.android.network.DeleteMobileKeyOnClick;
 import com.csg.warrior.android.network.UploadMobileKeyOnClick;
 import com.csg.warrior.android.R;
 
@@ -40,6 +42,7 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
         final MobileKey mobileKey = mobileKeys.get(position);
         updateMobileKeyLabels(view, mobileKey);
         setUploadBehavior(view, mobileKey);
+        setDeleteBehavior(view, mobileKey);
         return view;
     }
 
@@ -57,5 +60,10 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
     private void setUploadBehavior(View view, final MobileKey mobileKey) {
         ImageButton uploadButton = (ImageButton) view.findViewById(R.id.upload_button);
         uploadButton.setOnClickListener(new UploadMobileKeyOnClick(mobileKey, this.context));
+    }
+    
+    private void setDeleteBehavior(View view, final MobileKey mobileKey) {
+    	Button deleteButton = (Button) view.findViewById(R.id.delete_button);
+    	deleteButton.setOnClickListener(new DeleteMobileKeyOnClick(mobileKey, this.context));
     }
 }
