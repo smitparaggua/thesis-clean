@@ -49,7 +49,8 @@ public class MobileKeyTest {
 
     @Test
     public void acceptOnlyKeysWithCorrectLength() {
-        String generatedKeyString = KeyStringGenerator.generateKeyString();
+        KeyStringGenerator generator = new KeyStringGenerator();
+        String generatedKeyString = generator.generateKeyString();
         mobileKey.setKeyString(generatedKeyString);
         assertTrue("Generated key's length: " + generatedKeyString.length(), mobileKey.isValid());
         mobileKey.setKeyString("a");
