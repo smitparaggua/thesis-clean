@@ -20,6 +20,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_TRIPLES_USERNAME = "username";
     private static final String COLUMN_TRIPLES_URL = "url";
     private static final String COLUMN_TRIPLES_KEY= "key";
+    private static final String COLUMN_TRIPLES_PASS = "pass";
 
 
     
@@ -36,8 +37,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     			+ COLUMN_TRIPLES_ID + " INTEGER PRIMARY KEY,"
     			+ COLUMN_TRIPLES_USERNAME + " TEXT,"
     			+ COLUMN_TRIPLES_URL + " TEXT,"
-    			+ COLUMN_TRIPLES_KEY + " TEXT"
-    			+ ")";
+    			+ COLUMN_TRIPLES_KEY + " TEXT,"
+    			+ COLUMN_TRIPLES_PASS + " TEXT" +")";
         db.execSQL(CREATE_TRIPLE_TABLE);
     }
  
@@ -64,6 +65,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         		mk.setKeyOwner(cursor.getString(1));
         		mk.setUrlForUpload(cursor.getString(2));        		
         		mk.setKey(cursor.getString(3));
+        		mk.setPassword(cursor.getString(4));
         		mobileKeyList.add(mk);
         	} while(cursor.moveToNext());
         }
@@ -86,8 +88,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     
     public void updateMobileKey(MobileKey mobileKey) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String updateQuery = "UPDATE triples SET username=?, key=?, url=? WHERE tripleid="+mobileKey.getDatabaseId();
-        String[] queryParameters = new String[] {mobileKey.getKeyOwner(), mobileKey.getKey(), mobileKey.getUrlForUpload()};
+        String updateQuery = "UPDATE triples SET username=?, key=?, url=?, pass=? WHERE tripleid="+mobileKey.getDatabaseId();
+        String[] queryParameters = new String[] {mobileKey.getKeyOwner(), mobileKey.getKey(), mobileKey.getUrlForUpload(), mobileKey.getPassword()};
         Cursor cursor = db.rawQuery(updateQuery, queryParameters);
         cursor.moveToFirst();
         cursor.close();
@@ -113,6 +115,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(COLUMN_TRIPLES_USERNAME, mobileKey.getKeyOwner());
             values.put(COLUMN_TRIPLES_URL, mobileKey.getUrlForUpload());
             values.put(COLUMN_TRIPLES_KEY, mobileKey.getKey());
+            values.put(COLUMN_TRIPLES_PASS, mobileKey.getPassword());
 
         }
         return values;
@@ -135,5 +138,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	return values;
     }
     
+    public void deleteData(String username, String password){
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	
+    	String whereClause = "username=? AND pass=?";
+    	String[] queryParameters = new String[] {username, password};
+    	db.delete(TABLE_TRIPLES, whereClause, queryParameters);
+    	
+    }
     
 }

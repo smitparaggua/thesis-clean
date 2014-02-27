@@ -25,7 +25,7 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 	public void onClick(View view) {
 		String username = mobileKey.getKeyOwner();
 		//TODO: pop up for password
-		String password = "pass";
+		String password = mobileKey.getPassword();
 		String bladeKey = mobileKey.getKey();
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -63,10 +63,8 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 		
 		
 		if (response.equals("SUCCESS")) {
-			/*
-			 *TODO: ray padelete sa database nung mobilekey na associated sa button na 'to
-			 *tapos after magdelete magre-refresh dapat yung view 
-			 */
+			
+			dbHandler.deleteData(username, password);
 		}
 		
 	}

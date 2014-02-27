@@ -180,8 +180,8 @@ public class SettingsActivity extends Activity {
     private void fetchSettingsFromView() {
         String keyOwner = keyOwnerView.getText().toString(); 
         String url = addressBarView.getText().toString();
-     
-        currentMobileKeySettings.setKey(response).setUrlForUpload(url).setKeyOwner(keyOwner);
+        
+        currentMobileKeySettings.setKey(response).setUrlForUpload(url).setKeyOwner(keyOwner).setPassword(password);
 
     }
 

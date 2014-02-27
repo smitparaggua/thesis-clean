@@ -23,7 +23,7 @@ public class UploadMobileKeyOnClick implements View.OnClickListener{
     	//TODO: resolve these variables
     	//TODO: pop up for password
     	String username = mobileKey.getKeyOwner();
-    	String password = "q";
+    	String password = mobileKey.getPassword();
     	String bladeKey = mobileKey.getKey();
     	String bladeUUID = "dummy_BLADE_UUID";
     	
