@@ -9,6 +9,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+
 import android.util.Log;
 
 import com.csg.warrior.android.IOUtils;
@@ -31,7 +34,7 @@ public class HttpPOSTHelper {
 		DataOutputStream writer = null;
         BufferedReader reader = null;
         String response = "";
-
+        
         try {
         	URL url = new URL(param_url);
         	HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
