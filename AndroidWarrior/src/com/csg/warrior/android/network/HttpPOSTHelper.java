@@ -8,9 +8,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import android.util.Log;
 
@@ -20,6 +26,12 @@ import com.csg.warrior.android.exception.FailedUploadException;
 public class HttpPOSTHelper {
 	
 	HttpParameterBuilder paramBuilder;
+	
+	final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+		public boolean verify(String hostname, SSLSession session) {
+			return true;
+		}
+	};
 	
 	public HttpPOSTHelper () {		
 		paramBuilder = new HttpParameterBuilder();
@@ -37,7 +49,18 @@ public class HttpPOSTHelper {
         
         try {
         	URL url = new URL(param_url);
-        	HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+        	//HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        	HttpURLConnection connection = null;
+        	
+        	if (url.getProtocol().toLowerCase().equals("https")) {
+        		trustAllHosts();
+        		HttpsURLConnection https = (HttpsURLConnection) url.openConnection();
+        		https.setHostnameVerifier(DO_NOT_VERIFY);
+        		connection = https;
+        	} else {
+        		connection = (HttpURLConnection) url.openConnection();
+        	}
+        	
         	connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             connection.setDoInput(true);
@@ -77,6 +100,29 @@ public class HttpPOSTHelper {
     private  void closeIoStream(DataOutputStream writer, BufferedReader reader) {
     	if(writer != null) IOUtils.closeQuietly(writer);
         if(reader != null) IOUtils.closeQuietly(reader);
+    }
+    
+    private static void trustAllHosts() {
+    	
+    	TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+    		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+    			return new java.security.cert.X509Certificate[] {};
+    		}
+
+    		public void checkClientTrusted(X509Certificate[] chain,
+    				String authType) throws CertificateException {}
+
+    		public void checkServerTrusted(X509Certificate[] chain,
+    				String authType) throws CertificateException {}
+    	} };
+    	
+    	try {
+    		SSLContext sc = SSLContext.getInstance("TLS");
+    		sc.init(null,  trustAllCerts, new java.security.SecureRandom());
+    		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
     }
 	
 	
