@@ -25,7 +25,7 @@ public class KeyStringGenerator {
 		}
 	}
 	
-	public String generateKeyString() {
+	public static String generateKeyString() {
         try {          
             KeyPair pair = keyGen.generateKeyPair();
             PrivateKey priv = pair.getPrivate();
