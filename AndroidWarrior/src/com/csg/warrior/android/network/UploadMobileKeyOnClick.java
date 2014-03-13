@@ -3,6 +3,8 @@ package com.csg.warrior.android.network;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import com.csg.warrior.android.ToastUtils;
@@ -19,13 +21,14 @@ public class UploadMobileKeyOnClick implements View.OnClickListener{
     }
 
     @Override
-    public void onClick(View view) {
-    	//TODO: resolve these variables
-    	//TODO: pop up for password
+    public void onClick(View view) {   	
+    	
+    	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+    	
     	String username = mobileKey.getKeyOwner();
     	String password = mobileKey.getPassword();
     	String bladeKey = mobileKey.getKey();
-    	String bladeUUID = "dummy_BLADE_UUID";
+    	String bladeUUID = sharedPref.getString("BLADE_UUID", "");
     	
         String response = "";
         try {
