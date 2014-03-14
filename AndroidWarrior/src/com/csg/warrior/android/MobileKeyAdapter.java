@@ -52,7 +52,7 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
             TextView urlView = (TextView) view.findViewById(R.id.url_label);
             TextView keyOwnerView = (TextView) view.findViewById(R.id.key_owner_label);
             associatedKeyView.setText(mobileKey.getKey());
-            keyOwnerView.setText(mobileKey.getPassword());
+            keyOwnerView.setText(mobileKey.getKeyOwner());
             urlView.setText(mobileKey.getUrlForUpload());
         }
     }

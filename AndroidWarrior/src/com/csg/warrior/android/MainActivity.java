@@ -45,7 +45,7 @@ public class MainActivity extends ListActivity {
     		// TODO: ray sumabog sa nexus 7 code mo :))
             try{
             	
-            	//android_id = SHA256(android_id);
+            	android_id = SHA256(android_id);
             	Log.i("DAN", "First install, generating BLADE UUID");
         		SharedPreferences.Editor editor = sharedPref.edit();
         		editor.putString("BLADE_UUID",  android_id);
