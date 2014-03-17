@@ -108,6 +108,8 @@ public class MainActivity extends ListActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case SETTINGS_REQUEST_CODE:
+                	Intent refresh = new Intent(this, MainActivity.class); //inboxlist is activity which list the read and unread messages
+                    startActivity(refresh);
                     showMobileKeys();
                     break;
             }

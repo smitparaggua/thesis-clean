@@ -31,11 +31,11 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		String bladeUUID = sharedPref.getString("BLADE_UUID", "No BLADE UUID upon installation?");
 		
-		requestQuadDelete_sendPOST(username, password, bladeKey, bladeUUID);
+		requestQuadDelete_sendPOST(username, password, bladeKey, bladeUUID, view);
         dbHandler.deleteMobileKey(mobileKey);
 	}
 	
-	private void requestQuadDelete_sendPOST(String username, String password, String bladeKey, String bladeUUID) {
+	private void requestQuadDelete_sendPOST(String username, String password, String bladeKey, String bladeUUID, View view) {
 		HttpPOSTHelper httpPOST = new HttpPOSTHelper();
     	httpPOST.addParameter("username", username);
     	httpPOST.addParameter("password", password);
@@ -65,7 +65,10 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 		if (response.equals("SUCCESS")) {
 			
 			dbHandler.deleteData(username, password);
+			view.invalidate(); 
 		}
+		
+		
 		
 	}
 }

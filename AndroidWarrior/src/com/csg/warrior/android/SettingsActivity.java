@@ -51,13 +51,21 @@ public class SettingsActivity extends Activity {
     private String response;
     private ProgressDialog progressDialog;  
     private boolean flag = true;  
+    Bundle savedInstanceState;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.settings_view);
         currentMobileKeySettings = (MobileKey) getIntent().getSerializableExtra(MainActivity.EXTRAS_KEY_MOBILE_KEY);
         initializeViewValues(currentMobileKeySettings);
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();	
+    	this.onCreate(savedInstanceState);
     }
 
     private void initializeViewValues(MobileKey currentMobileKeySettings) {
@@ -67,8 +75,8 @@ public class SettingsActivity extends Activity {
             addressBarView = (TextView) findViewById(R.id.address_bar);
             addressBarView.setText(currentMobileKeySettings.getUrlForUpload());
        
-            associatedKeyView = (TextView) findViewById(R.id.associated_file_name);
-            associatedKeyView.setText(currentMobileKeySettings.getKey());
+            //associatedKeyView = (TextView) findViewById(R.id.associated_file_name);
+            //associatedKeyView.setText(currentMobileKeySettings.getKey());
         }
     }
 
@@ -87,7 +95,7 @@ public class SettingsActivity extends Activity {
     	    @Override
     	    public void onClick(DialogInterface dialog, int which) {
     	    	flag = true;
-    	    	new LoadViewTask().execute();
+    	    	//new LoadViewTask().execute();
     	    	String username = keyOwnerView.getText().toString();
     	        password = input.getText().toString();
     	        String url = addressBarView.getText().toString();
@@ -191,51 +199,6 @@ public class SettingsActivity extends Activity {
     }
 
     
-    public String getIMEI(Context context){
-
-		TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE); 
-		String imei = mngr.getDeviceId();
-		Log.i("DAN", imei);
-		return imei;
-
-	}
-    
-    public static String getMACAddress(Context context) {
-    	WifiManager manager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
-    	WifiInfo info = manager.getConnectionInfo();
-    	String address = info.getMacAddress();
-    	Log.i("DAN", address);
-    	return address;
-	}
-    
-    
-    //idedelete na ito
-	public synchronized static String id(Context context) {
-		if (uniqueID == null) {
-		    SharedPreferences sharedPrefs = context.getSharedPreferences(
-		            PREF_UNIQUE_ID, Context.MODE_PRIVATE);
-		    uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
-		        if (uniqueID == null) {
-		            uniqueID = UUID.randomUUID().toString();
-		            Editor editor = sharedPrefs.edit();
-		            editor.putString(PREF_UNIQUE_ID, uniqueID);
-		            editor.commit();
-		        }
-		}
-		
-		Log.i("DAN", uniqueID);
-		return uniqueID;
-	}
-	
-	public static String SHA256(String text) throws NoSuchAlgorithmException {
-
-	    MessageDigest md = MessageDigest.getInstance("SHA-256");
-
-	    md.update(text.getBytes());
-	    byte[] digest = md.digest();
-
-	    return Base64.encodeToString(digest, Base64.DEFAULT);
-	}
 	
 	private class LoadViewTask extends AsyncTask<Void, Integer, Void>  
     {   
