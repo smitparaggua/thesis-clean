@@ -1,4 +1,4 @@
-package com.csg.warrior.raydotcom;
+package com.csg.warrior.core;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -16,11 +16,9 @@ import java.util.List;
 
 public class HttpUtils {
     private List<NameValuePair> urlParameters;
-    private WarriorConfig warriorConfig;
-    
+
     public HttpUtils() {
         urlParameters = new ArrayList<NameValuePair>();
-        warriorConfig = new WarriorConfig();
     }
 
     // todo: separate sending request and receiving response
@@ -30,7 +28,7 @@ public class HttpUtils {
             HttpResponse response = sendRequest(postRequest);
             return check404(response);
         } catch (IOException e) {
-        	return warriorConfig.getMessageWhenBLADEServerDown();
+            return "BLADE server down";
         } catch(Exception e) {
             e.printStackTrace();
             return "An error occured";
@@ -38,18 +36,18 @@ public class HttpUtils {
     }
 
     private String check404(HttpResponse response) {
-    	if (response.getStatusLine().getStatusCode() == 404) return warriorConfig.getMessageWhenBLADEServerDown();
-    	else {
-    		try {
-    			return readResponseAsString(response);
-    		}
-    		catch(Exception e) {
-    			e.printStackTrace();
-    			return "An error occured";
-    		}
-    	}
+        if (response.getStatusLine().getStatusCode() == 404) return "BLADE server down";
+        else {
+            try {
+                return readResponseAsString(response);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+                return "An error occured";
+            }
+        }
     }
-    
+
     private HttpPost createPostRequest(String url) throws UnsupportedEncodingException {
         HttpPost post = new HttpPost(url);
         post.setHeader("User-Agent", "Mozilla/5.0");

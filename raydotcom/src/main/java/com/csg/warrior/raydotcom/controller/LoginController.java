@@ -1,6 +1,7 @@
 package com.csg.warrior.raydotcom.controller;
 
-import com.csg.warrior.raydotcom.service.WarriorService;
+import com.csg.warrior.core.WarriorService;
+import com.csg.warrior.raydotcom.WarriorConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class LoginController {
-    @Autowired private WarriorService warriorService;
+    private WarriorConfig warriorConfig = new WarriorConfig();
+    private WarriorService warriorService = new WarriorService(warriorConfig.getWarriorUrl(), warriorConfig.getHostWebsite());
 
     @RequestMapping(value = "/login")
     public String getLoginPage() {

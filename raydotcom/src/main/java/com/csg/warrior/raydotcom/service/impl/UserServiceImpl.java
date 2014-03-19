@@ -1,13 +1,12 @@
 package com.csg.warrior.raydotcom.service.impl;
 
 import com.csg.warrior.core.WarriorKeyStatus;
-import com.csg.warrior.raydotcom.WarriorConfig;
+import com.csg.warrior.core.WarriorService;
+import com.csg.warrior.core.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
-import com.csg.warrior.raydotcom.exception.WarriorRequestException;
 import com.csg.warrior.raydotcom.service.EmailSenderService;
 import com.csg.warrior.raydotcom.service.UserService;
-import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,9 +23,9 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired private UserDao userDao;
-    @Autowired private WarriorService warriorService;
     @Autowired private EmailSenderService emailSenderService;
-    private WarriorConfig warriorConfig = new WarriorConfig();
+    private String HOST_NAME = "ray.com";
+    private WarriorService warriorService = new WarriorService("http://localhost:8080/testserver", HOST_NAME);
 
     @Override
     public void setUserDao(UserDao userDao) {
@@ -86,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void unlinkMobileOf(User user) {
         user = getUser(user.getUsername(), user.getPassword());
         if(user != null) {
-            String url = warriorService.getUnlinkMobileUrl(user.getUsername(), warriorConfig.getHostWebsite());
+            String url = warriorService.getUnlinkMobileUrl(user.getUsername(), HOST_NAME);
             emailSenderService.sendMail(user.getEmail(), "Mobile Key Unlink", url);   // TODO CHANGE THIS LINE
         } else {
             throw new IllegalArgumentException("Invalid username or password");

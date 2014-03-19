@@ -1,7 +1,8 @@
 package com.csg.warrior.raydotcom.controller;
 
+import com.csg.warrior.core.WarriorService;
+import com.csg.warrior.raydotcom.WarriorConfig;
 import com.csg.warrior.raydotcom.service.UserService;
-import com.csg.warrior.raydotcom.service.WarriorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/blade")
 public class BLADEAppController {
-    @Autowired private WarriorService warriorService;
     @Autowired private UserService userService;
-    
+    private WarriorConfig warriorConfig = new WarriorConfig();
+    private WarriorService warriorService = new WarriorService(warriorConfig.getWarriorUrl(), warriorConfig.getHostWebsite());
+
     @RequestMapping("/key-request")
     @ResponseBody
     public String warriorKeyRequest(@RequestParam("username") String username,

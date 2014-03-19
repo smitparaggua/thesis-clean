@@ -1,5 +1,6 @@
 package com.csg.warrior.raydotcom.service;
 
+import com.csg.warrior.core.WarriorService;
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
 

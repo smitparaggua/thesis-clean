@@ -1,15 +1,16 @@
-package com.csg.warrior.raydotcom;
+package com.csg.warrior.core;
 
 public class WarriorConfig {
-    private String warriorUrl = "http://localhost:8080/testserver";
-    private String hostWebsite = "ray.com";
+    private String warriorUrl;
+    private String hostWebsite;
+
+    public WarriorConfig(String warriorUrl, String hostWebsite) {
+        this.warriorUrl = warriorUrl;
+        this.hostWebsite = hostWebsite;
+    }
 
     public String getSignUpSuccessReply() {
         return "Sign up successful";
-    }
-
-    public String getWarriorUrl() {
-        return warriorUrl;
     }
 
     public String getKeyStatusUrl() {
