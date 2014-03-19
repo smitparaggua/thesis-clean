@@ -3,9 +3,12 @@ package com.csg.warrior.android.network;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
+
+import com.csg.warrior.android.MainActivity;
 import com.csg.warrior.android.domain.MobileKey;
 import com.csg.warrior.android.exception.FailedUploadException;
 import com.csg.warrior.android.persistence.DatabaseHandler;
@@ -65,10 +68,14 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 		if (response.equals("SUCCESS")) {
 			
 			dbHandler.deleteData(username, password);
-			view.invalidate(); 
+			
+			//put delete here
+			
 		}
 		
 		
 		
 	}
+
+	
 }

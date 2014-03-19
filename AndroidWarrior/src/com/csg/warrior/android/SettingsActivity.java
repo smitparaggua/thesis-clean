@@ -125,7 +125,6 @@ public class SettingsActivity extends Activity {
     	
     	response = "";
     	try {
-    		//flag = false;
     		response = httpPOST.sendPOST(url);
     	}
     	catch (FailedUploadException e) {
@@ -133,7 +132,7 @@ public class SettingsActivity extends Activity {
     	}
     	
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(response);
+		builder.setMessage("This device is now registered");
 		
 		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 			@Override
@@ -198,68 +197,4 @@ public class SettingsActivity extends Activity {
         finish();
     }
 
-    
-	
-	private class LoadViewTask extends AsyncTask<Void, Integer, Void>  
-    {   
-        @Override  
-        protected void onPreExecute()  
-        {  
-            //Create a new progress dialog  
-            progressDialog = new ProgressDialog(SettingsActivity.this);  
-            //Set the progress dialog to display a horizontal progress bar  
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  
-            //Set the dialog title to 'Loading...'  
-            progressDialog.setTitle("Loading...");  
-            //Set the dialog message to 'Loading application View, please wait...'  
-            progressDialog.setMessage("Waiting for the BLADE Key...");  
-            //This dialog can't be canceled by pressing the back key  
-            progressDialog.setCancelable(false);  
-            //This dialog isn't indeterminate  
-            progressDialog.setIndeterminate(false);  
-            //Display the progress dialog  
-            progressDialog.show();  
-        }  
-  
-        //The code to be executed in a background thread.  
-        @Override  
-        protected Void doInBackground(Void... params)  
-        {  
-            try  
-            {  
-                //Get the current thread's token  
-                synchronized (this)  
-                {  
-                	int counter = 0;
-                    while(counter<5)  
-                    {  
-                        this.wait(850);  
-                        counter++;
-                    }  
-                }  
-            }  
-            catch (InterruptedException e)  
-            {  
-                e.printStackTrace();  
-            }  
-            return null;  
-        }  
-  
-        //Update the progress  
-        @Override  
-        protected void onProgressUpdate(Integer... values)  
-        {  
-            //set the current progress of the progress dialog  
-            progressDialog.setProgress(values[0]);  
-        }  
-  
-        //after executing the code in the thread  
-        @Override  
-        protected void onPostExecute(Void result)  
-        {  
-            //close the progress dialog  
-            progressDialog.dismiss();  
-
-        }  
-    }   
 }
