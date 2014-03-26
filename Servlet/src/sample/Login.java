@@ -1,5 +1,9 @@
 package sample;
 
+import com.csg.warrior.core.WarriorKeyStatus;
+import com.csg.warrior.core.WarriorService;
+import com.csg.warrior.core.exception.WarriorRequestException;
+
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,9 +20,12 @@ public class Login extends HttpServlet {
 
         if(Validate.checkUser(email, pass))
         {
-            // find out how to include the library warrior-core and add the warrior key validation here
-            RequestDispatcher rs = request.getRequestDispatcher("Welcome");
-            rs.forward(request, response);
+            if(isWarriorLocked(email)) {
+                out.println("User is locked by warrior system");
+            } else {
+                RequestDispatcher rs = request.getRequestDispatcher("Welcome");
+                rs.forward(request, response);
+            }
         }
         else
         {
@@ -27,5 +34,15 @@ public class Login extends HttpServlet {
             rs.include(request, response);
         }
 
+    }
+
+    private boolean isWarriorLocked(String email) {
+        try {
+            WarriorService warriorService = new WarriorService("http://localhost:8080/testserver", "servlet");
+            WarriorKeyStatus status = warriorService.getWarriorKeyStatus(email, "servlet");
+            return status.isRegisteredInWarrior() && status.isWarriorKeyValid();
+        } catch (WarriorRequestException e) {
+            return true; // does not inform user if unexpected error occurs
+        }
     }
 }
