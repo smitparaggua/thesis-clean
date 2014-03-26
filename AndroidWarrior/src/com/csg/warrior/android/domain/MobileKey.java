@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class MobileKey implements Serializable {
 	private long databaseId;
+	private String password;
     private String keyOwner;
     private String Key;
     private String urlForUpload;
@@ -22,6 +23,11 @@ public class MobileKey implements Serializable {
         this.Key = Key;
         return this;
     }
+    
+    public MobileKey setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 
     public MobileKey setUrlForUpload(String url) {
         this.urlForUpload = url;
@@ -34,6 +40,10 @@ public class MobileKey implements Serializable {
 
     public String getKeyOwner() {
         return keyOwner;
+    }
+    
+    public String getPassword() {
+        return password;
     }
 
     public String getKey() {

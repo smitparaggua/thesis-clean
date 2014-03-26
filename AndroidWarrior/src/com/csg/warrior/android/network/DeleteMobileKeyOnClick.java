@@ -3,9 +3,12 @@ package com.csg.warrior.android.network;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
+
+import com.csg.warrior.android.MainActivity;
 import com.csg.warrior.android.domain.MobileKey;
 import com.csg.warrior.android.exception.FailedUploadException;
 import com.csg.warrior.android.persistence.DatabaseHandler;
@@ -25,17 +28,17 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 	public void onClick(View view) {
 		String username = mobileKey.getKeyOwner();
 		//TODO: pop up for password
-		String password = "pass";
+		String password = mobileKey.getPassword();
 		String bladeKey = mobileKey.getKey();
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		String bladeUUID = sharedPref.getString("BLADE_UUID", "No BLADE UUID upon installation?");
 		
-		requestQuadDelete_sendPOST(username, password, bladeKey, bladeUUID);
+		requestQuadDelete_sendPOST(username, password, bladeKey, bladeUUID, view);
         dbHandler.deleteMobileKey(mobileKey);
 	}
 	
-	private void requestQuadDelete_sendPOST(String username, String password, String bladeKey, String bladeUUID) {
+	private void requestQuadDelete_sendPOST(String username, String password, String bladeKey, String bladeUUID, View view) {
 		HttpPOSTHelper httpPOST = new HttpPOSTHelper();
     	httpPOST.addParameter("username", username);
     	httpPOST.addParameter("password", password);
@@ -63,11 +66,16 @@ public class DeleteMobileKeyOnClick implements View.OnClickListener {
 		
 		
 		if (response.equals("SUCCESS")) {
-			/*
-			 *TODO: ray padelete sa database nung mobilekey na associated sa button na 'to
-			 *tapos after magdelete magre-refresh dapat yung view 
-			 */
+			
+			dbHandler.deleteData(username, password);
+			
+			//put delete here
+			
 		}
 		
+		
+		
 	}
+
+	
 }

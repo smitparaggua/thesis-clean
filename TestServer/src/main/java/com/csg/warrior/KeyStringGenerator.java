@@ -5,7 +5,6 @@ import com.csg.warrior.domain.MobileKey;
 import java.security.SecureRandom;
 
 public class KeyStringGenerator {
-
     private static final String ALLOWED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	private static final SecureRandom random = new SecureRandom();
 

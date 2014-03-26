@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class BLADEAppController {
     @Autowired private UserService userService;
     private WarriorConfig warriorConfig = new WarriorConfig();
-    private WarriorService warriorService = new WarriorService(warriorConfig.getWarriorUrl(), warriorConfig.getHostWebsite());
+    private WarriorService warriorService = new WarriorService(warriorConfig.getBLADEServerURL(), warriorConfig.getHostWebsite());
 
     @RequestMapping("/key-request")
     @ResponseBody
@@ -27,7 +27,7 @@ public class BLADEAppController {
     	 */
     	System.out.println("ray.com: BLADE Key request");
     	if (userService.getUser(username, password) != null) {
-   			return warriorService.forwardKeyRequestToWARServer(username, "ray.com", device_id);
+   			return warriorService.forwardKeyRequestToWARServer(username, warriorConfig.getHostWebsite(), device_id);
     	}
     	else {
     		return "From ray.com: Username and password mismatch";

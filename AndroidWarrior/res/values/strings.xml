@@ -3,7 +3,7 @@
     <string name="app_name">AndroidWarrior</string>
     <string name="upload_key_label">Upload Key</string>
     <string name="url_label">URL:</string>
-    <string name="warrior_key_label">Warrior key</string>
+    <string name="warrior_key_label">BLADE key</string>
     <string name="request_label">Register</string>
     <string name="cancel_label">Cancel</string>
     <string name="save_label">Save</string>

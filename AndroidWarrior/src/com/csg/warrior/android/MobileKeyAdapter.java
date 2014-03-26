@@ -1,6 +1,7 @@
 package com.csg.warrior.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import com.csg.warrior.android.domain.MobileKey;
 import com.csg.warrior.android.network.DeleteMobileKeyOnClick;
 import com.csg.warrior.android.network.UploadMobileKeyOnClick;
@@ -48,10 +50,10 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
 
     private void updateMobileKeyLabels(View view, MobileKey mobileKey) {
         if(mobileKey != null) {
-            TextView associatedKeyView = (TextView) view.findViewById(R.id.associated_file_label);
+           // TextView associatedKeyView = (TextView) view.findViewById(R.id.associated_file_label);
             TextView urlView = (TextView) view.findViewById(R.id.url_label);
             TextView keyOwnerView = (TextView) view.findViewById(R.id.key_owner_label);
-            associatedKeyView.setText(mobileKey.getKey());
+            //associatedKeyView.setText(mobileKey.getKey());
             keyOwnerView.setText(mobileKey.getKeyOwner());
             urlView.setText(mobileKey.getUrlForUpload());
         }
@@ -65,5 +67,6 @@ public class MobileKeyAdapter extends ArrayAdapter<MobileKey> {
     private void setDeleteBehavior(View view, final MobileKey mobileKey) {
     	Button deleteButton = (Button) view.findViewById(R.id.delete_button);
     	deleteButton.setOnClickListener(new DeleteMobileKeyOnClick(mobileKey, this.context));
+
     }
 }

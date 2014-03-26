@@ -11,6 +11,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
@@ -40,14 +41,14 @@ public class MainActivity extends ListActivity {
     	boolean isFirstRun = sharedPref.getBoolean("FIRSTRUN", true);
     	if (isFirstRun)
     	{
-    		//String android_id = getMACAddress(this) + getIMEI(this);
+    		String android_id = getMACAddress(this) + getIMEI(this);
     		// TODO: ray sumabog sa nexus 7 code mo :))
             try{
             	
-            	//android_id = SHA256(android_id);
+            	android_id = SHA256(android_id);
             	Log.i("DAN", "First install, generating BLADE UUID");
         		SharedPreferences.Editor editor = sharedPref.edit();
-        		editor.putString("BLADE_UUID",  "dummy_BLADE_UUID");
+        		editor.putString("BLADE_UUID",  android_id);
         		
         	    editor.putBoolean("FIRSTRUN", false);
         	    editor.commit();
@@ -107,6 +108,8 @@ public class MainActivity extends ListActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case SETTINGS_REQUEST_CODE:
+                	Intent refresh = new Intent(this, MainActivity.class); 
+                    startActivity(refresh);
                     showMobileKeys();
                     break;
             }
@@ -116,7 +119,10 @@ public class MainActivity extends ListActivity {
     public String getIMEI(Context context){
 
 		TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE); 
+		Log.i("DAN", "abot dito?");
 		String imei = mngr.getDeviceId();
+		
+		if (imei == null) imei = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
 		Log.i("DAN", imei);
 		return imei;
 

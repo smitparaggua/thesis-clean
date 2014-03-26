@@ -8,32 +8,36 @@ public class WarriorConfig {
         return "Sign up successful";
     }
 
-    public String getWarriorUrl() {
-        return warriorUrl;
+    public String getBLADEServerURL() {
+    	return "http://localhost:8080/BLADEserver/";
     }
-
+    
     public String getKeyStatusUrl() {
-        return warriorUrl + "/key-status";
+        return getBLADEServerURL() + "key-status";
     }
 
     public String getWarriorKeyRequestURL() {
-        return warriorUrl + "/key-request";
+    	return getBLADEServerURL() + "key-request";
     }
 
     public String getWarriorUnlinkMobileURL() {
-        return warriorUrl + "/unlink-mobile";
+    	return getBLADEServerURL() + "unlink-mobile";
     }
 
     public String getQuadDeleteURL() {
-        return warriorUrl + "/quad-delete";
+    	return getBLADEServerURL() + "quad-delete";
+    }
+    
+    //this must be the same base URL that you will give to users of the BLADE System
+    public String getHostWebsite() {
+    	return "http://172.16.1.117:8080/raydotcom";
+    }
+    
+    public String getMessageWhenBLADEServerDown() {
+    	return "BLADE Server down";
     }
 
     public String getKeyUploadUrl() {
-        return warriorUrl + "/key-upload";
-    }
-
-    //this must be the same base URL that you will give to users of the BLADE System
-    public String getHostWebsite() {
-        return hostWebsite;
+        return getBLADEServerURL() + "key-upload";
     }
 }
