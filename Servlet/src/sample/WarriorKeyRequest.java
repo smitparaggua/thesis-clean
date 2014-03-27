@@ -16,7 +16,7 @@ public class WarriorKeyRequest extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO GET PARAMETERS
-        //warriorService.forwardKeyRequestToWARServer(WARRIOR_URL, HOST_NAME);
+        String deviceId = req.getParameter("bladeUUID");
+        warriorService.forwardKeyRequestToWARServer(WARRIOR_URL, HOST_NAME, deviceId);
     }
 }

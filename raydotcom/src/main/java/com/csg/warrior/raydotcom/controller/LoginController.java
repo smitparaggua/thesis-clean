@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
     private WarriorConfig warriorConfig = new WarriorConfig();
-    private WarriorService warriorService = new WarriorService(warriorConfig.getWarriorUrl(), warriorConfig.getHostWebsite());
+    private WarriorService warriorService = new WarriorService(warriorConfig.getBLADEServerURL(), warriorConfig.getHostWebsite());
 
     @RequestMapping(value = "/login")
     public String getLoginPage() {
