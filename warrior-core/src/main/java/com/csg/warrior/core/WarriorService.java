@@ -11,8 +11,8 @@ public class WarriorService {
         warriorConfig = new WarriorConfig(warriorUrl, hostWebsite);
     }
 
-    public WarriorKeyStatus getWarriorKeyStatus(String username, String website) throws WarriorRequestException {
-        HttpUtils httpUtils = createPostWithUserWebsiteParam(username, website);
+    public WarriorKeyStatus getWarriorKeyStatus(String username) throws WarriorRequestException {
+        HttpUtils httpUtils = createPostWithUserWebsiteParam(username);
         httpUtils.addParameter("invalidateForLogin", "1");
         String response = httpUtils.sendPost(warriorConfig.getKeyStatusUrl());
         try {
@@ -22,8 +22,8 @@ public class WarriorService {
         }
     }
 
-    public String forwardKeyRequestToWARServer(String username, String website, String device_id){
-        HttpUtils httpPOST = createPostWithUserWebsiteParam(username, website);
+    public String forwardKeyRequestToWARServer(String username, String device_id){
+        HttpUtils httpPOST = createPostWithUserWebsiteParam(username);
         httpPOST.addParameter("device_id", device_id);
         String response = httpPOST.sendPost(warriorConfig.getWarriorKeyRequestURL());
         return response;
@@ -39,8 +39,8 @@ public class WarriorService {
         return response;
     }
 
-    public String getUnlinkMobileUrl(String username, String website) {
-        HttpUtils httpPOST = createPostWithUserWebsiteParam(username, website);
+    public String getUnlinkMobileUrl(String username) {
+        HttpUtils httpPOST = createPostWithUserWebsiteParam(username);
         String serverResponse = httpPOST.sendPost(warriorConfig.getWarriorUnlinkMobileURL());
         return serverResponse;
     }
@@ -54,10 +54,10 @@ public class WarriorService {
         return request.sendPost(warriorConfig.getKeyUploadUrl());
     }
 
-    private HttpUtils createPostWithUserWebsiteParam(String username, String website) {
+    private HttpUtils createPostWithUserWebsiteParam(String username) {
         HttpUtils httpUtils = new HttpUtils();
         httpUtils.addParameter("username", username);
-        httpUtils.addParameter("website", website);
+        httpUtils.addParameter("website", warriorConfig.getHostWebsite());
         return httpUtils;
     }
 }

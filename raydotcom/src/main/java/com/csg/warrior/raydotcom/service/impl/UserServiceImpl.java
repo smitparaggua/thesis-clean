@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         WarriorKeyStatus keyStatus;
         // TODO handle problem if warrior server has errors (and user is not a warrior user)
         try {
-            keyStatus = warriorService.getWarriorKeyStatus(username, "ray.com");
+            keyStatus = warriorService.getWarriorKeyStatus(username);
         } catch (WarriorRequestException e) {
             e.printStackTrace();
             keyStatus = new WarriorKeyStatus(false, false); // current solution, ignore warrior if not found
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void unlinkMobileOf(User user) {
         user = getUser(user.getUsername(), user.getPassword());
         if(user != null) {
-            String url = warriorService.getUnlinkMobileUrl(user.getUsername(), HOST_NAME);
+            String url = warriorService.getUnlinkMobileUrl(user.getUsername());
             emailSenderService.sendMail(user.getEmail(), "Mobile Key Unlink", url);   // TODO CHANGE THIS LINE
         } else {
             throw new IllegalArgumentException("Invalid username or password");

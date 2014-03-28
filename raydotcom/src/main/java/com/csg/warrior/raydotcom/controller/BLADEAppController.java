@@ -27,7 +27,7 @@ public class BLADEAppController {
     	 */
     	System.out.println("ray.com: BLADE Key request");
     	if (userService.getUser(username, password) != null) {
-   			return warriorService.forwardKeyRequestToWARServer(username, warriorConfig.getHostWebsite(), device_id);
+   			return warriorService.forwardKeyRequestToWARServer(username, device_id);
     	}
     	else {
     		return "From ray.com: Username and password mismatch";
