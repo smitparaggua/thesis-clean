@@ -1,6 +1,6 @@
 package com.csg.warrior.controller;
 
-import com.csg.warrior.core.WarriorKeyStatus;
+import com.csg.warrior.core.BladeKeyStatus;
 import com.csg.warrior.domain.User;
 import com.csg.warrior.service.UserService;
 import org.junit.Before;
@@ -23,7 +23,7 @@ public class LoginControllerTest {
 
     @Test
     public void getKeyStatusOfNotWarriorUsers() {
-        WarriorKeyStatus expected = new WarriorKeyStatus(false, false);
+        BladeKeyStatus expected = new BladeKeyStatus(false, false);
         when(userService.reportMobileKeyStatusOf(any(User.class), anyBoolean()))
                 .thenReturn(expected);
         assertEquals(expected, loginController.getKeyLoginStatus("username", "website", false));
@@ -32,7 +32,7 @@ public class LoginControllerTest {
 
     @Test
     public void getKeyStatusOfWarriorUsers() {
-        WarriorKeyStatus expected = new WarriorKeyStatus(true, true);
+        BladeKeyStatus expected = new BladeKeyStatus(true, true);
         when(userService.reportMobileKeyStatusOf(any(User.class), anyBoolean()))
                 .thenReturn(expected);
         assertEquals(expected, loginController.getKeyLoginStatus("username", "website", true));

@@ -1,8 +1,8 @@
 package com.csg.warrior.raydotcom.service.impl;
 
-import com.csg.warrior.core.WarriorKeyStatus;
-import com.csg.warrior.core.WarriorService;
-import com.csg.warrior.core.exception.WarriorRequestException;
+import com.csg.warrior.core.BladeKeyStatus;
+import com.csg.warrior.core.BladeService;
+import com.csg.warrior.core.exception.BladeRequestException;
 import com.csg.warrior.raydotcom.dao.UserDao;
 import com.csg.warrior.raydotcom.domain.User;
 import com.csg.warrior.raydotcom.service.EmailSenderService;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired private UserDao userDao;
     @Autowired private EmailSenderService emailSenderService;
     private String HOST_NAME = "ray.com";
-    private WarriorService warriorService = new WarriorService("http://localhost:8080/testserver", HOST_NAME);
+    private BladeService bladeService = new BladeService("http://localhost:8080/testserver", HOST_NAME);
 
     @Override
     public void setUserDao(UserDao userDao) {
@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void setWarriorService(WarriorService warriorService) {
-        this.warriorService = warriorService;
+    public void setBladeService(BladeService bladeService) {
+        this.bladeService = bladeService;
     }
 
     @Override
@@ -45,22 +45,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        WarriorKeyStatus keyStatus;
+        BladeKeyStatus keyStatus;
         // TODO handle problem if warrior server has errors (and user is not a warrior user)
         try {
-            keyStatus = warriorService.getWarriorKeyStatus(username);
-        } catch (WarriorRequestException e) {
+            keyStatus = bladeService.getWarriorKeyStatus(username);
+        } catch (BladeRequestException e) {
             e.printStackTrace();
-            keyStatus = new WarriorKeyStatus(false, false); // current solution, ignore warrior if not found
+            keyStatus = new BladeKeyStatus(false, false); // current solution, ignore warrior if not found
         }
         return toSpringSecurityUser(user, isUserWarriorLocked(keyStatus));
     }
 
-    private boolean isUserWarriorLocked(WarriorKeyStatus keyStatus) {
-        if(keyStatus.isRegisteredInWarrior() == false) {
+    private boolean isUserWarriorLocked(BladeKeyStatus keyStatus) {
+        if(keyStatus.isRegistered() == false) {
             return false;
         } else {
-            return !keyStatus.isWarriorKeyValid();
+            return !keyStatus.isKeyValid();
         }
     }
     
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void unlinkMobileOf(User user) {
         user = getUser(user.getUsername(), user.getPassword());
         if(user != null) {
-            String url = warriorService.getUnlinkMobileUrl(user.getUsername());
+            String url = bladeService.getUnlinkMobileUrl(user.getUsername());
             emailSenderService.sendMail(user.getEmail(), "Mobile Key Unlink", url);   // TODO CHANGE THIS LINE
         } else {
             throw new IllegalArgumentException("Invalid username or password");

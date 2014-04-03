@@ -1,6 +1,6 @@
 package com.csg.warrior.raydotcom.controller;
 
-import com.csg.warrior.core.WarriorService;
+import com.csg.warrior.core.BladeService;
 import com.csg.warrior.raydotcom.WarriorConfig;
 import com.csg.warrior.raydotcom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class BLADEAppController {
     @Autowired private UserService userService;
     private WarriorConfig warriorConfig = new WarriorConfig();
-    private WarriorService warriorService = new WarriorService(warriorConfig.getBLADEServerURL(), warriorConfig.getHostWebsite());
+    private BladeService bladeService = new BladeService(warriorConfig.getBLADEServerURL(), warriorConfig.getHostWebsite());
 
     @RequestMapping("/key-request")
     @ResponseBody
@@ -27,7 +27,7 @@ public class BLADEAppController {
     	 */
     	System.out.println("ray.com: BLADE Key request");
     	if (userService.getUser(username, password) != null) {
-   			return warriorService.forwardKeyRequestToWARServer(username, device_id);
+   			return bladeService.forwardKeyRequestToWARServer(username, device_id);
     	}
     	else {
     		return "From ray.com: Username and password mismatch";
@@ -45,7 +45,7 @@ public class BLADEAppController {
     	 */
     	System.out.println("ray.com: BLADE Quad delete request");
     	if (userService.getUser(username, password) != null) {
-    		return warriorService.forwardQuadDeleteRequestToBLADEServer(username, bladeKey, bladeUUID);
+    		return bladeService.forwardQuadDeleteRequestToBLADEServer(username, bladeKey, bladeUUID);
     	}
     	else {
     		return "From ray.com: Username and password mismatch";

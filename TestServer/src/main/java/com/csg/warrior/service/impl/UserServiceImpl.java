@@ -1,6 +1,6 @@
 package com.csg.warrior.service.impl;
 
-import com.csg.warrior.core.WarriorKeyStatus;
+import com.csg.warrior.core.BladeKeyStatus;
 import com.csg.warrior.dao.MobileKeyDao;
 import com.csg.warrior.dao.UserDao;
 import com.csg.warrior.domain.MobileKey;
@@ -36,11 +36,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public WarriorKeyStatus reportMobileKeyStatusOf(User keyOwner, boolean invalidateForLogin) {
+    public BladeKeyStatus reportMobileKeyStatusOf(User keyOwner, boolean invalidateForLogin) {
         if(keyOwner == null) {
-            return new WarriorKeyStatus(false, false);
+            return new BladeKeyStatus(false, false);
         }
-        return new WarriorKeyStatus(true, !keyOwner.isMobileKeyExpired());
+        return new BladeKeyStatus(true, !keyOwner.isMobileKeyExpired());
     }
 
     @Override

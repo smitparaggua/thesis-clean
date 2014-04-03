@@ -1,8 +1,7 @@
 package com.csg.warrior.raydotcom.controller;
 
-import com.csg.warrior.core.WarriorService;
+import com.csg.warrior.core.BladeService;
 import com.csg.warrior.raydotcom.WarriorConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
     private WarriorConfig warriorConfig = new WarriorConfig();
-    private WarriorService warriorService = new WarriorService(warriorConfig.getBLADEServerURL(), warriorConfig.getHostWebsite());
+    private BladeService bladeService = new BladeService(warriorConfig.getBLADEServerURL(), warriorConfig.getHostWebsite());
 
     @RequestMapping(value = "/login")
     public String getLoginPage() {
@@ -31,11 +30,11 @@ public class LoginController {
         return "login/login";
     }
 
-    @RequestMapping(value = "/warrior/login", method= RequestMethod.POST)
+    @RequestMapping(value = "/blade/login", method= RequestMethod.POST)
     @ResponseBody
     public String acceptMobileKey(@RequestParam("username") String username,
     							  @RequestParam("bladeKey") String bladeKey,
                                   @RequestParam("bladeUUID") String bladeUUID) {
-        return warriorService.sendMobileKey(username, bladeKey, bladeUUID);
+        return bladeService.sendMobileKey(username, bladeKey, bladeUUID);
     }
 }

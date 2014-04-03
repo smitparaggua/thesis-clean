@@ -31,7 +31,6 @@ public class UnlinkMobileServiceImpl implements UnlinkMobileService {
             user.setUnlinkKey(unlinkKey);
             userDao.save(user);
         }
-        return String.format("http://localhost:8080/unlink-mobile/%s/%s/%s", username, website, user.getUnlinkKeyString()); // TODO remove hardcoded value
+        return String.format("http://localhost:8080/unlink-mobile/%s/%s", username, user.getUnlinkKeyString()); // TODO remove hardcoded value
     }
-    
 }

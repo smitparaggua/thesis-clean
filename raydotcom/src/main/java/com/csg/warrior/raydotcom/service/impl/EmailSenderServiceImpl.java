@@ -12,11 +12,6 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     @Autowired private MailSender mailSender;
 
     @Override
-    public void setMailSender(MailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    @Override
     public void sendMail(String recipient, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("ray.com");

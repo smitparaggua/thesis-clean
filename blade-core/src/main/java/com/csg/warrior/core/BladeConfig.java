@@ -1,16 +1,12 @@
 package com.csg.warrior.core;
 
-public class WarriorConfig {
+public class BladeConfig {
     private String warriorUrl;
     private String hostWebsite;
 
-    public WarriorConfig(String warriorUrl, String hostWebsite) {
+    public BladeConfig(String warriorUrl, String hostWebsite) {
         this.warriorUrl = warriorUrl;
         this.hostWebsite = hostWebsite;
-    }
-
-    public String getSignUpSuccessReply() {
-        return "Sign up successful";
     }
 
     public String getKeyStatusUrl() {

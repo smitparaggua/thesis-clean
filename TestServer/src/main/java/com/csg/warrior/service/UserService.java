@@ -1,6 +1,6 @@
 package com.csg.warrior.service;
 
-import com.csg.warrior.core.WarriorKeyStatus;
+import com.csg.warrior.core.BladeKeyStatus;
 import com.csg.warrior.dao.MobileKeyDao;
 import com.csg.warrior.dao.UserDao;
 import com.csg.warrior.domain.MobileKey;
@@ -25,5 +25,5 @@ public interface UserService {
 
     MobileKey getMobileKeyOfUser(String username, String website);
 
-    WarriorKeyStatus reportMobileKeyStatusOf(User keyOwner, boolean invalidateForLogin);
+    BladeKeyStatus reportMobileKeyStatusOf(User keyOwner, boolean invalidateForLogin);
 }

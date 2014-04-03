@@ -1,6 +1,6 @@
 package com.csg.warrior.controller;
 
-import com.csg.warrior.core.WarriorKeyStatus;
+import com.csg.warrior.core.BladeKeyStatus;
 import com.csg.warrior.domain.User;
 import com.csg.warrior.service.UserService;
 import com.csg.warrior.exception.NoMobileKeyForUserException;
@@ -37,7 +37,7 @@ public class LoginController {
                                     @RequestParam("website") String website,
                                     @RequestParam("invalidateForLogin") boolean invalidateForLogin) {
         User keyOwner = userService.getUser(username, website);
-        WarriorKeyStatus status = userService.reportMobileKeyStatusOf(keyOwner, invalidateForLogin);
+        BladeKeyStatus status = userService.reportMobileKeyStatusOf(keyOwner, invalidateForLogin);
         return new Gson().toJson(status);
     }
 
