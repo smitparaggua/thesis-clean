@@ -104,8 +104,8 @@
             <version>1.7.1</version>
         </dependency>
         <dependency>
-            <groupId>com.csg.warrior</groupId>
-            <artifactId>warrior-core</artifactId>
+            <groupId>com.csg.blade</groupId>
+            <artifactId>blade-core</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

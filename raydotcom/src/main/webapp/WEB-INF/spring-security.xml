@@ -24,7 +24,7 @@
         <logout logout-url="/logout" logout-success-url="/login"/>
     </http>
 
-    <context:component-scan base-package="com.csg.warrior.raydotcom.service"/>
+    <context:component-scan base-package="com.csg.blade.raydotcom.service"/>
     <authentication-manager>
         <authentication-provider user-service-ref="userService">
         </authentication-provider>
